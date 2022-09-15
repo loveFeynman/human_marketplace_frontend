@@ -43,7 +43,7 @@ const menuData = [
     {
         id: 2,
         text: "About",
-        path: "/",
+        path: "/about",
     },
     {
         id: 3,
