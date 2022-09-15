@@ -72,7 +72,7 @@ const MyCollections = () => {
                     pageTitle="Our Collections"
                     currentPage="Collections"
                 />
-                <div className="ptb--30">
+                <div className="ptb--30 container">
                     <Button>
                         <Anchor path="/create-collection">
                             Create a Collection

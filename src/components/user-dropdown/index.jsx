@@ -63,9 +63,7 @@ const UserDropdown = () => {
                                     Balance
                                 </h6>
                                 <span className="price">
-                                    {`${balance.amount || ""} ${
-                                        balance.denom || ""
-                                    }`}
+                                    {`${balance.amount || "0"} $HEART`}
                                 </span>
                             </div>
                             <div className="button" />
