@@ -58,19 +58,19 @@ const menuData = [
     {
         id: 5,
         text: "Create",
-        path: "#!",
-        submenu: [
-            // {
-            //     id: 51,
-            //     text: "Create Collection",
-            //     path: "/create-collection",
-            // },
-            {
-                id: 52,
-                text: "Create NFT",
-                path: "/create-nft",
-            },
-        ],
+        path: "/create-nft",
+        // submenu: [
+        //     // {
+        //     //     id: 51,
+        //     //     text: "Create Collection",
+        //     //     path: "/create-collection",
+        //     // },
+        //     {
+        //         id: 52,
+        //         text: "Create NFT",
+        //         path: "/create-nft",
+        //     },
+        // ],
     },
 ];
 
