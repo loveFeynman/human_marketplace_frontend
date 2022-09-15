@@ -1,0 +1,678 @@
+import { useState } from "react";
+import PropTypes from "prop-types";
+import clsx from "clsx";
+import { useForm } from "react-hook-form";
+import Button from "@ui/button";
+import NftPreviewModal from "@components/modals/nft-preview-modal";
+import ErrorText from "@ui/error-text";
+import { toast } from "react-toastify";
+import { uploadFileToIpfs, uploadJSONToIpfs } from "@utils/ipfs";
+import { useAppSelector } from "@app/hooks";
+import { useWalletManager } from "@noahsaso/cosmodal";
+import { useContract } from "@hooks";
+
+const CreateNewArea = ({ className, space }) => {
+    const [showProductModal, setShowProductModal] = useState(false);
+    const [selectedImage, setSelectedImage] = useState();
+    const [metadataSet, setMetadataSet] = useState([{ field: "", value: "" }]);
+    const [attributesSet, setAttributesSet] = useState([
+        { field: "", value: "" },
+    ]);
+    const [hasImageError, setHasImageError] = useState(false);
+    const [hasMetadataError, setHasMetadataError] = useState(false);
+    const [previewData, setPreviewData] = useState({});
+
+    const collectionInfo = useAppSelector((state) => state.collections);
+    const { connectedWallet } = useWalletManager();
+    const { runExecute } = useContract();
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset: resetForm,
+    } = useForm({
+        mode: "onSubmit",
+    });
+
+    const handleProductModal = () => {
+        setShowProductModal(false);
+    };
+
+    // This function will be triggered when the file field change
+    const imageChange = (e) => {
+        if (e.target.files && e.target.files.length > 0) {
+            setSelectedImage(e.target.files[0]);
+        }
+    };
+
+    const handleAddNewMetadataItem = () => {
+        setMetadataSet((prev) => prev.concat({ field: "", value: "" }));
+        setHasMetadataError(false);
+    };
+
+    const handleAddNewAttributeItem = () => {
+        setAttributesSet((prev) => prev.concat({ field: "", value: "" }));
+        setHasMetadataError(false);
+    };
+
+    const handleChangeMetadataItem = (index, field, e) => {
+        const { value } = e.target;
+        const originSet = Array.from(metadataSet);
+        originSet[index][field] = value;
+        setMetadataSet(originSet);
+        setHasMetadataError(false);
+    };
+
+    const handleChangeAttributeItem = (index, field, e) => {
+        const { value } = e.target;
+        const originSet = Array.from(attributesSet);
+        originSet[index][field] = value;
+        setAttributesSet(originSet);
+        setHasMetadataError(false);
+    };
+
+    const reset = () => {
+        resetForm();
+        setMetadataSet([{ field: "", value: "" }]);
+        setAttributesSet([{ field: "", value: "" }]);
+    };
+
+    const onSubmit = async (data, e) => {
+        const { target } = e;
+        const submitBtn =
+            target.localName === "span" ? target.parentElement : target;
+        const isPreviewBtn = submitBtn.dataset?.btn;
+        setHasImageError(!selectedImage);
+        // building NFT data
+        // building attributes data
+        const attributes = {};
+        attributesSet.forEach((attributeItem) => {
+            const { field, value } = attributeItem;
+            if (field && value) {
+                attributes[field] = value;
+            }
+        });
+        const metadata = {};
+        if (Object.keys(attributes).length) {
+            metadata.attributes = attributes;
+        }
+        metadataSet.forEach((metadataItem) => {
+            const { field, value } = metadataItem;
+            if (field && value) {
+                metadata[field] = value;
+            }
+        });
+        if (!Object.keys(metadata).length) {
+            setHasMetadataError(true);
+            return;
+        }
+        if (!selectedImage) return;
+
+        if (isPreviewBtn) {
+            const nftData = {
+                ...data,
+                metadata,
+            };
+            setPreviewData({ ...nftData, image: selectedImage });
+            setShowProductModal(true);
+        }
+
+        if (!connectedWallet) {
+            toast.error("Connect Wallet!");
+            return;
+        }
+
+        if (!isPreviewBtn) {
+            const queries = [
+                uploadJSONToIpfs(data.token_id, metadata),
+                uploadFileToIpfs(selectedImage),
+            ];
+            Promise.all(queries)
+                .then(async (results) => {
+                    const metadataHash = results[0];
+                    const imageHash = results[1];
+                    const token_uri = `https://secretsteampunks.mypinata.cloud/ipfs/${metadataHash}`;
+                    const image_url = `https://secretsteampunks.mypinata.cloud/ipfs/${imageHash}`;
+                    const msg = {
+                        mint: {
+                            token_id: data.token_id,
+                            owner: connectedWallet.address,
+                            token_uri,
+                            extension: {
+                                minter: connectedWallet.address,
+                                image_url,
+                            },
+                        },
+                    };
+                    try {
+                        await runExecute(data.collection, msg);
+                        toast.success("Successfuly Minted!");
+                        reset();
+                        setSelectedImage();
+                    } catch (err) {
+                        // eslint-disable-next-line no-console
+                        console.error(err);
+                        toast.error("Mint Failed!");
+                    }
+                })
+                .catch((err) => {
+                    // eslint-disable-next-line no-console
+                    console.error(err);
+                    toast.error("Fail!");
+                });
+        }
+    };
+
+    const renderMetaSetItem = (metadataItem, index, totalData) => {
+        const isLastElement = index === totalData.length - 1;
+        return (
+            <div key={index} className="row mt_lg--15 mt_md--15 mt_sm--15">
+                <div className="col-md-12 col-xl-4">
+                    <input
+                        placeholder="field"
+                        value={metadataItem.field}
+                        onChange={(e) =>
+                            handleChangeMetadataItem(index, "field", e)
+                        }
+                    />
+                </div>
+                <div className="row col-md-12 col-xl-8 mt_lg--15 mt_md--15 mt_sm--15">
+                    <div className={isLastElement ? "col-md-10" : "col-md-12"}>
+                        <input
+                            placeholder="value"
+                            value={metadataItem.value}
+                            onChange={(e) =>
+                                handleChangeMetadataItem(index, "value", e)
+                            }
+                        />
+                    </div>
+                    {isLastElement && (
+                        <div className="col-md-2">
+                            <div
+                                style={{
+                                    width: "100%",
+                                    height: "100%",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                }}
+                            >
+                                <Button
+                                    style={{
+                                        minWidth: "unset",
+                                        padding: 5,
+                                        width: "100%",
+                                    }}
+                                    color="primary-alta"
+                                    onClick={handleAddNewMetadataItem}
+                                >
+                                    +
+                                </Button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+        );
+    };
+
+    const renderAttributesSetItem = (attributeItem, index, totalData) => {
+        const isLastElement = index === totalData.length - 1;
+        return (
+            <div key={index} className="row mt_lg--15 mt_md--15 mt_sm--15">
+                <div className="col-md-12 col-xl-4">
+                    <input
+                        placeholder="field"
+                        value={attributeItem.field}
+                        onChange={(e) =>
+                            handleChangeAttributeItem(index, "field", e)
+                        }
+                    />
+                </div>
+                <div className="row col-md-12 col-xl-8 mt_lg--15 mt_md--15 mt_sm--15">
+                    <div className={isLastElement ? "col-md-10" : "col-md-12"}>
+                        <input
+                            placeholder="value"
+                            value={attributeItem.value}
+                            onChange={(e) =>
+                                handleChangeAttributeItem(index, "value", e)
+                            }
+                        />
+                    </div>
+                    {isLastElement && (
+                        <div className="col-md-2">
+                            <div
+                                style={{
+                                    width: "100%",
+                                    height: "100%",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                }}
+                            >
+                                <Button
+                                    style={{
+                                        minWidth: "unset",
+                                        padding: 5,
+                                        width: "100%",
+                                    }}
+                                    color="primary-alta"
+                                    onClick={handleAddNewAttributeItem}
+                                >
+                                    +
+                                </Button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+        );
+    };
+
+    const renderCollectionsOption = () => {
+        const addresses = collectionInfo.addresses?.userDefined || [];
+        return addresses.map((collection) => {
+            const { address } = collection;
+            const crrCollectionInfo = collectionInfo[address];
+            return connectedWallet?.address === crrCollectionInfo?.minter ? (
+                <option key={address} value={address}>
+                    {crrCollectionInfo?.collection_info?.title || ""}
+                </option>
+            ) : null;
+        });
+    };
+
+    return (
+        <>
+            <div
+                className={clsx(
+                    "create-area",
+                    space === 1 && "rn-section-gapTop",
+                    className
+                )}
+            >
+                <form action="#" onSubmit={handleSubmit(onSubmit)}>
+                    <div className="container">
+                        <div className="row g-5">
+                            <div className="col-lg-3 offset-1 ml_md--0 ml_sm--0">
+                                <div className="upload-area">
+                                    <div className="upload-formate mb--30">
+                                        <h6 className="title">Upload file</h6>
+                                        <p className="formate">
+                                            Drag or choose your file to upload
+                                        </p>
+                                    </div>
+
+                                    <div className="brows-file-wrapper">
+                                        <input
+                                            name="file"
+                                            id="file"
+                                            type="file"
+                                            className="inputfile"
+                                            data-multiple-caption="{count} files selected"
+                                            multiple
+                                            onChange={imageChange}
+                                        />
+                                        {selectedImage && (
+                                            // eslint-disable-next-line @next/next/no-img-element
+                                            <img
+                                                id="createfileImage"
+                                                src={URL.createObjectURL(
+                                                    selectedImage
+                                                )}
+                                                alt=""
+                                                data-black-overlay="6"
+                                            />
+                                        )}
+
+                                        <label
+                                            htmlFor="file"
+                                            title="No File Choosen"
+                                        >
+                                            <i className="feather-upload" />
+                                            <span className="text-center">
+                                                Choose a File
+                                            </span>
+                                            <p className="text-center mt--10">
+                                                PNG, GIF, WEBP, MP4 or MP3.{" "}
+                                                <br /> Max 1Gb.
+                                            </p>
+                                        </label>
+                                    </div>
+                                    {hasImageError && !selectedImage && (
+                                        <ErrorText>Image is required</ErrorText>
+                                    )}
+                                </div>
+
+                                <div className="mt--100 mt_sm--30 mt_md--30 d-none d-lg-block">
+                                    <h5> Note: </h5>
+                                    <span>
+                                        {" "}
+                                        Service fee : <strong>2.5%</strong>{" "}
+                                    </span>{" "}
+                                    <br />
+                                    {/* <span>
+                                        {" "}
+                                        You will receive :{" "}
+                                        <strong>25.00 ETH $50,000</strong>
+                                    </span> */}
+                                </div>
+                            </div>
+                            <div className="col-lg-7">
+                                <div className="form-wrapper-one">
+                                    <div className="row">
+                                        <div className="col-md-12">
+                                            <div className="input-box pb--20">
+                                                <label
+                                                    htmlFor="collection"
+                                                    className="form-label"
+                                                >
+                                                    Collection
+                                                </label>
+                                                <select
+                                                    id="collection"
+                                                    className="form-select form-select-lg"
+                                                    aria-label="Default select example"
+                                                    // defaultValue=""
+                                                    {...register("collection", {
+                                                        required:
+                                                            "Collection is required",
+                                                    })}
+                                                >
+                                                    <option value=""> </option>
+                                                    {collectionInfo &&
+                                                        renderCollectionsOption()}
+                                                </select>
+                                                {errors.collection && (
+                                                    <ErrorText>
+                                                        {
+                                                            errors.collection
+                                                                ?.message
+                                                        }
+                                                    </ErrorText>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        <div className="col-md-12">
+                                            <div className="input-box pb--20">
+                                                <label
+                                                    htmlFor="tokenId"
+                                                    className="form-label"
+                                                >
+                                                    Token ID
+                                                </label>
+                                                <input
+                                                    id="tokenId"
+                                                    placeholder="e. g. `Digital Awesome Game`"
+                                                    {...register("token_id", {
+                                                        required:
+                                                            "Token ID is required",
+                                                    })}
+                                                />
+                                                {errors.token_id && (
+                                                    <ErrorText>
+                                                        {
+                                                            errors.token_id
+                                                                ?.message
+                                                        }
+                                                    </ErrorText>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        <div className="col-md-12">
+                                            <label
+                                                htmlFor="metadata"
+                                                className="form-label"
+                                            >
+                                                Metadata
+                                            </label>
+                                            <div
+                                                id="metadata"
+                                                className="container"
+                                            >
+                                                <div className="col-md-12">
+                                                    <div className="input-box pb--20">
+                                                        <div className="col-md-12">
+                                                            {metadataSet.map(
+                                                                (
+                                                                    metadataItem,
+                                                                    index
+                                                                ) =>
+                                                                    renderMetaSetItem(
+                                                                        metadataItem,
+                                                                        index,
+                                                                        metadataSet
+                                                                    )
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-12">
+                                                    <div className="input-box pb--20">
+                                                        <label
+                                                            htmlFor="attributes"
+                                                            className="form-label"
+                                                        >
+                                                            Attributes
+                                                        </label>
+                                                        <div
+                                                            id="attributes"
+                                                            className="col-md-12"
+                                                        >
+                                                            {attributesSet.map(
+                                                                (
+                                                                    attributeItem,
+                                                                    index
+                                                                ) =>
+                                                                    renderAttributesSetItem(
+                                                                        attributeItem,
+                                                                        index,
+                                                                        attributesSet
+                                                                    )
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {hasMetadataError && (
+                                                    <ErrorText>
+                                                        Metadata is required
+                                                    </ErrorText>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        {/* <div className="col-md-4">
+                                            <div className="input-box pb--20">
+                                                <label
+                                                    htmlFor="price"
+                                                    className="form-label"
+                                                >
+                                                    Item Price in $
+                                                </label>
+                                                <input
+                                                    id="price"
+                                                    placeholder="e. g. `20$`"
+                                                    {...register("price", {
+                                                        pattern: {
+                                                            value: /^[0-9]+$/,
+                                                            message:
+                                                                "Please enter a number",
+                                                        },
+                                                        required:
+                                                            "Price is required",
+                                                    })}
+                                                />
+                                                {errors.price && (
+                                                    <ErrorText>
+                                                        {errors.price?.message}
+                                                    </ErrorText>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        <div className="col-md-4">
+                                            <div className="input-box pb--20">
+                                                <label
+                                                    htmlFor="Size"
+                                                    className="form-label"
+                                                >
+                                                    Size
+                                                </label>
+                                                <input
+                                                    id="size"
+                                                    placeholder="e. g. `Size`"
+                                                    {...register("size", {
+                                                        required:
+                                                            "Size is required",
+                                                    })}
+                                                />
+                                                {errors.size && (
+                                                    <ErrorText>
+                                                        {errors.size?.message}
+                                                    </ErrorText>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        <div className="col-md-4">
+                                            <div className="input-box pb--20">
+                                                <label
+                                                    htmlFor="Property"
+                                                    className="form-label"
+                                                >
+                                                    Property
+                                                </label>
+                                                <input
+                                                    id="Property"
+                                                    placeholder="e. g. `Property`"
+                                                    {...register("Property", {
+                                                        required:
+                                                            "Property is required",
+                                                    })}
+                                                />
+                                                {errors.Property && (
+                                                    <ErrorText>
+                                                        {
+                                                            errors.Property
+                                                                ?.message
+                                                        }
+                                                    </ErrorText>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        <div className="col-md-4 col-sm-4">
+                                            <div className="input-box pb--20 rn-check-box">
+                                                <input
+                                                    className="rn-check-box-input"
+                                                    type="checkbox"
+                                                    id="putonsale"
+                                                />
+                                                <label
+                                                    className="rn-check-box-label"
+                                                    htmlFor="putonsale"
+                                                >
+                                                    Put on Sale
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div className="col-md-4 col-sm-4">
+                                            <div className="input-box pb--20 rn-check-box">
+                                                <input
+                                                    className="rn-check-box-input"
+                                                    type="checkbox"
+                                                    id="instantsaleprice"
+                                                />
+                                                <label
+                                                    className="rn-check-box-label"
+                                                    htmlFor="instantsaleprice"
+                                                >
+                                                    Instant Sale Price
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div className="col-md-4 col-sm-4">
+                                            <div className="input-box pb--20 rn-check-box">
+                                                <input
+                                                    className="rn-check-box-input"
+                                                    type="checkbox"
+                                                    id="unlockpurchased"
+                                                />
+                                                <label
+                                                    className="rn-check-box-label"
+                                                    htmlFor="unlockpurchased"
+                                                >
+                                                    Unlock Purchased
+                                                </label>
+                                            </div>
+                                        </div> */}
+
+                                        <div className="col-md-12 col-xl-4">
+                                            <div className="input-box">
+                                                <Button
+                                                    color="primary-alta"
+                                                    fullwidth
+                                                    type="submit"
+                                                    data-btn="preview"
+                                                    onClick={handleSubmit(
+                                                        onSubmit
+                                                    )}
+                                                >
+                                                    Preview
+                                                </Button>
+                                            </div>
+                                        </div>
+
+                                        <div className="col-md-12 col-xl-8 mt_lg--15 mt_md--15 mt_sm--15">
+                                            <div className="input-box">
+                                                <Button type="submit" fullwidth>
+                                                    Submit Item
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="mt--100 mt_sm--30 mt_md--30 d-block d-lg-none">
+                                <h5> Note: </h5>
+                                <span>
+                                    {" "}
+                                    Service fee : <strong>2.5%</strong>{" "}
+                                </span>{" "}
+                                <br />
+                                {/* <span>
+                                    {" "}
+                                    You will receive :{" "}
+                                    <strong>25.00 ETH $50,000</strong>
+                                </span> */}
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            {showProductModal && (
+                <NftPreviewModal
+                    show={showProductModal}
+                    handleModal={handleProductModal}
+                    data={previewData}
+                />
+            )}
+        </>
+    );
+};
+
+CreateNewArea.propTypes = {
+    className: PropTypes.string,
+    space: PropTypes.oneOf([1]),
+};
+
+CreateNewArea.defaultProps = {
+    space: 1,
+};
+
+export default CreateNewArea;
