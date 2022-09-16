@@ -10,6 +10,12 @@
         display: block;
     }
 
+    .form-select {
+        ul {
+            width: 100% !important;
+        }
+    }
+
     .nice-select {
         width: 100%;
         display: block;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { useForm } from "react-hook-form";
@@ -10,6 +10,7 @@ import { uploadFileToIpfs, uploadJSONToIpfs } from "@utils/ipfs";
 import { useAppSelector } from "@app/hooks";
 import { useWalletManager } from "@noahsaso/cosmodal";
 import { useContract } from "@hooks";
+import NiceSelect from "@ui/nice-select";
 
 const CreateNewArea = ({ className, space }) => {
     const [showProductModal, setShowProductModal] = useState(false);
@@ -30,10 +31,25 @@ const CreateNewArea = ({ className, space }) => {
         register,
         handleSubmit,
         formState: { errors },
+        setValue,
         reset: resetForm,
     } = useForm({
         mode: "onSubmit",
     });
+
+    const collectionSelectOptions = useMemo(() => {
+        const addresses = collectionInfo.addresses?.userDefined || [];
+        return [{ value: "", text: "" }].concat(
+            addresses.map((collection) => {
+                const { address } = collection;
+                const crrCollectionInfo = collectionInfo[address];
+                return {
+                    value: address,
+                    text: crrCollectionInfo?.collection_info?.title || "",
+                };
+            })
+        );
+    }, [collectionInfo]);
 
     const handleProductModal = () => {
         setShowProductModal(false);
@@ -70,6 +86,10 @@ const CreateNewArea = ({ className, space }) => {
         originSet[index][field] = value;
         setAttributesSet(originSet);
         setHasMetadataError(false);
+    };
+
+    const handleChangeCollection = (item, name) => {
+        setValue(name, item.value);
     };
 
     const reset = () => {
@@ -270,18 +290,18 @@ const CreateNewArea = ({ className, space }) => {
         );
     };
 
-    const renderCollectionsOption = () => {
-        const addresses = collectionInfo.addresses?.userDefined || [];
-        return addresses.map((collection) => {
-            const { address } = collection;
-            const crrCollectionInfo = collectionInfo[address];
-            return connectedWallet?.address === crrCollectionInfo?.minter ? (
-                <option key={address} value={address}>
-                    {crrCollectionInfo?.collection_info?.title || ""}
-                </option>
-            ) : null;
-        });
-    };
+    // const renderCollectionsOption = () => {
+    //     const addresses = collectionInfo.addresses?.userDefined || [];
+    //     return addresses.map((collection) => {
+    //         const { address } = collection;
+    //         const crrCollectionInfo = collectionInfo[address];
+    //         return connectedWallet?.address === crrCollectionInfo?.minter ? (
+    //             <option key={address} value={address}>
+    //                 {crrCollectionInfo?.collection_info?.title || ""}
+    //             </option>
+    //         ) : null;
+    //     });
+    // };
 
     return (
         <>
@@ -370,7 +390,7 @@ const CreateNewArea = ({ className, space }) => {
                                                 >
                                                     Collection
                                                 </label>
-                                                <select
+                                                {/* <select
                                                     id="collection"
                                                     className="form-select form-select-lg"
                                                     aria-label="Default select example"
@@ -383,7 +403,25 @@ const CreateNewArea = ({ className, space }) => {
                                                     <option value=""> </option>
                                                     {collectionInfo &&
                                                         renderCollectionsOption()}
-                                                </select>
+                                                </select> */}
+                                                <NiceSelect
+                                                    id="collection"
+                                                    className="form-select form-select-lg"
+                                                    placeholder="Default select example"
+                                                    {...register("collection", {
+                                                        required:
+                                                            "Collection is required",
+                                                    })}
+                                                    onChange={
+                                                        handleChangeCollection
+                                                    }
+                                                    options={[
+                                                        { value: 1, text: "1" },
+                                                        { value: 2, text: "2" },
+                                                        { value: 3, text: "3" },
+                                                        { value: 4, text: "4" },
+                                                    ]}
+                                                />
                                                 {errors.collection && (
                                                     <ErrorText>
                                                         {

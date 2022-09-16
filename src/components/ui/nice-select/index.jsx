@@ -20,9 +20,9 @@ const NiceSelect = ({
 
     useClickAway(ref, onClose);
 
-    const currentHandler = (item) => {
+    const currentHandler = (item, e) => {
         setCurrent(item);
-        onChange(item, name);
+        onChange(item, name, e);
         onClose();
     };
 
@@ -51,7 +51,7 @@ const NiceSelect = ({
                             item.value === current?.value && "selected focus"
                         )}
                         role="menuitem"
-                        onClick={() => currentHandler(item)}
+                        onClick={(e) => currentHandler(item, e)}
                         onKeyPress={(e) => e}
                     >
                         {item.text}
