@@ -4,9 +4,9 @@ import { ImageType } from "@utils/types";
 
 const Service = ({ title, subtitle, path, description, image }) => (
     <div
-        data-sal="slide-up"
-        data-sal-delay="150"
-        data-sal-duration="800"
+        // data-sal="slide-up"
+        // data-sal-delay="150"
+        // data-sal-duration="800"
         className="rn-service-one color-shape-7"
     >
         <div className="inner">

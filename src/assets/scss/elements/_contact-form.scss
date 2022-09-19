@@ -238,6 +238,7 @@ button {
             cursor: pointer;
             border-radius: 5px;
             object-fit: cover;
+            transition: 0.5s all;
         }
         label {
             position: relative;
@@ -246,7 +247,23 @@ button {
         }
         &:hover {
             label {
+                opacity: 0.85;
                 transform: scale(0.8);
+            }
+        }
+    }
+    [data-black-overlay] {
+        &:before {
+            transition: 0.5s all;
+            background: transparent;
+        }
+        &:hover {
+            &:before {
+                background: black;
+                z-index: 10;
+            }
+            p, span {
+                color: white;
             }
         }
     }

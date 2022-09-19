@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import Collection from "@components/collection";
@@ -26,6 +26,25 @@ const CollectionArea = ({ className, space, id, data }) => {
     useEffect(() => {
         creatorHandler();
     }, [currentPage, creatorHandler]);
+
+    const totalNfts = useMemo(() => {
+        const result = {};
+        Object.keys(marketplaceNfts).forEach((key) => {
+            const crrNfts = marketplaceNfts[key] || [];
+            let count = 0;
+            crrNfts.forEach((nft) => {
+                const expiresAt = nft.expires_at
+                    ? new Date(nft.expires_at)
+                    : null;
+                const expired =
+                    expiresAt && Number(new Date()) - Number(expiresAt) > 0;
+                if (!expiresAt || !expired) count += 1;
+            });
+            result[key] = count;
+        });
+        return result;
+    }, [marketplaceNfts]);
+
     return (
         <div
             className={clsx(
@@ -45,9 +64,10 @@ const CollectionArea = ({ className, space, id, data }) => {
                             <Collection
                                 id={collection.id}
                                 title={collection.title}
-                                total_item={
-                                    marketplaceNfts[collection.id]?.length || 0
-                                }
+                                // total_item={
+                                //     marketplaceNfts[collection.id]?.length || 0
+                                // }
+                                total_item={totalNfts[collection.id] || 0}
                                 path={collection.slug}
                                 image={collection.image}
                                 thumbnails={collection.thumbnails}

@@ -11,9 +11,9 @@ const HeroArea = ({ data }) => (
                     {data?.headings[0]?.content && (
                         <h2
                             className="title"
-                            data-sal-delay="200"
-                            data-sal="slide-up"
-                            data-sal-duration="800"
+                            // data-sal-delay="200"
+                            // data-sal="slide-up"
+                            // data-sal-duration="800"
                         >
                             {data.headings[0].content}
                         </h2>
@@ -21,9 +21,9 @@ const HeroArea = ({ data }) => (
                     {data?.texts?.map((text) => (
                         <p
                             className="slide-disc"
-                            data-sal-delay="300"
-                            data-sal="slide-up"
-                            data-sal-duration="800"
+                            // data-sal-delay="300"
+                            // data-sal="slide-up"
+                            // data-sal-duration="800"
                             key={text.id}
                         >
                             {text.content}
@@ -31,12 +31,12 @@ const HeroArea = ({ data }) => (
                     ))}
                     {data?.buttons && (
                         <div className="button-group">
-                            {data.buttons.map(({ content, id, ...btn }, i) => (
+                            {data.buttons.map(({ content, id, ...btn }) => (
                                 <Button
                                     {...btn}
-                                    data-sal-delay={400 + i * 100}
-                                    data-sal="slide-up"
-                                    data-sal-duration="800"
+                                    // data-sal-delay={400 + i * 100}
+                                    // data-sal="slide-up"
+                                    // data-sal-duration="800"
                                     key={id}
                                 >
                                     {content}

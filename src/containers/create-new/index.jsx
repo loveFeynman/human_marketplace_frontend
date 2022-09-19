@@ -190,7 +190,7 @@ const CreateNewArea = ({ className, space }) => {
             <div key={index} className="row mt_lg--15 mt_md--15 mt_sm--15">
                 <div className="col-md-12 col-xl-4">
                     <input
-                        placeholder="field"
+                        placeholder="Type"
                         value={metadataItem.field}
                         onChange={(e) =>
                             handleChangeMetadataItem(index, "field", e)
@@ -200,7 +200,7 @@ const CreateNewArea = ({ className, space }) => {
                 <div className="row col-md-12 col-xl-8 mt_lg--15 mt_md--15 mt_sm--15">
                     <div className={isLastElement ? "col-md-10" : "col-md-12"}>
                         <input
-                            placeholder="value"
+                            placeholder="Name"
                             value={metadataItem.value}
                             onChange={(e) =>
                                 handleChangeMetadataItem(index, "value", e)
@@ -243,7 +243,7 @@ const CreateNewArea = ({ className, space }) => {
             <div key={index} className="row mt_lg--15 mt_md--15 mt_sm--15">
                 <div className="col-md-12 col-xl-4">
                     <input
-                        placeholder="field"
+                        placeholder="Type"
                         value={attributeItem.field}
                         onChange={(e) =>
                             handleChangeAttributeItem(index, "field", e)
@@ -253,7 +253,7 @@ const CreateNewArea = ({ className, space }) => {
                 <div className="row col-md-12 col-xl-8 mt_lg--15 mt_md--15 mt_sm--15">
                     <div className={isLastElement ? "col-md-10" : "col-md-12"}>
                         <input
-                            placeholder="value"
+                            placeholder="Name"
                             value={attributeItem.value}
                             onChange={(e) =>
                                 handleChangeAttributeItem(index, "value", e)
@@ -324,7 +324,10 @@ const CreateNewArea = ({ className, space }) => {
                                         </p>
                                     </div>
 
-                                    <div className="brows-file-wrapper">
+                                    <div
+                                        className="brows-file-wrapper"
+                                        data-black-overlay="6"
+                                    >
                                         <input
                                             name="file"
                                             id="file"
@@ -342,7 +345,6 @@ const CreateNewArea = ({ className, space }) => {
                                                     selectedImage
                                                 )}
                                                 alt=""
-                                                data-black-overlay="6"
                                             />
                                         )}
 

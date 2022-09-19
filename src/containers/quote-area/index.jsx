@@ -23,9 +23,9 @@ const QuoteArea = ({ space, className, data }) => (
                 <div className="col-lg-6">
                     <div
                         className="rn-about-wrapper"
-                        data-sal="slide-up"
-                        data-sal-duration="800"
-                        data-sal-delay="150"
+                        // data-sal="slide-up"
+                        // data-sal-duration="800"
+                        // data-sal-delay="150"
                     >
                         {data?.texts?.map((text) => (
                             <p key={text.id}>{text.content}</p>

@@ -31,9 +31,9 @@ const CTAArea = ({ space, className, data }) => (
                     <div className="call-to-action-wrapper">
                         {data?.headings?.map((heading) => (
                             <h3
-                                data-sal="slide-up"
-                                data-sal-duration="800"
-                                data-sal-delay="150"
+                                // data-sal="slide-up"
+                                // data-sal-duration="800"
+                                // data-sal-delay="150"
                                 key={heading.id}
                                 dangerouslySetInnerHTML={{
                                     __html: heading.content,
@@ -42,9 +42,9 @@ const CTAArea = ({ space, className, data }) => (
                         ))}
                         {data?.texts?.map((text) => (
                             <p
-                                data-sal="slide-up"
-                                data-sal-duration="800"
-                                data-sal-delay="150"
+                                // data-sal="slide-up"
+                                // data-sal-duration="800"
+                                // data-sal-delay="150"
                                 key={text.id}
                                 dangerouslySetInnerHTML={{
                                     __html: text.content,
@@ -54,9 +54,9 @@ const CTAArea = ({ space, className, data }) => (
                         {data?.buttons && (
                             <div
                                 className="callto-action-btn-wrapper"
-                                data-sal="slide-up"
-                                data-sal-duration="800"
-                                data-sal-delay="150"
+                                // data-sal="slide-up"
+                                // data-sal-duration="800"
+                                // data-sal-delay="150"
                             >
                                 {data.buttons.map(
                                     ({ id, content, ...rest }) => (

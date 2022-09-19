@@ -178,7 +178,10 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                                         </p>
                                     </div>
 
-                                    <div className="brows-file-wrapper">
+                                    <div
+                                        className="brows-file-wrapper"
+                                        data-black-overlay="6"
+                                    >
                                         <input
                                             name="background-image"
                                             id="background-image"
@@ -196,7 +199,6 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                                                     selectedBackgroundImage
                                                 )}
                                                 alt=""
-                                                data-black-overlay="6"
                                             />
                                         )}
 
@@ -232,7 +234,10 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                                         </p>
                                     </div>
 
-                                    <div className="brows-file-wrapper">
+                                    <div
+                                        className="brows-file-wrapper"
+                                        data-black-overlay="6"
+                                    >
                                         <input
                                             name="logo-image"
                                             id="logo-image"
