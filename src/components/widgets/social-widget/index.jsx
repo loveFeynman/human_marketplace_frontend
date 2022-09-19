@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 
-const SocialWidget = ({ socials, others }) => (
+const SocialWidget = ({ socials }) => (
     <>
-        <ul className="social-others footer-list-one">
+        {/* <ul className="social-others footer-list-one">
             {others?.map((social) => (
                 <li key={social.id} className="single-list">
                     <a
@@ -15,7 +15,7 @@ const SocialWidget = ({ socials, others }) => (
                     </a>
                 </li>
             ))}
-        </ul>
+        </ul> */}
         <ul className="social-copyright">
             {socials?.map((social) => (
                 <li key={social.id}>
@@ -43,14 +43,14 @@ SocialWidget.propTypes = {
             title: PropTypes.string.isRequired,
         })
     ),
-    others: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
-                .isRequired,
-            title: PropTypes.string.isRequired,
-            link: PropTypes.string.isRequired,
-        })
-    ),
+    // others: PropTypes.arrayOf(
+    //     PropTypes.shape({
+    //         id: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    //             .isRequired,
+    //         title: PropTypes.string.isRequired,
+    //         link: PropTypes.string.isRequired,
+    //     })
+    // ),
 };
 
 export default SocialWidget;
