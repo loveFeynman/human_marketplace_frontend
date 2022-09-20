@@ -475,17 +475,17 @@ const CreateNewArea = ({ className, space }) => {
                                         </div>
 
                                         <div className="col-md-12">
-                                            <label
+                                            {/* <label
                                                 htmlFor="metadata"
                                                 className="form-label"
                                             >
                                                 Metadata
-                                            </label>
-                                            <div
+                                            </label> */}
+                                            {/* <div
                                                 id="metadata"
                                                 className="container"
-                                            >
-                                                <div className="col-md-12">
+                                            > */}
+                                            {/* <div className="col-md-12">
                                                     <div className="input-box pb--20">
                                                         <div className="col-md-12">
                                                             {metadataSet.map(
@@ -501,39 +501,39 @@ const CreateNewArea = ({ className, space }) => {
                                                             )}
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div className="col-md-12">
-                                                    <div className="input-box pb--20">
-                                                        <label
-                                                            htmlFor="attributes"
-                                                            className="form-label"
-                                                        >
-                                                            Attributes
-                                                        </label>
-                                                        <div
-                                                            id="attributes"
-                                                            className="col-md-12"
-                                                        >
-                                                            {attributesSet.map(
-                                                                (
+                                                </div> */}
+                                            <div className="col-md-12">
+                                                <div className="input-box pb--20">
+                                                    <label
+                                                        htmlFor="attributes"
+                                                        className="form-label"
+                                                    >
+                                                        Properties
+                                                    </label>
+                                                    <div
+                                                        id="attributes"
+                                                        className="col-md-12"
+                                                    >
+                                                        {attributesSet.map(
+                                                            (
+                                                                attributeItem,
+                                                                index
+                                                            ) =>
+                                                                renderAttributesSetItem(
                                                                     attributeItem,
-                                                                    index
-                                                                ) =>
-                                                                    renderAttributesSetItem(
-                                                                        attributeItem,
-                                                                        index,
-                                                                        attributesSet
-                                                                    )
-                                                            )}
-                                                        </div>
+                                                                    index,
+                                                                    attributesSet
+                                                                )
+                                                        )}
                                                     </div>
                                                 </div>
-                                                {hasMetadataError && (
-                                                    <ErrorText>
-                                                        Metadata is required
-                                                    </ErrorText>
-                                                )}
                                             </div>
+                                            {hasMetadataError && (
+                                                <ErrorText>
+                                                    Metadata is required
+                                                </ErrorText>
+                                            )}
+                                            {/* </div> */}
                                         </div>
 
                                         {/* <div className="col-md-4">

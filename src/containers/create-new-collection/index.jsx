@@ -13,6 +13,8 @@ import { CollectionCreatorContract } from "@constant";
 
 const CreateNewArea = ({ className, space, isAdminPage }) => {
     const [selectedBackgroundImage, setSelectedBackgroundImage] = useState();
+    const [backgroundShow, setBackgroundShow] = useState(false);
+    const [logoShow, setLogoShow] = useState(false);
     const [selectedLogoImage, setSelectedLogoImage] = useState();
     const [hasBackgroundImageError, setHasBackgroundImageError] =
         useState(false);
@@ -180,7 +182,13 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
 
                                     <div
                                         className="brows-file-wrapper"
-                                        data-black-overlay="6"
+                                        data-black-overlay="2"
+                                        onMouseEnter={() => {
+                                            setBackgroundShow(true);
+                                        }}
+                                        onMouseLeave={() => {
+                                            setBackgroundShow(false);
+                                        }}
                                     >
                                         <input
                                             name="background-image"
@@ -206,14 +214,19 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                                             htmlFor="background-image"
                                             title="No File Choosen"
                                         >
-                                            <i className="feather-upload" />
-                                            <span className="text-center">
-                                                Choose a File
-                                            </span>
-                                            <p className="text-center mt--10">
-                                                PNG, GIF, WEBP, MP4 or MP3.{" "}
-                                                <br /> Max 1Gb.
-                                            </p>
+                                            {(!selectedBackgroundImage ||
+                                                backgroundShow) && (
+                                                <>
+                                                    <i className="feather-upload" />
+                                                    <span className="text-center">
+                                                        Choose a File
+                                                    </span>
+                                                    <p className="text-center mt--10">
+                                                        PNG, GIF, WEBP, MP4 or
+                                                        MP3. <br /> Max 1Gb.
+                                                    </p>
+                                                </>
+                                            )}
                                         </label>
                                     </div>
                                     {backgroundImageError && (
@@ -236,7 +249,13 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
 
                                     <div
                                         className="brows-file-wrapper"
-                                        data-black-overlay="6"
+                                        data-black-overlay="2"
+                                        onMouseEnter={() => {
+                                            setLogoShow(true);
+                                        }}
+                                        onMouseLeave={() => {
+                                            setLogoShow(false);
+                                        }}
                                     >
                                         <input
                                             name="logo-image"
@@ -263,14 +282,19 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                                             htmlFor="logo-image"
                                             title="No File Choosen"
                                         >
-                                            <i className="feather-upload" />
-                                            <span className="text-center">
-                                                Choose a File
-                                            </span>
-                                            <p className="text-center mt--10">
-                                                PNG, GIF, WEBP, MP4 or MP3.{" "}
-                                                <br /> Max 1Gb.
-                                            </p>
+                                            {(!selectedLogoImage ||
+                                                logoShow) && (
+                                                <>
+                                                    <i className="feather-upload" />
+                                                    <span className="text-center">
+                                                        Choose a File
+                                                    </span>
+                                                    <p className="text-center mt--10">
+                                                        PNG, GIF, WEBP, MP4 or
+                                                        MP3. <br /> Max 1Gb.
+                                                    </p>
+                                                </>
+                                            )}
                                         </label>
                                     </div>
                                     {logoImageError && (
