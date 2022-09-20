@@ -85,7 +85,7 @@ const heroData = {
         {
             id: 1,
             content: "Get Started",
-            path: "/",
+            path: "/collections",
         },
         {
             id: 2,

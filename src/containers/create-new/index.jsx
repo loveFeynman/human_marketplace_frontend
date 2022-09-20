@@ -19,6 +19,7 @@ const CreateNewArea = ({ className, space }) => {
     const [attributesSet, setAttributesSet] = useState([
         { field: "", value: "" },
     ]);
+    const [uploadShow, setUploadShow] = useState(false);
     const [hasImageError, setHasImageError] = useState(false);
     const [hasMetadataError, setHasMetadataError] = useState(false);
     const [previewData, setPreviewData] = useState({});
@@ -326,7 +327,13 @@ const CreateNewArea = ({ className, space }) => {
 
                                     <div
                                         className="brows-file-wrapper"
-                                        data-black-overlay="6"
+                                        data-black-overlay="2"
+                                        onMouseEnter={() => {
+                                            setUploadShow(true);
+                                        }}
+                                        onMouseLeave={() => {
+                                            setUploadShow(false);
+                                        }}
                                     >
                                         <input
                                             name="file"
@@ -352,14 +359,18 @@ const CreateNewArea = ({ className, space }) => {
                                             htmlFor="file"
                                             title="No File Choosen"
                                         >
-                                            <i className="feather-upload" />
-                                            <span className="text-center">
-                                                Choose a File
-                                            </span>
-                                            <p className="text-center mt--10">
-                                                PNG, GIF, WEBP, MP4 or MP3.{" "}
-                                                <br /> Max 1Gb.
-                                            </p>
+                                            {(!selectedImage || uploadShow) && (
+                                                <>
+                                                    <i className="feather-upload" />
+                                                    <span className="text-center">
+                                                        Choose a File
+                                                    </span>
+                                                    <p className="text-center mt--10">
+                                                        PNG, GIF, WEBP, MP4 or
+                                                        MP3. <br /> Max 1Gb.
+                                                    </p>
+                                                </>
+                                            )}
                                         </label>
                                     </div>
                                     {hasImageError && !selectedImage && (
