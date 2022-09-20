@@ -1,12 +1,11 @@
-import { useState, useMemo } from "react";
-import PropTypes from "prop-types";
+import ShareModal from "@components/modals/share-modal";
+import ShareDropdown from "@components/share-dropdown";
+import { useWalletManager } from "@noahsaso/cosmodal";
+import Anchor from "@ui/anchor";
 import clsx from "clsx";
 import Image from "next/image";
-import { ImageType } from "@utils/types";
-import ShareDropdown from "@components/share-dropdown";
-import ShareModal from "@components/modals/share-modal";
-import Anchor from "@ui/anchor";
-import { useWalletManager } from "@noahsaso/cosmodal";
+import PropTypes from "prop-types";
+import { useMemo, useState } from "react";
 
 const AuthorIntroArea = ({ className, space }) => {
     const [isShareModalOpen, setIsShareModalOpen] = useState(false);

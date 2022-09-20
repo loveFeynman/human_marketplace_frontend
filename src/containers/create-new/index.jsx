@@ -39,7 +39,6 @@ const CreateNewArea = ({ className, space }) => {
     });
     const collectionSelectOptions = useMemo(() => {
         const addresses = collectionInfo.addresses?.userDefined || [];
-        console.log("connectedWallet: ", addresses);
 
         return [{ value: "", text: "" }].concat(
             addresses
@@ -55,7 +54,7 @@ const CreateNewArea = ({ className, space }) => {
                     };
                 })
         );
-    }, [collectionInfo]);
+    }, [collectionInfo, connectedWallet]);
 
     const handleProductModal = () => {
         setShowProductModal(false);

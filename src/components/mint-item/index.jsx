@@ -43,8 +43,9 @@ const MintItem = ({
         if (
             filter === "all" ||
             stateInfoResult.start_mint_time < Date.now() / 1000
-        )
+        ) {
             setShow(true);
+        }
         setStateInfo(stateInfoResult || {});
     };
 
@@ -237,6 +238,7 @@ MintItem.propTypes = {
     className: PropTypes.string,
     title: PropTypes.string.isRequired,
     contractAddress: PropTypes.string.isRequired,
+    filter: PropTypes.string,
     // slug: PropTypes.string.isRequired,
     price: PropTypes.shape({
         public: PropTypes.shape({

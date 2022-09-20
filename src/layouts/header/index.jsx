@@ -10,7 +10,6 @@ import MobileMenu from "@components/menu/mobile-menu";
 import UserDropdown from "@components/user-dropdown";
 import ColorSwitcher from "@components/color-switcher";
 import BurgerButton from "@ui/burger-button";
-import Anchor from "@ui/anchor";
 import Button from "@ui/button";
 import {
     useOffcanvas,
