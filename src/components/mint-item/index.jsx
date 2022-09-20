@@ -39,7 +39,6 @@ const MintItem = ({
         const stateInfoResult = await runQuery(contractAddress, {
             get_state_info: {},
         });
-        console.log("stateInfoResult: ", stateInfoResult);
         if (
             filter === "all" ||
             stateInfoResult.start_mint_time < Date.now() / 1000
