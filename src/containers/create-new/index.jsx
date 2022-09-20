@@ -37,18 +37,23 @@ const CreateNewArea = ({ className, space }) => {
     } = useForm({
         mode: "onSubmit",
     });
-
     const collectionSelectOptions = useMemo(() => {
         const addresses = collectionInfo.addresses?.userDefined || [];
+        console.log("connectedWallet: ", addresses);
+
         return [{ value: "", text: "" }].concat(
-            addresses.map((collection) => {
-                const { address } = collection;
-                const crrCollectionInfo = collectionInfo[address];
-                return {
-                    value: address,
-                    text: crrCollectionInfo?.collection_info?.title || "",
-                };
-            })
+            addresses
+                .filter(
+                    (_address) => _address.creator === connectedWallet?.address
+                )
+                .map((collection) => {
+                    const { address } = collection;
+                    const crrCollectionInfo = collectionInfo[address];
+                    return {
+                        value: address,
+                        text: crrCollectionInfo?.collection_info?.title || "",
+                    };
+                })
         );
     }, [collectionInfo]);
 

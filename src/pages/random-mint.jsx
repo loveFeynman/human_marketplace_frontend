@@ -43,7 +43,6 @@ const RandomMint = () => {
             });
         }
     });
-
     return (
         <Wrapper>
             <SEO pageTitle="Launchpad" />

@@ -26,9 +26,11 @@ const MintItem = ({
     // likeCount,
     className,
     contractAddress,
+    filter,
 }) => {
     const [showBidModal, setShowBidModal] = useState(false);
     const [stateInfo, setStateInfo] = useState({});
+    const [show, setShow] = useState(false);
     const { runQuery, runExecute } = useContract();
     const { connectedWallet } = useWalletManager();
     // const { connectedWallet } = useContext(CustomWalletContext);
@@ -37,6 +39,12 @@ const MintItem = ({
         const stateInfoResult = await runQuery(contractAddress, {
             get_state_info: {},
         });
+        console.log("stateInfoResult: ", stateInfoResult);
+        if (
+            filter === "all" ||
+            stateInfoResult.start_mint_time < Date.now() / 1000
+        )
+            setShow(true);
         setStateInfo(stateInfoResult || {});
     };
 
@@ -104,7 +112,7 @@ const MintItem = ({
         }
     };
 
-    return (
+    return show ? (
         <>
             <div className={clsx("lg-product-wrapper", className)}>
                 <div className="inner">
@@ -222,7 +230,7 @@ const MintItem = ({
                 handleClickConfirm={handleMint}
             />
         </>
-    );
+    ) : null;
 };
 
 MintItem.propTypes = {
