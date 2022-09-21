@@ -13,7 +13,7 @@ import BurgerButton from "@ui/burger-button";
 import Button from "@ui/button";
 import {
     useOffcanvas,
-    useSticky,
+    // useSticky,
     // useFlyoutSearch
 } from "@hooks";
 import { checkKeplr } from "src/context/WalletProvider";
@@ -74,7 +74,7 @@ const menuData = [
 ];
 
 const Header = ({ className }) => {
-    const sticky = useSticky();
+    // const sticky = useSticky();
     const { offcanvas, offcanvasHandler } = useOffcanvas();
     // const { search, searchHandler } = useFlyoutSearch();
     const { connect, connectedWallet } = useWalletManager();
@@ -98,7 +98,7 @@ const Header = ({ className }) => {
             <header
                 className={clsx(
                     "rn-header haeder-default black-logo-version header--fixed header--sticky",
-                    sticky && "sticky",
+                    // sticky && "sticky",
                     className
                 )}
             >
