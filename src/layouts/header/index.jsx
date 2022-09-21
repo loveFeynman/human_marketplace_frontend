@@ -54,23 +54,23 @@ const menuData = [
         text: "Mint",
         path: "/random-mint",
     },
-    {
-        id: 5,
-        text: "Create",
-        path: "/create-nft",
-        // submenu: [
-        //     // {
-        //     //     id: 51,
-        //     //     text: "Create Collection",
-        //     //     path: "/create-collection",
-        //     // },
-        //     {
-        //         id: 52,
-        //         text: "Create NFT",
-        //         path: "/create-nft",
-        //     },
-        // ],
-    },
+    // {
+    //     id: 5,
+    //     text: "Create",
+    //     path: "/create-nft",
+    // submenu: [
+    //     // {
+    //     //     id: 51,
+    //     //     text: "Create Collection",
+    //     //     path: "/create-collection",
+    //     // },
+    //     {
+    //         id: 52,
+    //         text: "Create NFT",
+    //         path: "/create-nft",
+    //     },
+    // ],
+    // },
 ];
 
 const Header = ({ className }) => {
@@ -81,6 +81,15 @@ const Header = ({ className }) => {
     // const { connectedWallet, connect } = useContext(CustomWalletContext);
     const isAdmin = useAppSelector((state) => state.admin.isAdmin);
     const finalMenuData = useMemo(() => {
+        if (connectedWallet) {
+            return menuData.concat([
+                {
+                    id: 5,
+                    text: "Create",
+                    path: "/create-nft",
+                },
+            ]);
+        }
         if (connectedWallet && isAdmin) {
             return menuData.concat([
                 {
