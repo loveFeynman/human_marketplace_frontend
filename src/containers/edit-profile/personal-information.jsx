@@ -3,8 +3,8 @@ import NiceSelect from "@ui/nice-select";
 import { useWalletManager } from "@noahsaso/cosmodal";
 import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
-import { editUser } from "./hooks";
 import { useAppSelector, useAppDispatch } from "@app/hooks";
+import { editUser } from "./hooks";
 
 const PersonalInformation = () => {
     const { connectedWallet } = useWalletManager();
@@ -157,7 +157,7 @@ const PersonalInformation = () => {
                         id="PhoneNumber"
                         type="text"
                         placeholder="+880100000000"
-                        value={personalInformatio.phone || ""}
+                        value={personalInformation.phone || ""}
                         onChange={handleChangePersonalInfo}
                     />
                 </div>
