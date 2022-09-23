@@ -33,7 +33,7 @@ const AuthorIntroArea = ({ className, space }) => {
             following: 0,
         };
         return result;
-    }, [connectedWallet]);
+    }, [connectedWallet, userInfo.cover, userInfo.logo]);
 
     return (
         <>

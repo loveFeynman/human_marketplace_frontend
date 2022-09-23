@@ -1,9 +1,8 @@
-import Image from "next/image";
 import { useWalletManager } from "@noahsaso/cosmodal";
 import Anchor from "@ui/anchor";
+import Image from "next/image";
 // import { CustomWalletContext } from "@context";
 import { useAppSelector } from "@app/hooks";
-import { pinataUrl } from "@constant";
 import { getImageFromHash } from "@utils/ipfs";
 
 const UserDropdown = () => {

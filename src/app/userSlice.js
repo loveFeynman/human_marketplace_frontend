@@ -15,10 +15,11 @@ export const userSlice = createSlice({
             return newState;
         },
         clearUserInfo: () => {
-            return {
+            const clearState = {
                 userInfo: {},
                 isLoaded: false,
             };
+            return clearState;
         },
     },
 });

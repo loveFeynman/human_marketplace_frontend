@@ -65,6 +65,4 @@ export const uploadJSONToIpfs = async (name, data) => {
     }
 };
 
-export const getImageFromHash = (hash) => {
-    return `${pinataUrl}/${hash}`;
-};
+export const getImageFromHash = (hash) => `${pinataUrl}/${hash}`;

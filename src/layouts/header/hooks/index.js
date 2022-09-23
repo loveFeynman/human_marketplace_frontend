@@ -26,11 +26,12 @@ export const getUserInfo = async (address) => {
                 });
                 return {
                     wallet: address,
-                    hash: hash,
+                    hash,
                 };
             } catch (_err) {
                 return false;
             }
         }
+        return false;
     }
 };

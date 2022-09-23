@@ -18,8 +18,8 @@ import {
 } from "@hooks";
 import { checkKeplr } from "src/context/WalletProvider";
 import { useAppSelector, useAppDispatch } from "@app/hooks";
-import { getUserInfo } from "./hooks";
 import { setUserInfo } from "@app/userSlice";
+import { getUserInfo } from "./hooks";
 // import { CustomWalletContext } from "@context";
 
 const headerData = {
