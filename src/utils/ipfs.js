@@ -1,5 +1,6 @@
 import FormData from "form-data";
 import axios from "axios";
+import { pinataUrl } from "@constant";
 
 export const uploadFileToIpfs = async (file) => {
     const data1 = new FormData();
@@ -62,4 +63,8 @@ export const uploadJSONToIpfs = async (name, data) => {
     } catch (e) {
         throw new Error(e);
     }
+};
+
+export const getImageFromHash = (hash) => {
+    return `${pinataUrl}/${hash}`;
 };

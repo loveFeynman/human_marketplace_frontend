@@ -1,10 +1,19 @@
 import Button from "@ui/button";
 import NiceSelect from "@ui/nice-select";
-import { useState } from "react";
+import { useWalletManager } from "@noahsaso/cosmodal";
+import { useState, useEffect } from "react";
+import { editUser } from "./hooks";
+import { useAppSelector, useAppDispatch } from "@app/hooks";
+import { toast } from "react-toastify";
 
 const PersonalInformation = () => {
+    const { connectedWallet } = useWalletManager();
     const [personalInformation, setPersonalInformation] = useState({});
-
+    const userInfo = useAppSelector((state) => state.user.userInfo);
+    const dispatch = useAppDispatch();
+    useEffect(() => {
+        setPersonalInformation(userInfo);
+    }, [userInfo]);
     const handleChangePersonalInfo = (e) => {
         const { name, value } = e.target;
         setPersonalInformation((prev) => ({
@@ -20,6 +29,20 @@ const PersonalInformation = () => {
         }));
     };
 
+    const handleSave = async () => {
+        try {
+            await editUser(
+                personalInformation,
+                connectedWallet?.address,
+                dispatch
+            );
+            toast.success("Successfully Registered.");
+        } catch (err) {
+            console.log("edit_profile_error: ", err);
+            toast.error("Register Failed");
+        }
+    };
+
     return (
         <div className="nuron-information">
             <div className="profile-form-wrapper">
@@ -29,11 +52,11 @@ const PersonalInformation = () => {
                             First Name
                         </label>
                         <input
-                            name="first-name"
+                            name="first_name"
                             id="contact-name"
                             type="text"
                             placeholder="Mr."
-                            value={personalInformation["first-name"] || ""}
+                            value={personalInformation["first_name"] || ""}
                             onChange={handleChangePersonalInfo}
                         />
                     </div>
@@ -45,11 +68,11 @@ const PersonalInformation = () => {
                             Last Name
                         </label>
                         <input
-                            name="last-name"
+                            name="last_name"
                             id="contact-name-last"
                             type="text"
                             placeholder="e.g. Sunayra"
-                            value={personalInformation["last-name"] || ""}
+                            value={personalInformation["last_name"] || ""}
                             onChange={handleChangePersonalInfo}
                         />
                     </div>
@@ -74,9 +97,9 @@ const PersonalInformation = () => {
                 </label>
                 <textarea
                     id="Discription"
-                    name="description"
+                    name="bio"
                     placeholder="Hello, I am Alamin, A Front-end Developer..."
-                    value={personalInformation.description}
+                    value={personalInformation.bio}
                     onChange={handleChangePersonalInfo}
                 >
                     Hello, I am Alamin, A Front-end Developer...
@@ -100,13 +123,13 @@ const PersonalInformation = () => {
                 <div className="half-wid gender">
                     <NiceSelect
                         options={[
-                            { value: "male", text: "male" },
-                            { value: "female", text: "female" },
+                            { value: true, text: "male" },
+                            { value: false, text: "female" },
                         ]}
                         placeholder="Select Your Gender"
                         className="profile-edit-select"
-                        value={personalInformation.gender}
-                        onChange={(e) => handleChangeSelect("gender", e)}
+                        value={personalInformation.gendor}
+                        onChange={(e) => handleChangeSelect("gendor", e)}
                     />
                 </div>
             </div>
@@ -130,11 +153,11 @@ const PersonalInformation = () => {
                         Phone Number
                     </label>
                     <input
-                        name="phone-number"
+                        name="phone"
                         id="PhoneNumber"
                         type="text"
                         placeholder="+880100000000"
-                        value={personalInformation["phone-number"] || ""}
+                        value={personalInformation["phone"] || ""}
                         onChange={handleChangePersonalInfo}
                     />
                 </div>
@@ -171,7 +194,9 @@ const PersonalInformation = () => {
                 <Button className="mr--15" color="primary-alta" size="medium">
                     Cancel
                 </Button>
-                <Button size="medium">Save</Button>
+                <Button size="medium" onClick={handleSave}>
+                    Save
+                </Button>
             </div>
         </div>
     );

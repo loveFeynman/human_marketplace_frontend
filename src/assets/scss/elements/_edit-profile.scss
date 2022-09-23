@@ -75,6 +75,10 @@
     }
 
     .nuron-information {
+        ::placeholder {
+            color: white;
+            opacity: 0.5;
+        }
         .profile-change {
             display: flex;
             justify-content: flex-start;

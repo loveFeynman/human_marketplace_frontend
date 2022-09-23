@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { useWalletManager } from "@noahsaso/cosmodal";
@@ -17,7 +17,9 @@ import {
     // useFlyoutSearch
 } from "@hooks";
 import { checkKeplr } from "src/context/WalletProvider";
-import { useAppSelector } from "@app/hooks";
+import { useAppSelector, useAppDispatch } from "@app/hooks";
+import { getUserInfo } from "./hooks";
+import { setUserInfo } from "@app/userSlice";
 // import { CustomWalletContext } from "@context";
 
 const headerData = {
@@ -78,6 +80,16 @@ const Header = ({ className }) => {
     const { offcanvas, offcanvasHandler } = useOffcanvas();
     // const { search, searchHandler } = useFlyoutSearch();
     const { connect, connectedWallet } = useWalletManager();
+    const dispatch = useAppDispatch();
+    useEffect(() => {
+        (async () => {
+            if (connectedWallet) {
+                const userInfo = await getUserInfo(connectedWallet.address);
+                if (userInfo) dispatch(setUserInfo(userInfo));
+            }
+        })();
+    }, [connectedWallet]);
+
     // const { connectedWallet, connect } = useContext(CustomWalletContext);
     const isAdmin = useAppSelector((state) => state.admin.isAdmin);
     const finalMenuData = useMemo(() => {

@@ -35,13 +35,6 @@ const EditProfile = () => (
                                         Personal Information
                                     </Nav.Link>
                                     <Nav.Link
-                                        eventKey="nav-profile"
-                                        as="button"
-                                    >
-                                        <i className="feather-unlock" />
-                                        Change Password
-                                    </Nav.Link>
-                                    <Nav.Link
                                         eventKey="nav-contact"
                                         as="button"
                                     >
@@ -59,9 +52,6 @@ const EditProfile = () => (
                             </TabPane>
                             <TabPane eventKey="nav-homes">
                                 <PersonalInformation />
-                            </TabPane>
-                            <TabPane eventKey="nav-profile">
-                                <ChangePassword />
                             </TabPane>
                             <TabPane eventKey="nav-contact">
                                 <NotificationSetting />

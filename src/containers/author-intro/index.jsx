@@ -6,20 +6,27 @@ import clsx from "clsx";
 import Image from "next/image";
 import PropTypes from "prop-types";
 import { useMemo, useState } from "react";
+import { useAppSelector } from "@app/hooks";
+import { getImageFromHash } from "@utils/ipfs";
 
 const AuthorIntroArea = ({ className, space }) => {
     const [isShareModalOpen, setIsShareModalOpen] = useState(false);
     const { connectedWallet } = useWalletManager();
     const shareModalHandler = () => setIsShareModalOpen((prev) => !prev);
+    const userInfo = useAppSelector((state) => state.user.userInfo);
 
     const userData = useMemo(() => {
         const result = {
             background: {
-                src: "/images/bg/bg-image-9.png",
+                src: userInfo.cover
+                    ? getImageFromHash(userInfo.cover)
+                    : "/images/bg/bg-image-9.png",
             },
             image: {
                 alt: "",
-                src: "/images/icons/boy-avater.png",
+                src: userInfo.logo
+                    ? getImageFromHash(userInfo.logo)
+                    : "/images/icons/boy-avater.png",
             },
             name: connectedWallet?.name || "",
             followers: 0,

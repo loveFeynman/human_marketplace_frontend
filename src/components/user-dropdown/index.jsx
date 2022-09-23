@@ -3,11 +3,15 @@ import { useWalletManager } from "@noahsaso/cosmodal";
 import Anchor from "@ui/anchor";
 // import { CustomWalletContext } from "@context";
 import { useAppSelector } from "@app/hooks";
+import { pinataUrl } from "@constant";
+import { getImageFromHash } from "@utils/ipfs";
 
 const UserDropdown = () => {
     const { disconnect, connectedWallet } = useWalletManager();
     // const { connectedWallet, disconnect } = useContext(CustomWalletContext);
     const balance = useAppSelector((state) => state.balance);
+    const userInfo = useAppSelector((state) => state.user.userInfo);
+
     return (
         <div className="icon-box">
             {/* <Anchor path="/author">
@@ -20,7 +24,11 @@ const UserDropdown = () => {
                 />
             </Anchor> */}
             <Image
-                src="/images/icons/boy-avater.png"
+                src={
+                    userInfo.logo
+                        ? getImageFromHash(userInfo.logo)
+                        : "/images/icons/boy-avater.png"
+                }
                 alt="Images"
                 layout="fixed"
                 width={38}
@@ -50,7 +58,11 @@ const UserDropdown = () => {
                                     />
                                 </Anchor> */}
                                 <Image
-                                    src="/images/portfolio/portfolio-07.jpg"
+                                    src={
+                                        userInfo.logo
+                                            ? getImageFromHash(userInfo.logo)
+                                            : "/images/icons/boy-avater.png"
+                                    }
                                     alt="Nft Product Images"
                                     layout="fixed"
                                     width={50}

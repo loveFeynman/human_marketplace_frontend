@@ -1,21 +1,30 @@
 /* eslint-disable @next/next/no-img-element */
-import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "@app/hooks";
+import { pinataUrl } from "@constant";
+import { useWalletManager } from "@noahsaso/cosmodal";
+import { uploadFileToIpfs } from "@utils/ipfs";
 import Image from "next/image";
+import { editUser } from "./hooks";
 
 const EditProfileImage = () => {
-    const [selectedImage, setSelectedImage] = useState({
-        profile: "",
-        cover: "",
-    });
-    const imageChange = (e) => {
-        if (e.target.files && e.target.files.length > 0) {
-            setSelectedImage((prev) => ({
-                ...prev,
-                [e.target.name]: e.target.files[0],
-            }));
+    const { connectedWallet } = useWalletManager();
+    const { cover, logo } = useAppSelector((state) => state.user.userInfo);
+    const dispatch = useAppDispatch();
+    const imageChange = async (e) => {
+        try {
+            if (e.target.files && e.target.files.length > 0) {
+                const imageHash = await uploadFileToIpfs(e.target.files[0]);
+
+                await editUser(
+                    { [e.target.name]: imageHash },
+                    connectedWallet?.address,
+                    dispatch
+                );
+            }
+        } catch (err) {
+            console.log("err: ", err);
         }
     };
-
     return (
         <div className="nuron-information">
             <div className="profile-change row g-5">
@@ -23,11 +32,9 @@ const EditProfileImage = () => {
                     <div className="profile-image mb--30">
                         <h6 className="title">Change Your Profile Picture</h6>
                         <div className="img-wrap">
-                            {selectedImage?.profile ? (
+                            {logo ? (
                                 <img
-                                    src={URL.createObjectURL(
-                                        selectedImage.profile
-                                    )}
+                                    src={`${pinataUrl}/${logo}`}
                                     alt=""
                                     data-black-overlay="6"
                                 />
@@ -44,7 +51,7 @@ const EditProfileImage = () => {
                     <div className="button-area">
                         <div className="brows-file-wrapper">
                             <input
-                                name="profile"
+                                name="logo"
                                 id="fatima"
                                 type="file"
                                 onChange={imageChange}
@@ -62,11 +69,9 @@ const EditProfileImage = () => {
                     <div className="profile-image mb--30">
                         <h6 className="title">Change Your Cover Photo</h6>
                         <div className="img-wrap">
-                            {selectedImage?.cover ? (
+                            {cover ? (
                                 <img
-                                    src={URL.createObjectURL(
-                                        selectedImage.cover
-                                    )}
+                                    src={`${pinataUrl}/${cover}`}
                                     alt=""
                                     data-black-overlay="6"
                                 />
