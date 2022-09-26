@@ -9,6 +9,7 @@ import { useMemo } from "react";
 import { useWalletManager } from "@noahsaso/cosmodal";
 import Button from "@ui/button";
 import Anchor from "@ui/anchor";
+import withAuth from "@utils/auth";
 
 export async function getStaticProps() {
     return { props: { className: "template-color-1" } };
@@ -86,4 +87,4 @@ const MyCollections = () => {
     );
 };
 
-export default MyCollections;
+export default withAuth(MyCollections);

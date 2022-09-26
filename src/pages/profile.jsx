@@ -4,6 +4,7 @@ import Header from "@layout/header";
 import Footer from "@layout/footer";
 import AuthorIntroArea from "@containers/author-intro";
 import AuthorProfileArea from "@containers/author-profile";
+import withAuth from "@utils/auth";
 
 export async function getStaticProps() {
     return { props: { className: "template-color-1" } };
@@ -21,4 +22,4 @@ const Profile = () => (
     </Wrapper>
 );
 
-export default Profile;
+export default withAuth(Profile);

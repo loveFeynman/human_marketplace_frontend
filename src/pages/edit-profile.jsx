@@ -4,6 +4,7 @@ import Header from "@layout/header";
 import Footer from "@layout/footer";
 import Breadcrumb from "@components/breadcrumb";
 import EditProfileArea from "@containers/edit-profile";
+import withAuth from "@utils/auth";
 
 export async function getStaticProps() {
     return { props: { className: "template-color-1" } };
@@ -21,4 +22,4 @@ const EditProfile = () => (
     </Wrapper>
 );
 
-export default EditProfile;
+export default withAuth(EditProfile);
