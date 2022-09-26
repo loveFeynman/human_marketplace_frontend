@@ -10,9 +10,8 @@ const withAuth = (Component) => {
         if (!connectedWallet) {
             router.push("/");
             return null;
-        } else {
-            return <Component />;
         }
+        return <Component />;
 
         // If user is logged in, return original component
     };
