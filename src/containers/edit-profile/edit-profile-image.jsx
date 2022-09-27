@@ -11,17 +11,15 @@ const EditProfileImage = () => {
     const { cover, logo } = useAppSelector((state) => state.user.userInfo);
     const dispatch = useAppDispatch();
     const imageChange = async (e) => {
-        try {
-            if (e.target.files && e.target.files.length > 0) {
-                const imageHash = await uploadFileToIpfs(e.target.files[0]);
+        if (e.target.files && e.target.files.length > 0) {
+            const imageHash = await uploadFileToIpfs(e.target.files[0]);
 
-                await editUser(
-                    { [e.target.name]: imageHash },
-                    connectedWallet?.address,
-                    dispatch
-                );
-            }
-        } catch (err) {}
+            await editUser(
+                { [e.target.name]: imageHash },
+                connectedWallet?.address,
+                dispatch
+            );
+        }
     };
     return (
         <div className="nuron-information">
