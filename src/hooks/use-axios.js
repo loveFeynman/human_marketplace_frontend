@@ -4,9 +4,7 @@ import { backendBaseUrl } from "@constant";
 export const saveSaleHistory = (data) => {
     axios
         .post(`${backendBaseUrl}/api/sale_history/put_sale_history`, data)
-        .catch((err) => {
-            return false;
-        });
+        .catch((err) => false);
 };
 
 export const fetchUserInfo = async (address) => {

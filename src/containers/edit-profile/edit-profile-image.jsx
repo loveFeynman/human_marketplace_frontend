@@ -21,9 +21,7 @@ const EditProfileImage = () => {
                     dispatch
                 );
             }
-        } catch (err) {
-            return;
-        }
+        } catch (err) {}
     };
     return (
         <div className="nuron-information">

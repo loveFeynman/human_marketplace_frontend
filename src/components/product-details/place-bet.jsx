@@ -6,7 +6,7 @@ import Anchor from "@ui/anchor";
 import Button from "@ui/button";
 import PlaceBidModal from "@components/modals/placebid-modal";
 import Countdown from "@ui/countdown/layout-02";
-import { ImageType } from "@utils/types";
+// import { ImageType } from "@utils/types";
 import { pinataUrl } from "@constant";
 
 const PlaceBet = ({ highest_bid, auction_date, btnColor, className }) => {
@@ -74,6 +74,10 @@ PlaceBet.propTypes = {
     highest_bid: PropTypes.shape({
         amount: PropTypes.string,
         bidder: PropTypes.string,
+        logo: PropTypes.string,
+        slug: PropTypes.string,
+        name: PropTypes.string,
+        price: PropTypes.string,
     }),
     auction_date: PropTypes.string,
     btnColor: PropTypes.string,

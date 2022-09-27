@@ -7,10 +7,11 @@ const BidsTabContent = ({ bids }) => {
     const sortedBids = bids.sort((bid1, bid2) => bid2.price - bid1.price);
     const getStandardTime = (time) => {
         const interval = Date.now() / 1000 - Number(time) / 1000;
-        if (interval < 3600) return (interval / 60).toFixed(0) + " mins";
-        if (interval < 3600 * 24)
-            return (interval / 3600).toFixed(0) + " hours";
-        return (interval / 3600 / 24).toFixed(0) + " days";
+        if (interval < 3600) return `${(interval / 60).toFixed(0)} mins`;
+        if (interval < 3600 * 24) {
+            return `${(interval / 3600).toFixed(0)} hours`;
+        }
+        return `${(interval / 3600 / 24).toFixed(0)} days`;
     };
     return (
         <div>

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useReducer, useRef, useEffect, useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
@@ -7,7 +8,7 @@ import NftItem from "@components/nft-item";
 import Pagination from "@components/pagination";
 import FilterButton from "@ui/filter-button";
 import { slideToggle } from "@utils/methods";
-import { SectionTitleType, NftType } from "@utils/types";
+// import { SectionTitleType, NftType } from "@utils/types";
 
 function reducer(state, action) {
     switch (action.type) {

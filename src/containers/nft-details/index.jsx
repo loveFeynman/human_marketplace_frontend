@@ -1,7 +1,7 @@
+/* eslint-disable react/prop-types */
 import { useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import Image from "next/image";
 import { useWalletManager } from "@noahsaso/cosmodal";
 import Sticky from "@ui/sticky";
 import Button from "@ui/button";

@@ -38,13 +38,14 @@ const NftDetail = () => {
             const fetchedBids = queryResults?.bids || [];
             const bidersInfo = await Promise.all(
                 fetchedBids.map(async (bid) => {
-                    return await fetchUserInfo(bid.bidder);
+                    const info = await fetchUserInfo(bid.bidder);
+                    return info;
                 })
             );
 
             setBids(
                 fetchedBids.map((bid, index) => {
-                    return {
+                    const _bids = {
                         price: Number(bid.price) / 1e6,
                         name:
                             bidersInfo[index].first_name ||
@@ -54,6 +55,7 @@ const NftDetail = () => {
                         slug: `/profile/${bid.bidder}`,
                         time: bid.time.slice(0, 13),
                     };
+                    return _bids;
                 })
             );
             // setBids((prev) =>
