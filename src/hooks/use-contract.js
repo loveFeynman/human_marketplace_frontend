@@ -11,7 +11,7 @@ import { coins } from "@cosmjs/proto-signing";
 import { ChainConfig, MarketplaceContract } from "@constant";
 import { toMicroAmount } from "@utils/coins";
 import { useAppSelector } from "@app/hooks";
-import { useAxios } from "@hooks";
+import { saveSaleHistory } from "./use-axios";
 // import { CustomWalletContext } from "@context";
 
 const getQueryClient = async (config) => {
@@ -27,7 +27,6 @@ function useContract() {
     // const { connectedWallet, offlineSigner, signingClient } =
     //     useContext(CustomWalletContext);
     const collections = useAppSelector((state) => state.collections);
-    const { saveSaleHistory } = useAxios();
     const runQuery = useCallback(
         async (contractAddress, queryMsg) => {
             try {

@@ -6,7 +6,7 @@ import TabPane from "react-bootstrap/TabPane";
 import Nav from "react-bootstrap/Nav";
 import EditProfileImage from "./edit-profile-image";
 import PersonalInformation from "./personal-information";
-import ChangePassword from "./change-password";
+// import ChangePassword from "./change-password";
 import NotificationSetting from "./notification-setting";
 
 const EditProfile = () => (

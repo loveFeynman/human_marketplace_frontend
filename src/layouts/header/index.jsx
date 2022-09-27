@@ -88,7 +88,7 @@ const Header = ({ className }) => {
                 if (userInfo) dispatch(setUserInfo(userInfo));
             }
         })();
-    }, [connectedWallet]);
+    }, [connectedWallet, dispatch]);
 
     // const { connectedWallet, connect } = useContext(CustomWalletContext);
     const isAdmin = useAppSelector((state) => state.admin.isAdmin);

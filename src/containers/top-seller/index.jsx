@@ -23,7 +23,6 @@ const TopSellerArea = ({ className, space, id }) => {
     useEffect(() => {
         filterHandler();
     }, [filterHandler]);
-    console.log("sellers: ", sellers);
     return (
         <div
             className={clsx(

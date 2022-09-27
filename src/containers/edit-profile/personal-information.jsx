@@ -38,7 +38,6 @@ const PersonalInformation = () => {
             );
             toast.success("Successfully Registered.");
         } catch (err) {
-            console.log("edit_profile_error: ", err);
             toast.error("Register Failed");
         }
     };

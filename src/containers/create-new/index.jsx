@@ -189,58 +189,58 @@ const CreateNewArea = ({ className, space }) => {
         }
     };
 
-    const renderMetaSetItem = (metadataItem, index, totalData) => {
-        const isLastElement = index === totalData.length - 1;
-        return (
-            <div key={index} className="row mt_lg--15 mt_md--15 mt_sm--15">
-                <div className="col-md-12 col-xl-4">
-                    <input
-                        placeholder="Type"
-                        value={metadataItem.field}
-                        onChange={(e) =>
-                            handleChangeMetadataItem(index, "field", e)
-                        }
-                    />
-                </div>
-                <div className="row col-md-12 col-xl-8 mt_lg--15 mt_md--15 mt_sm--15">
-                    <div className={isLastElement ? "col-md-10" : "col-md-12"}>
-                        <input
-                            placeholder="Name"
-                            value={metadataItem.value}
-                            onChange={(e) =>
-                                handleChangeMetadataItem(index, "value", e)
-                            }
-                        />
-                    </div>
-                    {isLastElement && (
-                        <div className="col-md-2">
-                            <div
-                                style={{
-                                    width: "100%",
-                                    height: "100%",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                }}
-                            >
-                                <Button
-                                    style={{
-                                        minWidth: "unset",
-                                        padding: 5,
-                                        width: "100%",
-                                    }}
-                                    color="primary-alta"
-                                    onClick={handleAddNewMetadataItem}
-                                >
-                                    +
-                                </Button>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            </div>
-        );
-    };
+    // const renderMetaSetItem = (metadataItem, index, totalData) => {
+    //     const isLastElement = index === totalData.length - 1;
+    //     return (
+    //         <div key={index} className="row mt_lg--15 mt_md--15 mt_sm--15">
+    //             <div className="col-md-12 col-xl-4">
+    //                 <input
+    //                     placeholder="Type"
+    //                     value={metadataItem.field}
+    //                     onChange={(e) =>
+    //                         handleChangeMetadataItem(index, "field", e)
+    //                     }
+    //                 />
+    //             </div>
+    //             <div className="row col-md-12 col-xl-8 mt_lg--15 mt_md--15 mt_sm--15">
+    //                 <div className={isLastElement ? "col-md-10" : "col-md-12"}>
+    //                     <input
+    //                         placeholder="Name"
+    //                         value={metadataItem.value}
+    //                         onChange={(e) =>
+    //                             handleChangeMetadataItem(index, "value", e)
+    //                         }
+    //                     />
+    //                 </div>
+    //                 {isLastElement && (
+    //                     <div className="col-md-2">
+    //                         <div
+    //                             style={{
+    //                                 width: "100%",
+    //                                 height: "100%",
+    //                                 display: "flex",
+    //                                 justifyContent: "center",
+    //                                 alignItems: "center",
+    //                             }}
+    //                         >
+    //                             <Button
+    //                                 style={{
+    //                                     minWidth: "unset",
+    //                                     padding: 5,
+    //                                     width: "100%",
+    //                                 }}
+    //                                 color="primary-alta"
+    //                                 onClick={handleAddNewMetadataItem}
+    //                             >
+    //                                 +
+    //                             </Button>
+    //                         </div>
+    //                     </div>
+    //                 )}
+    //             </div>
+    //         </div>
+    //     );
+    // };
 
     const renderAttributesSetItem = (attributeItem, index, totalData) => {
         const isLastElement = index === totalData.length - 1;

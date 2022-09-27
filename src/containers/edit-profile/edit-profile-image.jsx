@@ -22,7 +22,7 @@ const EditProfileImage = () => {
                 );
             }
         } catch (err) {
-            console.log("err: ", err);
+            return;
         }
     };
     return (
