@@ -84,6 +84,7 @@
         "react/no-danger": "off",
         "react/jsx-fragments": "off",
         "react/jsx-curly-newline": "off",
+        "no-param-reassign": 0,
         "jsx-a11y/label-has-associated-control": [
             "error",
             {

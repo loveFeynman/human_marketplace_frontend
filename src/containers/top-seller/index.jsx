@@ -23,7 +23,7 @@ const TopSellerArea = ({ className, space, id }) => {
     useEffect(() => {
         filterHandler();
     }, [filterHandler]);
-
+    console.log("sellers: ", sellers);
     return (
         <div
             className={clsx(
@@ -53,15 +53,15 @@ const TopSellerArea = ({ className, space, id }) => {
                     </div>
                 </div>
                 <div className="row justify-sm-center g-5 top-seller-list-wrapper">
-                    {sellers.map((seller, index) => (
+                    {sellers.map((seller) => (
                         <div
-                            key={index}
+                            key={seller.from_a}
                             className="col-5 col-lg-3 col-md-4 col-sm-6 top-seller-list"
                         >
                             <TopSeller
                                 name={seller.name}
                                 total_sale={seller["SUM(amount)"]}
-                                slug={"/"}
+                                slug="/"
                                 image={seller.logo}
                             />
                         </div>

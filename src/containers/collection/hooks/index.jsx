@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { backendBaseUrl } from "@constant";
