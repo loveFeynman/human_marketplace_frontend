@@ -16,17 +16,15 @@ const TopSeller = ({
     <div className={clsx("top-seller-inner-one", className)}>
         <div className="top-seller-wrapper">
             <div className={clsx("thumbnail", isVarified && "varified")}>
-                {image?.src && (
-                    <Anchor path={slug}>
-                        <Image
-                            src={image.src}
-                            alt={image?.alt || name}
-                            width={image?.width || 54}
-                            height={image?.height || 54}
-                            layout="fixed"
-                        />
-                    </Anchor>
-                )}
+                <Anchor path={slug}>
+                    <Image
+                        src={image}
+                        alt={image?.alt || name}
+                        width={image?.width || 54}
+                        height={image?.height || 54}
+                        layout="fixed"
+                    />
+                </Anchor>
             </div>
             <div className="top-seller-content">
                 <Anchor path={slug}>
@@ -53,13 +51,7 @@ TopSeller.propTypes = {
     name: PropTypes.string.isRequired,
     total_sale: PropTypes.number,
     slug: PropTypes.string.isRequired,
-    image: PropTypes.shape({
-        src: PropTypes.oneOfType([PropTypes.shape(), PropTypes.string])
-            .isRequired,
-        alt: PropTypes.string,
-        width: PropTypes.number,
-        height: PropTypes.number,
-    }).isRequired,
+    image: PropTypes.string.isRequired,
     className: PropTypes.string,
     isVarified: PropTypes.bool,
     followBtn: PropTypes.bool,

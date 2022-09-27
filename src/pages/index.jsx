@@ -4,6 +4,11 @@ import Header from "@layout/header";
 import Footer from "@layout/footer";
 import ServiceArea from "@containers/services/layout-01";
 import HeroArea from "@containers/hero/layout-01";
+import TopSellerArea from "@containers/top-seller";
+import CollectionArea from "@containers/collection/top-collection";
+
+// Demo Data
+import collectionsData from "../data/collections.json";
 
 const data = {
     section: "service-section",
@@ -112,6 +117,12 @@ const Home = () => (
         <div id="main-content">
             <HeroArea data={heroData} />
             <ServiceArea data={data} />
+            <TopSellerArea />
+            <CollectionArea
+                data={{
+                    collections: collectionsData.slice(0, 4),
+                }}
+            />
         </div>
         <Footer />
     </Wrapper>

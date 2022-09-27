@@ -1,5 +1,5 @@
 export const MarketplaceContract =
-    "human1nc5tatafv6eyq7llkr2gv50ff9e22mnf70qgjlv737ktmt4eswrq36kh9m";
+    "human1hpsysp7ew3z842z4jpurdxfym78a308683vcj5uw4z7g95emacesgt9alh";
 
 export const CollectionCreatorContract =
     "human1ufs3tlq4umljk0qfe8k5ya0x6hpavn897u2cnf9k0en9jr7qarqqrvjkhm";

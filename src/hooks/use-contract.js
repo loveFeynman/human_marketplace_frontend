@@ -11,6 +11,7 @@ import { coins } from "@cosmjs/proto-signing";
 import { ChainConfig, MarketplaceContract } from "@constant";
 import { toMicroAmount } from "@utils/coins";
 import { useAppSelector } from "@app/hooks";
+import { useAxios } from "@hooks";
 // import { CustomWalletContext } from "@context";
 
 const getQueryClient = async (config) => {
@@ -26,7 +27,7 @@ function useContract() {
     // const { connectedWallet, offlineSigner, signingClient } =
     //     useContext(CustomWalletContext);
     const collections = useAppSelector((state) => state.collections);
-
+    const { saveSaleHistory } = useAxios();
     const runQuery = useCallback(
         async (contractAddress, queryMsg) => {
             try {
@@ -206,6 +207,7 @@ function useContract() {
                 toast.error("Your bid should be greater than existing bid!");
                 throw new Error();
             }
+
             const message = {
                 set_bid: {
                     collection: item.token_address,
@@ -217,6 +219,15 @@ function useContract() {
                     funds: `${price.amount}`,
                     denom: price.denom,
                 });
+                const saveData = {
+                    from: item.seller,
+                    to: address,
+                    denom: price.denom,
+                    amount: price.amount,
+                    token_id: item.token_id,
+                    collection: item.token_address,
+                };
+                saveSaleHistory(saveData);
                 toast.success("Success!");
             } catch (err) {
                 const errMsg = err.message;
