@@ -12,14 +12,15 @@ import PurchaseModal from "@components/modals/purchase-modal";
 // import ProductCategory from "@components/product-details/category";
 // import ProductCollection from "@components/product-details/collection";
 import BidTab from "@components/product-details/bid-tab";
-// import PlaceBet from "@components/product-details/place-bet";
+import PlaceBet from "@components/product-details/place-bet";
 import { NftType } from "@utils/types";
 import { ChainConfig } from "@constant";
-
+import { UseHistory } from "./hooks";
 // Demo Image
 
 const ProductDetailsArea = ({ space, className, product, bids }) => {
     const [showBidModal, setShowBidModal] = useState(false);
+    const history = UseHistory(product.token_id);
     const { connectedWallet } = useWalletManager();
     const { sellNft, withdrawNft, buyNft, setBid, acceptBid } = useContract();
     const nftInfo = useMemo(() => {
@@ -128,7 +129,7 @@ const ProductDetailsArea = ({ space, className, product, bids }) => {
                     <div className="row g-5">
                         <div className="col-lg-7 col-md-12 col-sm-12">
                             <Sticky style={{ width: "max-content" }}>
-                                <Image
+                                <img
                                     src={product.image_url}
                                     alt=""
                                     width={533}
@@ -177,12 +178,14 @@ const ProductDetailsArea = ({ space, className, product, bids }) => {
                                         owner={product.owner}
                                         properties={product?.properties}
                                         tags={product?.tags}
-                                        history={product?.history}
+                                        history={history}
                                     />
-                                    {/* <PlaceBet
-                                    highest_bid={product.highest_bid}
-                                    auction_date={product?.auction_date}
-                                /> */}
+                                    {nftInfo.expiresAt && bids[0] && (
+                                        <PlaceBet
+                                            highest_bid={bids[0]}
+                                            auction_date={nftInfo.expiresAt.toString()}
+                                        />
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -215,7 +218,7 @@ const ProductDetailsArea = ({ space, className, product, bids }) => {
 ProductDetailsArea.propTypes = {
     space: PropTypes.oneOf([1, 2]),
     className: PropTypes.string,
-    product: PropTypes.objectOf(NftType).isRequired,
+    // product: PropTypes.objectOf(NftType).isRequired,
     bids: PropTypes.arrayOf(
         PropTypes.shape({
             active: PropTypes.bool,

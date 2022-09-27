@@ -28,10 +28,17 @@ const TopSeller = ({ name, time, path, image, eth, isVarified }) => {
                     <span>
                         {!!eth && (
                             <>
-                                {eth} by{" "}
-                                {name === connectedWallet?.address
-                                    ? "You"
-                                    : name}
+                                {eth} HEART by{" "}
+                                <span
+                                    style={{
+                                        color: "white",
+                                        fontWeight: "bold",
+                                    }}
+                                >
+                                    {name === connectedWallet?.address
+                                        ? "You"
+                                        : name}
+                                </span>
                             </>
                         )}
                         {/* <Anchor path={path}>{name}</Anchor> */}

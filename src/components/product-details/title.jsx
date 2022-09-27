@@ -19,7 +19,7 @@ const ProductTitle = ({ className, title }) => (
 
 ProductTitle.propTypes = {
     className: PropTypes.string,
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
     // likeCount: PropTypes.number,
 };
 

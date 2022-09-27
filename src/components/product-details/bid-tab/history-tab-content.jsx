@@ -6,12 +6,12 @@ const HistoryTabContent = ({ history }) => (
     <div>
         {history?.map((item) => (
             <TopSeller
-                key={item.id}
-                name={item.user.name}
-                eth={item.amount}
-                path={item.user.slug}
-                time={item.bidAt}
-                image={item.user.image}
+                key={item.time}
+                name={item.name}
+                eth={item.amount.toString()}
+                path={item.slug}
+                time={item.time}
+                image={{ src: item.logo }}
             />
         ))}
     </div>
@@ -20,14 +20,13 @@ const HistoryTabContent = ({ history }) => (
 HistoryTabContent.propTypes = {
     history: PropTypes.arrayOf(
         PropTypes.shape({
-            id: IDType.isRequired,
+            id: IDType,
             user: PropTypes.shape({
                 name: PropTypes.string.isRequired,
                 slug: PropTypes.string.isRequired,
                 image: ImageType.isRequired,
             }),
-            amount: PropTypes.string.isRequired,
-            bidAt: PropTypes.string.isRequired,
+            amount: PropTypes.number.isRequired,
         })
     ),
 };

@@ -7,6 +7,7 @@ import Button from "@ui/button";
 import PlaceBidModal from "@components/modals/placebid-modal";
 import Countdown from "@ui/countdown/layout-02";
 import { ImageType } from "@utils/types";
+import { pinataUrl } from "@constant";
 
 const PlaceBet = ({ highest_bid, auction_date, btnColor, className }) => {
     const [showBidModal, setShowBidModal] = useState(false);
@@ -18,16 +19,14 @@ const PlaceBet = ({ highest_bid, auction_date, btnColor, className }) => {
             <div className={clsx("place-bet-area", className)}>
                 <div className="rn-bet-create">
                     <div className="bid-list winning-bid">
-                        <h6 className="title">Winning bit</h6>
+                        <h6 className="title">Winning bid</h6>
                         <div className="top-seller-inner-one">
                             <div className="top-seller-wrapper">
-                                {highest_bid.bidder?.image?.src && (
+                                {highest_bid.logo && (
                                     <div className="thumbnail">
-                                        <Anchor path={highest_bid.bidder.slug}>
+                                        <Anchor path={highest_bid.slug}>
                                             <Image
-                                                src={
-                                                    highest_bid.bidder.image.src
-                                                }
+                                                src={`${pinataUrl}/${highest_bid.logo}`}
                                                 alt="Nft_Profile"
                                                 width={44}
                                                 height={44}
@@ -40,12 +39,12 @@ const PlaceBet = ({ highest_bid, auction_date, btnColor, className }) => {
                                 <div className="top-seller-content">
                                     <span className="heighest-bid">
                                         Heighest bid{" "}
-                                        <Anchor path={highest_bid.bidder.slug}>
-                                            {highest_bid.bidder.name}
+                                        <Anchor path={highest_bid.slug}>
+                                            {highest_bid.name}
                                         </Anchor>
                                     </span>
                                     <span className="count-number">
-                                        {highest_bid.amount}
+                                        {highest_bid.price} HEART
                                     </span>
                                 </div>
                             </div>
@@ -74,11 +73,7 @@ const PlaceBet = ({ highest_bid, auction_date, btnColor, className }) => {
 PlaceBet.propTypes = {
     highest_bid: PropTypes.shape({
         amount: PropTypes.string,
-        bidder: PropTypes.shape({
-            name: PropTypes.string,
-            image: ImageType,
-            slug: PropTypes.string,
-        }),
+        bidder: PropTypes.string,
     }),
     auction_date: PropTypes.string,
     btnColor: PropTypes.string,

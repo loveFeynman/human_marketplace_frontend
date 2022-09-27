@@ -106,7 +106,7 @@ const PersonalInformation = () => {
             </div>
 
             <div className="input-two-wrapper mt--15">
-                <div className="half-wid role-area">
+                {/* <div className="half-wid role-area">
                     <label htmlFor="Role" className="form-label mb--10">
                         Your Role
                     </label>
@@ -118,7 +118,7 @@ const PersonalInformation = () => {
                         value={personalInformation.role || ""}
                         onChange={handleChangePersonalInfo}
                     />
-                </div>
+                </div> */}
                 <div className="half-wid gender">
                     <NiceSelect
                         options={[

@@ -4,6 +4,7 @@ import Header from "@layout/header";
 import Footer from "@layout/footer";
 import Breadcrumb from "@components/breadcrumb";
 import CreateNewArea from "@containers/create-new-collection";
+import withAuth from "@utils/auth";
 
 export async function getStaticProps() {
     return { props: { className: "template-color-1" } };
@@ -21,4 +22,4 @@ const Home = () => (
     </Wrapper>
 );
 
-export default Home;
+export default withAuth(Home);

@@ -179,16 +179,16 @@ ExploreProductArea.propTypes = {
     className: PropTypes.string,
     space: PropTypes.oneOf([1, 2]),
     hiddenExpired: PropTypes.bool,
-    data: PropTypes.arrayOf({
-        section_title: SectionTitleType,
-        products: PropTypes.shape({
-            id: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-                .isRequired,
-            nft: PropTypes.arrayOf(NftType),
-            auction_date: PropTypes.string,
-        }),
-        placeBid: PropTypes.bool,
-    }),
+    // data: PropTypes.arrayOf({
+    //     section_title: SectionTitleType,
+    //     products: PropTypes.shape({
+    //         id: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    //             .isRequired,
+    //         nft: PropTypes.arrayOf(NftType),
+    //         auction_date: PropTypes.string,
+    //     }),
+    //     placeBid: PropTypes.bool,
+    // }),
 };
 
 ExploreProductArea.defaultProps = {

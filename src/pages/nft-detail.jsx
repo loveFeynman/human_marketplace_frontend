@@ -10,7 +10,8 @@ import ProductDetailsArea from "@containers/nft-details";
 import usePickNft from "src/hooks/use-pick-nft";
 import { useContract } from "@hooks";
 import { MarketplaceContract } from "@constant";
-
+import { fetchUserInfo } from "src/hooks/use-axios";
+import { getReducedAddress } from "@utils/index";
 // demo data
 
 const LIMIT_BIDS = 20;
@@ -35,14 +36,34 @@ const NftDetail = () => {
             };
             const queryResults = await runQuery(MarketplaceContract, msg);
             const fetchedBids = queryResults?.bids || [];
-            setBids((prev) =>
-                prev.concat(
-                    fetchedBids.map((bid) => ({
-                        ...bid,
-                        price: Number(bid.price) / 1e6,
-                    }))
-                )
+            const bidersInfo = await Promise.all(
+                fetchedBids.map(async (bid) => {
+                    return await fetchUserInfo(bid.bidder);
+                })
             );
+
+            setBids(
+                fetchedBids.map((bid, index) => {
+                    return {
+                        price: Number(bid.price) / 1e6,
+                        name:
+                            bidersInfo[index].first_name ||
+                            getReducedAddress(bid.bidder),
+                        logo: bidersInfo[index].logo,
+                        bidder: bid.bidder,
+                        slug: `/profile/${bid.bidder}`,
+                        time: bid.time.slice(0, 13),
+                    };
+                })
+            );
+            // setBids((prev) =>
+            //     prev.concat(
+            //         fetchedBids.map((bid) => ({
+            //             ...bid,
+            //             price: Number(bid.price) / 1e6,
+            //         }))
+            //     )
+            // );
             if (fetchedBids.length === LIMIT_BIDS) {
                 fetchBids(fetchedBids[fetchedBids.length - 1].bidder);
             }

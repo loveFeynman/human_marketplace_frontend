@@ -34,7 +34,11 @@ const HeroArea = ({ data }) => {
                             </p>
                         ))}
                         <div className="button-group">
-                            {!connectedWallet && (
+                            {connectedWallet ? (
+                                <Button path="/create-nft" color="primary-alta">
+                                    Create
+                                </Button>
+                            ) : (
                                 <Button
                                     onClick={async () => {
                                         connect();
@@ -44,9 +48,6 @@ const HeroArea = ({ data }) => {
                                     Get Started
                                 </Button>
                             )}
-                            <Button path="/create-nft" color="primary-alta">
-                                Create
-                            </Button>
                         </div>
                     </div>
                     <div className="col-lg-5 col-md-6 col-sm-12 offset-lg-1">

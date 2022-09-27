@@ -73,7 +73,7 @@ const footerData = {
             },
         ],
     },
-    copyright_text: "©2022 Human, Inc. All rights reserved",
+    copyright_text: "Copyright © 2022 Humans Token AG. All rights reserved.",
 };
 const Footer = () => (
     // { space, className, data }
