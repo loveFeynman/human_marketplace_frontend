@@ -7,7 +7,6 @@ import Nav from "react-bootstrap/Nav";
 import EditProfileImage from "./edit-profile-image";
 import PersonalInformation from "./personal-information";
 // import ChangePassword from "./change-password";
-import NotificationSetting from "./notification-setting";
 
 const EditProfile = () => (
     <div className="edit-profile-area rn-section-gapTop">
@@ -34,13 +33,6 @@ const EditProfile = () => (
                                         <i className="feather-user" />
                                         Personal Information
                                     </Nav.Link>
-                                    <Nav.Link
-                                        eventKey="nav-contact"
-                                        as="button"
-                                    >
-                                        <i className="feather-bell" />
-                                        Notification Setting
-                                    </Nav.Link>
                                 </Nav>
                             </nav>
                         </Sticky>
@@ -52,9 +44,6 @@ const EditProfile = () => (
                             </TabPane>
                             <TabPane eventKey="nav-homes">
                                 <PersonalInformation />
-                            </TabPane>
-                            <TabPane eventKey="nav-contact">
-                                <NotificationSetting />
                             </TabPane>
                         </TabContent>
                     </div>
