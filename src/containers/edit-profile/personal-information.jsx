@@ -41,7 +41,6 @@ const PersonalInformation = () => {
             toast.error("Register Failed");
         }
     };
-
     return (
         <div className="nuron-information">
             <div className="profile-form-wrapper">
@@ -100,9 +99,7 @@ const PersonalInformation = () => {
                     placeholder="Hello, I am Alamin, A Front-end Developer..."
                     value={personalInformation.bio}
                     onChange={handleChangePersonalInfo}
-                >
-                    Hello, I am Alamin, A Front-end Developer...
-                </textarea>
+                />
             </div>
 
             <div className="input-two-wrapper mt--15">
@@ -127,7 +124,7 @@ const PersonalInformation = () => {
                         ]}
                         placeholder="Select Your Gender"
                         className="profile-edit-select"
-                        value={personalInformation.gendor}
+                        defaultCurrent={personalInformation.gendor}
                         onChange={(e) => handleChangeSelect("gendor", e)}
                     />
                 </div>
@@ -143,7 +140,7 @@ const PersonalInformation = () => {
                         ]}
                         placeholder="Currency"
                         className="profile-edit-select"
-                        value={personalInformation.currency}
+                        defaultCurrent={personalInformation.currency}
                         onChange={(e) => handleChangeSelect("currency", e)}
                     />
                 </div>
@@ -165,13 +162,13 @@ const PersonalInformation = () => {
                 <div className="half-wid currency">
                     <NiceSelect
                         options={[
-                            { value: "United State", text: "United State" },
+                            { value: "United State", text: "United States" },
                             { value: "Katar", text: "Katar" },
                             { value: "Canada", text: "Canada" },
                         ]}
                         placeholder="Location"
                         className="profile-edit-select"
-                        value={personalInformation.location}
+                        defaultCurrent={personalInformation.location}
                         onChange={(e) => handleChangeSelect("location", e)}
                     />
                 </div>

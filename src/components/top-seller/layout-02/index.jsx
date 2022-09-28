@@ -53,7 +53,7 @@ const TopSeller = ({ name, time, path, image, eth, isVarified }) => {
 TopSeller.propTypes = {
     name: PropTypes.string.isRequired,
     time: PropTypes.string,
-    path: PropTypes.string.isRequired,
+    path: PropTypes.string,
     eth: PropTypes.string,
     image: PropTypes.shape({
         src: PropTypes.oneOfType([PropTypes.shape(), PropTypes.string])

@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { useClickAway } from "react-use";
@@ -13,6 +13,13 @@ const NiceSelect = ({
 }) => {
     const [open, setOpen] = useState(false);
     const [current, setCurrent] = useState(options[defaultCurrent]);
+    useEffect(() => {
+        options.forEach((_option, index) => {
+            if (_option.value == defaultCurrent) {
+                setCurrent(options[index]);
+            }
+        });
+    }, [defaultCurrent]);
     const onClose = useCallback(() => {
         setOpen(false);
     }, []);
@@ -69,7 +76,7 @@ NiceSelect.propTypes = {
             text: PropTypes.string,
         }).isRequired
     ).isRequired,
-    defaultCurrent: PropTypes.number,
+    defaultCurrent: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     placeholder: PropTypes.string,
     className: PropTypes.string,
     onChange: PropTypes.func.isRequired,
