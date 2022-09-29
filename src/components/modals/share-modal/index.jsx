@@ -25,7 +25,10 @@ const ShareModal = ({ show, handleModal }) => (
         <Modal.Body>
             <ul className="social-share-default">
                 <li>
-                    <a href="#!">
+                    <a
+                        href="https://www.facebook.com/humansdotai"
+                        target="__blank"
+                    >
                         <span className="icon">
                             <i className="feather-facebook" />
                         </span>
@@ -33,7 +36,7 @@ const ShareModal = ({ show, handleModal }) => (
                     </a>
                 </li>
                 <li>
-                    <a href="#!">
+                    <a href="https://twitter.com/humansdotai" target="__blank">
                         <span className="icon">
                             <i className="feather-twitter" />
                         </span>
@@ -41,7 +44,10 @@ const ShareModal = ({ show, handleModal }) => (
                     </a>
                 </li>
                 <li>
-                    <a href="#!">
+                    <a
+                        href="https://www.linkedin.com/company/humansdotai/"
+                        target="__blank"
+                    >
                         <span className="icon">
                             <i className="feather-linkedin" />
                         </span>
@@ -49,7 +55,10 @@ const ShareModal = ({ show, handleModal }) => (
                     </a>
                 </li>
                 <li>
-                    <a href="#!">
+                    <a
+                        href="https://www.instagram.com/humansdotai/"
+                        target="__blank"
+                    >
                         <span className="icon">
                             <i className="feather-instagram" />
                         </span>

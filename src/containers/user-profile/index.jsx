@@ -26,7 +26,6 @@ const UserProfileArea = ({ className }) => {
     const collectionAddresses = useAppSelector(
         (state) => state.collections.addresses
     );
-    console.log("collections: ", collections);
 
     useEffect(() => {
         setMyBids([]);

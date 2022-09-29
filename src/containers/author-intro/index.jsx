@@ -122,10 +122,10 @@ const AuthorIntroArea = ({ className, space }) => {
                                             </div>
                                         </div>
                                         <div className="author-button-area">
-                                            <span className="btn at-follw follow-button">
+                                            {/* <span className="btn at-follw follow-button">
                                                 <i className="feather-user-plus" />
                                                 Follow
-                                            </span>
+                                            </span> */}
                                             <button
                                                 type="button"
                                                 className="btn at-follw share-button"
@@ -135,7 +135,7 @@ const AuthorIntroArea = ({ className, space }) => {
                                             </button>
 
                                             <div className="count at-follw">
-                                                <ShareDropdown />
+                                                <ShareDropdown isOwner />
                                             </div>
                                             <Anchor
                                                 path="/edit-profile"
