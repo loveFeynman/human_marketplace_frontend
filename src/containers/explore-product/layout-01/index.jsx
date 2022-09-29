@@ -68,7 +68,6 @@ const ExploreProductArea = ({ className, space, data, hiddenExpired }) => {
         });
         return filteredNfts;
     }, [hiddenExpired, state.inputs, state.products?.nft]);
-    console.log("displayNFTs: ", displayNfts);
     const numberOfPages = Math.ceil(
         (displayNfts?.length || 0) / COUNT_PER_PAGE
     );

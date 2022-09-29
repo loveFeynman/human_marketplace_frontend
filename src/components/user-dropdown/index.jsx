@@ -116,9 +116,6 @@ const UserDropdown = () => {
                     <li>
                         <Anchor path="/profile">My Profile</Anchor>
                     </li>
-                    <li>
-                        <Anchor path="/edit-profile">Edit Profile</Anchor>
-                    </li>
                     {/* <li>
                         <Anchor path="/my-nfts">My Nfts</Anchor>
                     </li> */}

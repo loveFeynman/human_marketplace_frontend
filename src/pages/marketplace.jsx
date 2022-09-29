@@ -32,7 +32,7 @@ const Product = () => {
             }),
         [marketplaceNfts, nftAddress]
     );
-
+    console.log("productData: ", productData);
     return (
         <Wrapper>
             <SEO pageTitle="Marketplace" />

@@ -87,7 +87,7 @@ const MintItem = ({
     const handleMint = async (amount, extraOption, callback) => {
         try {
             if (amount) {
-                await runExecute(
+                const result = await runExecute(
                     contractAddress,
                     {
                         mint: {},
@@ -96,6 +96,7 @@ const MintItem = ({
                         funds: `${amount}`,
                     }
                 );
+                console.log("result: ", result);
             } else {
                 await runExecute(contractAddress, {
                     mint: {},

@@ -17,7 +17,9 @@ const LIMIT_BIDS = 10;
 
 const UserProfileArea = ({ className }) => {
     const [myBids, setMyBids] = useState([]);
+    const [ownedNfts, setOwnedNfts] = useState([]);
     const router = useRouter();
+    const userAddress = router.asPath.split("/")[2];
     const { runQuery } = useContract();
     const { connectedWallet } = useWalletManager();
     const collections = useAppSelector((state) => state.collections);
@@ -26,7 +28,36 @@ const UserProfileArea = ({ className }) => {
     const collectionAddresses = useAppSelector(
         (state) => state.collections.addresses
     );
-
+    console.log("myNftsFromStorage: ", myNftsFromStorage);
+    useEffect(() => {
+        (async () => {
+            let _ownedNfts = [];
+            Object.keys(collections).forEach(async (key) => {
+                const collection = collections[key];
+                const queryResult = await runQuery(key, {
+                    tokens: {
+                        owner: userAddress,
+                        start_after: undefined,
+                        limit: 100,
+                    },
+                });
+                const nftList =
+                    queryResult?.tokens?.map((item) => {
+                        const newItem = {
+                            token_address: key,
+                            token_id: item.token_id,
+                            collection: collection.collection_info?.title || "",
+                            image_url: item.nft_info?.extension?.image_url,
+                            token_url: item.nft_info?.token_uri,
+                        };
+                        return newItem;
+                    }) || [];
+                _ownedNfts.push({ key: nftList });
+            });
+            setOwnedNfts(_ownedNfts);
+        })();
+    }, [userAddress]);
+    console.log("ownedNfts: ", ownedNfts);
     useEffect(() => {
         setMyBids([]);
         if (!connectedWallet) {
