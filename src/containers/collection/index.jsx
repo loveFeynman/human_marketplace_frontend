@@ -56,25 +56,27 @@ const CollectionArea = ({ className, space, id, data }) => {
         >
             <div className="container">
                 <div className="row g-5">
-                    {collections.map((collection) => (
-                        <div
-                            key={collection.id}
-                            className="col-lg-6 col-xl-3 col-md-6 col-sm-6 col-12"
-                        >
-                            <Collection
-                                id={collection.id}
-                                title={collection.title}
-                                // total_item={
-                                //     marketplaceNfts[collection.id]?.length || 0
-                                // }
-                                total_item={totalNfts[collection.id] || 0}
-                                path={collection.slug}
-                                image={collection.image}
-                                thumbnails={collection.thumbnails}
-                                profile_image={collection.profile_image}
-                            />
-                        </div>
-                    ))}
+                    {collections
+                        .filter((collection) => totalNfts[collection.id] > 0)
+                        .map((collection) => (
+                            <div
+                                key={collection.id}
+                                className="col-lg-6 col-xl-3 col-md-6 col-sm-6 col-12"
+                            >
+                                <Collection
+                                    id={collection.id}
+                                    title={collection.title}
+                                    // total_item={
+                                    //     marketplaceNfts[collection.id]?.length || 0
+                                    // }
+                                    total_item={totalNfts[collection.id] || 0}
+                                    path={collection.slug}
+                                    image={collection.image}
+                                    thumbnails={collection.thumbnails}
+                                    profile_image={collection.profile_image}
+                                />
+                            </div>
+                        ))}
                 </div>
                 <div className="row">
                     <div

@@ -41,33 +41,34 @@ const ExploreProductArea = ({ className, space, data, hiddenExpired }) => {
     };
 
     const displayNfts = useMemo(() => {
-        const { price, sale_type } = state.inputs || {};
+        // const { price, sale_type } = state.inputs || {};
         const filteredNfts = [];
         state.products?.nft.forEach((nft) => {
             let filtered = true;
             if (hiddenExpired) {
-                const expiresAt = nft.expires_at
-                    ? new Date(nft.expires_at)
-                    : null;
-                const expired =
-                    expiresAt && Number(new Date()) - Number(expiresAt) > 0;
+                const expiresAt = nft.expires_at;
+                const expired = Date.now() - Number(expiresAt) > 0;
                 filtered = filtered && (!expiresAt || !expired);
             }
-            let nftPrice = Number(nft.price?.amount);
-            nftPrice = Number.isNaN(nftPrice) ? 0 : nftPrice / 1e6;
-            filtered = filtered && nftPrice >= price[0] && nftPrice <= price[1];
-            if (sale_type === "fixed-price") {
-                filtered = filtered && nft.sale_type === "fixed_price";
-            } else if (sale_type === "auction") {
-                filtered = filtered && nft.sale_type === "auction";
-            }
+            // let nftPrice = Number(nft.price?.amount);
+            // nftPrice = Number.isNaN(nftPrice) ? 0 : nftPrice / 1e6;
+            // filtered = filtered && nftPrice >= price[0] && nftPrice <= price[1];
+            // console.log("filtered1: ", filtered, nftPrice);
+            // if (sale_type === "fixed-price") {
+            //     filtered = filtered && nft.sale_type === "fixed_price";
+            //     console.log("filtered2: ", filtered);
+            // } else if (sale_type === "auction") {
+            //     filtered = filtered && nft.sale_type === "auction";
+            //     console.log("filtered3: ", filtered);
+            // }
+            // console.log("filtered4: ", filtered);
             if (filtered) {
                 filteredNfts.push(nft);
             }
         });
         return filteredNfts;
     }, [hiddenExpired, state.inputs, state.products?.nft]);
-
+    console.log("displayNFTs: ", displayNfts);
     const numberOfPages = Math.ceil(
         (displayNfts?.length || 0) / COUNT_PER_PAGE
     );

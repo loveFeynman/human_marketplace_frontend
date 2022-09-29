@@ -77,13 +77,13 @@ const CreateNewArea = ({ className, space }) => {
         setHasMetadataError(false);
     };
 
-    const handleChangeMetadataItem = (index, field, e) => {
-        const { value } = e.target;
-        const originSet = Array.from(metadataSet);
-        originSet[index][field] = value;
-        setMetadataSet(originSet);
-        setHasMetadataError(false);
-    };
+    // const handleChangeMetadataItem = (index, field, e) => {
+    //     const { value } = e.target;
+    //     const originSet = Array.from(metadataSet);
+    //     originSet[index][field] = value;
+    //     setMetadataSet(originSet);
+    //     setHasMetadataError(false);
+    // };
 
     const handleChangeAttributeItem = (index, field, e) => {
         const { value } = e.target;

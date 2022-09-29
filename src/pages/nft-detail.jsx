@@ -10,7 +10,7 @@ import ProductDetailsArea from "@containers/nft-details";
 import usePickNft from "src/hooks/use-pick-nft";
 import { useContract } from "@hooks";
 import { MarketplaceContract } from "@constant";
-import { fetchUserInfo } from "src/hooks/use-axios";
+import useAxios from "src/hooks/use-axios";
 import { getReducedAddress } from "@utils/index";
 // demo data
 
@@ -22,6 +22,7 @@ const NftDetail = () => {
     const { runQuery } = useContract();
     const selectedNft = usePickNft(token_id) || {};
     const [bids, setBids] = useState([]);
+    const { fetchUserInfo } = useAxios();
 
     useEffect(() => {
         setBids([]);

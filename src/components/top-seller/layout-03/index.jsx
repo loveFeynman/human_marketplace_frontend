@@ -48,7 +48,7 @@ const TopSeller = ({
 TopSeller.propTypes = {
     tokenId: PropTypes.string.isRequired,
     time: PropTypes.string,
-    path: PropTypes.string.isRequired,
+    path: PropTypes.string,
     eth: PropTypes.string,
     image: PropTypes.shape({
         src: PropTypes.oneOfType([PropTypes.shape(), PropTypes.string])

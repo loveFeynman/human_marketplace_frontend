@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import SectionTitle from "@components/section-title/layout-02";
@@ -5,9 +6,28 @@ import Anchor from "@ui/anchor";
 import Collection from "@components/collection";
 import { SectionTitleType, CollectionType } from "@utils/types";
 import { GetTopCollections } from "../hooks";
+import { useAppSelector } from "@app/hooks";
 
 const TopCollectionArea = ({ className, id, space, data }) => {
     const collections = GetTopCollections();
+    const marketplaceNfts = useAppSelector((state) => state.marketplaceNfts);
+    const totalNfts = useMemo(() => {
+        const result = {};
+        Object.keys(marketplaceNfts).forEach((key) => {
+            const crrNfts = marketplaceNfts[key] || [];
+            let count = 0;
+            crrNfts.forEach((nft) => {
+                const expiresAt = nft.expires_at
+                    ? new Date(nft.expires_at)
+                    : null;
+                const expired =
+                    expiresAt && Number(new Date()) - Number(expiresAt) > 0;
+                if (!expiresAt || !expired) count += 1;
+            });
+            result[key] = count;
+        });
+        return result;
+    }, [marketplaceNfts]);
     return (
         <div
             className={clsx(
@@ -51,7 +71,7 @@ const TopCollectionArea = ({ className, id, space, data }) => {
                             >
                                 <Collection
                                     title={collection.title}
-                                    total_item={collection.total_item}
+                                    total_item={totalNfts[collection.id] || 0}
                                     path={collection.slug}
                                     image={collection.image}
                                     thumbnails={collection.thumbnails}
