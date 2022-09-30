@@ -1,15 +1,17 @@
-import { useState } from "react";
+// import { useState } from "react";
 import SEO from "@components/seo";
 import Wrapper from "@layout/wrapper";
 import Header from "@layout/header";
 import Footer from "@layout/footer";
 // import Breadcrumb from "@components/breadcrumb";
-import ProductArea from "@containers/explore-product/layout-01";
-import NiceSelect from "@ui/nice-select";
+// import ProductArea from "@containers/explore-product/layout-01";
+// import NiceSelect from "@ui/nice-select";
 // import { useAppSelector } from "@app/hooks";
 // import { useRouter } from "next/router";
-import Button from "@ui/button";
-import { useContract } from "@hooks";
+// import Button from "@ui/button";
+// import { useContract } from "@hooks";
+// import axios from "axios";
+import NftItem from "@components/nft-item/testNftItem";
 
 export async function getStaticProps() {
     return { props: { className: "template-color-1" } };
@@ -45,65 +47,14 @@ const productData = {
 };
 
 const Product = () => {
-    const { runExecute } = useContract();
-    const [option, setOption] = useState("option1");
-    const handleChangeCollection = (item, name) => {
-        console.log("select option: ", item, name);
-        // setValue(name, item.value);
-        setOption(item.value);
-    };
-    const handleSubmit = async () => {
-        const result = await runExecute(
-            "human15fxl9g5pfjdhfqtmspmhpwtlxhfkwh9l2yk2uj926qqvg3gsfkuqwct4x8",
-            {
-                execute_algorithm: {
-                    msg: {
-                        provider_id: "1",
-                        nft_addr:
-                            "human1e8z2wjelypwxw5sey62jvwjyup88w55q3h6m0x8jtwjf6sx5c7ystheysl",
-                        token_id: "nft1",
-                    },
-                },
-            },
-            {
-                funds: "1",
-                denom: "uheart",
-            }
-        );
-
-        console.log("result: ", result);
-    };
     return (
         <Wrapper>
             <SEO pageTitle="Marketplace" />
             <Header />
             <main id="main-content">
-                <ProductArea data={{ products: productData }} hiddenExpired />
-                <div
-                    className="container container-no-max-width"
-                    style={{ width: "1400px" }}
-                >
-                    <div
-                        style={{
-                            columnGap: "40px",
-                            alignItems: "center",
-                            display: "flex",
-                        }}
-                    >
-                        <NiceSelect
-                            options={[
-                                { value: "option1", text: "Submit1" },
-                                { value: "option2", text: "Submit2" },
-                                { value: "option3", text: "Submit3" },
-                            ]}
-                            placeholder="Select Option"
-                            onChange={handleChangeCollection}
-                            name="option"
-                            defaultCurrent={option}
-                        />
-                        <Button onClick={handleSubmit} type="submit">
-                            {option}
-                        </Button>
+                <div className="row g-5" style={{ padding: "30px" }}>
+                    <div className="col-5 col-lg-4 col-md-6 col-sm-6 col-12">
+                        <NftItem overlay item={productData.nft[0]} />
                     </div>
                 </div>
             </main>
