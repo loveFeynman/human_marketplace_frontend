@@ -23,6 +23,7 @@ const NftDetail = () => {
     const router = useRouter();
     const token_id = router.asPath.split("/")[2];
     const { runQuery, runExecute } = useContract();
+    const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const [showData, setShowData] = useState({ endpoint: "", workload_id: "" });
     const selectedNft = usePickNft(token_id) || {};
@@ -84,6 +85,7 @@ const NftDetail = () => {
     };
     const handleSubmit = async () => {
         try {
+            setLoading(true);
             const result = await runExecute(
                 "human15fxl9g5pfjdhfqtmspmhpwtlxhfkwh9l2yk2uj926qqvg3gsfkuqwct4x8",
                 {
@@ -107,8 +109,10 @@ const NftDetail = () => {
             setShowData({ endpoint, workload_id });
             // await axios.post("http://44.211.12.215:443/set", postData);
             setSuccess(true);
+            setLoading(false);
         } catch (err) {
             setSuccess(false);
+            setLoading(false);
             console.log("err: ", err);
         }
     };
@@ -159,7 +163,11 @@ const NftDetail = () => {
                                 name="option"
                                 defaultCurrent={option}
                             />
-                            <Button onClick={handleSubmit} type="submit">
+                            <Button
+                                onClick={handleSubmit}
+                                type="submit"
+                                className={loading && "disabled"}
+                            >
                                 {option}
                             </Button>
                         </div>
