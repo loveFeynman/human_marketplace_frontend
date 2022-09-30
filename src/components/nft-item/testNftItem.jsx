@@ -1,24 +1,17 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import PropTypes from "prop-types";
 import Image from "next/image";
 import clsx from "clsx";
 import { useWalletManager } from "@noahsaso/cosmodal";
 import Anchor from "@ui/anchor";
-import CountdownTimer from "@ui/countdown/layout-01";
 // import ClientAvatar from "@ui/client-avatar";
 // import ShareDropdown from "@components/share-dropdown";
 // import ProductBid from "@components/product-bid";
-import PurchaseModal from "@components/modals/purchase-modal";
-import Button from "@ui/button";
 // import { ImageType } from "@utils/types";
 import { NftType } from "@utils/types";
-import { ChainConfig } from "@constant";
-import { useContract } from "@hooks";
 // import { CustomWalletContext } from "@context";
 
 const NftItem = ({ overlay, item }) => {
-    const [showBidModal, setShowBidModal] = useState(false);
-    const { sellNft, withdrawNft, buyNft, setBid, acceptBid } = useContract();
     const { connectedWallet } = useWalletManager();
     // const { connectedWallet } = useContext(CustomWalletContext);
 
@@ -47,64 +40,6 @@ const NftItem = ({ overlay, item }) => {
         return { price, buttonString, image, expiresAt, expired, bids };
     }, [connectedWallet, item]);
 
-    const defaultAmount = useMemo(() => {
-        if (nftInfo.bids) {
-            return Number(nftInfo.bids.max_bid) / 1e6;
-        }
-        if (nftInfo.price) {
-            return nftInfo.price.amount / 1e6;
-        }
-        return undefined;
-    }, [nftInfo.bids, nftInfo.price]);
-
-    const handleBidModal = () => {
-        setShowBidModal((prev) => !prev);
-    };
-
-    const handleNft = async (amount, extraOption, callback) => {
-        if (!nftInfo.price) {
-            try {
-                await sellNft(item, amount, extraOption);
-                setShowBidModal(false);
-                // eslint-disable-next-line no-empty
-            } catch (e) {
-            } finally {
-                callback();
-            }
-        } else if (item.seller === connectedWallet.address) {
-            try {
-                if (item.sale_type === "auction") {
-                    await acceptBid(item);
-                } else {
-                    await withdrawNft(item);
-                }
-                setShowBidModal(false);
-                // eslint-disable-next-line no-empty
-            } catch (e) {
-            } finally {
-                callback();
-            }
-        } else if (item.sale_type === "auction") {
-            try {
-                await setBid(item, { amount, denom: ChainConfig.microDenom });
-                setShowBidModal(false);
-                // eslint-disable-next-line no-empty
-            } catch (e) {
-            } finally {
-                callback();
-            }
-        } else {
-            try {
-                await buyNft(item);
-                setShowBidModal(false);
-                // eslint-disable-next-line no-empty
-            } catch (e) {
-            } finally {
-                callback();
-            }
-        }
-    };
-
     return (
         <>
             <div
@@ -124,48 +59,8 @@ const NftItem = ({ overlay, item }) => {
                             />
                         </Anchor>
                     )}
-                    {nftInfo.expiresAt && (
-                        <CountdownTimer
-                            date={nftInfo.expiresAt.toString()}
-                            completedString="Auction Expired!"
-                        />
-                    )}
-                    {(!nftInfo.expired ||
-                        nftInfo.buttonString === "Withdraw") && (
-                        <Button onClick={handleBidModal} size="small">
-                            {nftInfo.buttonString}
-                        </Button>
-                    )}
                 </div>
-                <div className="product-share-wrapper">
-                    {nftInfo.bids && (
-                        <div
-                            style={{ width: "100%" }}
-                            className="profile-share"
-                        >
-                            {/* {authors?.map((client) => (
-                                <ClientAvatar
-                                    key={client.name}
-                                    slug={client.slug}
-                                    name={client.name}
-                                    image={client.image}
-                                />
-                            ))} */}
-                            <span
-                                style={{
-                                    textOverflow: "ellipsis",
-                                    whiteSpace: "nowrap",
-                                    overflow: "hidden",
-                                }}
-                                className="more-author-text"
-                            >
-                                {Number(nftInfo.bids.max_bid) / 1e6} Heart by{" "}
-                                {nftInfo.bids.max_bidder}
-                            </span>
-                        </div>
-                    )}
-                    {/* {!disableShareDropdown && <ShareDropdown />} */}
-                </div>
+                <div className="product-share-wrapper" />
                 <Anchor path={`/product/${item.tokenId}`}>
                     <span className="product-name">{item.token_id}</span>
                 </Anchor>
@@ -189,21 +84,6 @@ const NftItem = ({ overlay, item }) => {
                 )}
                 {/* <ProductBid price={price} likeCount={likeCount} /> */}
             </div>
-            <PurchaseModal
-                show={showBidModal}
-                handleModal={handleBidModal}
-                generalOptions={{
-                    title: `${nftInfo.buttonString} NFT`,
-                    buttonString: nftInfo.buttonString,
-                    isSelling: !nftInfo.price,
-                }}
-                amountOptions={{
-                    denom: nftInfo.price?.denom || ChainConfig.microDenom,
-                    defaultAmount,
-                    disabled: !!nftInfo.price && item.sale_type !== "auction",
-                }}
-                handleClickConfirm={handleNft}
-            />
         </>
     );
 };
