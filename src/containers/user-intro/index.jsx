@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 import { useMemo, useState } from "react";
 import { getImageFromHash } from "@utils/ipfs";
 import { useEffect } from "react";
-import useAxios from "src/hooks/use-axios";
+import { useAxios } from "src/hooks";
 
 const UserIntroArea = ({ className, space }) => {
     const [isShareModalOpen, setIsShareModalOpen] = useState(false);

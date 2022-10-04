@@ -167,6 +167,7 @@ const Updater = () => {
                         collection: collection.collection_info?.title || "",
                         image_url: item.nft_info?.extension?.image_url,
                         token_url: item.nft_info?.token_uri,
+                        owner: address,
                     };
                     return newItem;
                 }) || [];

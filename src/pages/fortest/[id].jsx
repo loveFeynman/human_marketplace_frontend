@@ -11,7 +11,7 @@ import Sticky from "@ui/sticky";
 import usePickNft from "src/hooks/use-pick-nft";
 import { useContract } from "@hooks";
 import { MarketplaceContract } from "@constant";
-import useAxios from "src/hooks/use-axios";
+import { useAxios } from "src/hooks";
 import { getReducedAddress } from "@utils/index";
 import NiceSelect from "@ui/nice-select";
 import Button from "@ui/button";
@@ -21,12 +21,13 @@ const LIMIT_BIDS = 20;
 
 const NftDetail = () => {
     const router = useRouter();
-    const token_id = router.asPath.split("/")[2];
+    const token_id = router.asPath.split("/")[2].split("?")[0];
     const { runQuery, runExecute } = useContract();
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const [showData, setShowData] = useState({ endpoint: "", workload_id: "" });
-    const selectedNft = usePickNft(token_id) || {};
+    const { collection } = router.query;
+    const selectedNft = usePickNft(token_id, collection) || {};
     const [bids, setBids] = useState([]);
     const { fetchUserInfo } = useAxios();
     const [option, setOption] = useState("Execute1");

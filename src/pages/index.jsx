@@ -5,6 +5,7 @@ import Footer from "@layout/footer";
 import ServiceArea from "@containers/services/layout-01";
 import HeroArea from "@containers/hero/layout-01";
 import TopSellerArea from "@containers/top-seller";
+import NewestItmesArea from "@containers/product/new-item";
 import CollectionArea from "@containers/collection/top-collection";
 
 // Demo Data
@@ -117,6 +118,7 @@ const Home = () => (
         <div id="main-content">
             <HeroArea data={heroData} />
             <ServiceArea data={data} />
+            <NewestItmesArea />
             <TopSellerArea />
             <CollectionArea
                 data={{

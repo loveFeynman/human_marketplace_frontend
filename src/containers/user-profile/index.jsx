@@ -17,21 +17,19 @@ const LIMIT_BIDS = 10;
 
 const UserProfileArea = ({ className }) => {
     const [myBids, setMyBids] = useState([]);
-    const [ownedNfts, setOwnedNfts] = useState([]);
+    const [ownedNfts, setOwnedNfts] = useState({});
     const router = useRouter();
     const userAddress = router.asPath.split("/")[2];
     const { runQuery } = useContract();
     const { connectedWallet } = useWalletManager();
     const collections = useAppSelector((state) => state.collections);
     const marketplaceNfts = useAppSelector((state) => state.marketplaceNfts);
-    const myNftsFromStorage = useAppSelector((state) => state.myNfts);
     const collectionAddresses = useAppSelector(
         (state) => state.collections.addresses
     );
-    console.log("myNftsFromStorage: ", myNftsFromStorage);
     useEffect(() => {
         (async () => {
-            let _ownedNfts = [];
+            let _ownedNfts = {};
             Object.keys(collections).forEach(async (key) => {
                 const collection = collections[key];
                 const queryResult = await runQuery(key, {
@@ -52,12 +50,11 @@ const UserProfileArea = ({ className }) => {
                         };
                         return newItem;
                     }) || [];
-                _ownedNfts.push({ key: nftList });
+                _ownedNfts[key] = nftList;
             });
             setOwnedNfts(_ownedNfts);
         })();
     }, [userAddress]);
-    console.log("ownedNfts: ", ownedNfts);
     useEffect(() => {
         setMyBids([]);
         if (!connectedWallet) {
@@ -92,8 +89,8 @@ const UserProfileArea = ({ className }) => {
         const userDefinedAddresses = (
             collectionAddresses?.userDefined || []
         ).map((collection) => collection.address);
-        Object.keys(myNftsFromStorage || {}).forEach((key) => {
-            const crrNfts = myNftsFromStorage[key];
+        Object.keys(ownedNfts || {}).forEach((key) => {
+            const crrNfts = ownedNfts[key] || {};
             crrNfts.forEach((nft) => {
                 if (userDefinedAddresses.includes(nft.token_address)) {
                     myCreated.push(nft);
@@ -104,18 +101,12 @@ const UserProfileArea = ({ className }) => {
         });
         if (connectedWallet) {
             Object.keys(marketplaceNfts || {}).forEach((key) => {
-                const crrNfts = marketplaceNfts[key];
+                const crrNfts = marketplaceNfts[key] || [];
                 myOnSale = [...myOnSale, ...crrNfts];
             });
         }
         return { onSale: myOnSale, created: myCreated, owned: myOwned };
-    }, [
-        collectionAddresses,
-        connectedWallet,
-        marketplaceNfts,
-        myNftsFromStorage,
-    ]);
-
+    }, [collectionAddresses, connectedWallet, marketplaceNfts, ownedNfts]);
     return (
         <div className={clsx("rn-authore-profile-area", className)}>
             <TabContainer defaultActiveKey="nav-owned">
@@ -147,12 +138,12 @@ const UserProfileArea = ({ className }) => {
                                         >
                                             Created
                                         </Nav.Link>
-                                        <Nav.Link
+                                        {/* <Nav.Link
                                             as="button"
                                             eventKey="nav-bids"
                                         >
                                             My Bids
-                                        </Nav.Link>
+                                        </Nav.Link> */}
                                     </Nav>
                                 </nav>
                             </div>
@@ -164,7 +155,7 @@ const UserProfileArea = ({ className }) => {
                             className="row d-flex g-5"
                             eventKey="nav-on-sale"
                         >
-                            {myNfts.onSale?.map((prod) => (
+                            {myNfts?.onSale?.map((prod) => (
                                 <div
                                     key={prod.token_id}
                                     className="col-5 col-lg-4 col-md-6 col-sm-6 col-12"
@@ -177,7 +168,7 @@ const UserProfileArea = ({ className }) => {
                             className="row g-5 d-flex"
                             eventKey="nav-owned"
                         >
-                            {myNfts.owned?.map((prod) => (
+                            {myNfts?.owned?.map((prod) => (
                                 <div
                                     key={prod.token_id}
                                     className="col-5 col-lg-4 col-md-6 col-sm-6 col-12"
@@ -190,7 +181,7 @@ const UserProfileArea = ({ className }) => {
                             className="row g-5 d-flex"
                             eventKey="nav-created"
                         >
-                            {myNfts.created?.map((prod) => (
+                            {myNfts?.created?.map((prod) => (
                                 <div
                                     key={prod.token_id}
                                     className="col-5 col-lg-4 col-md-6 col-sm-6 col-12"
@@ -199,7 +190,7 @@ const UserProfileArea = ({ className }) => {
                                 </div>
                             ))}
                         </TabPane>
-                        <TabPane className="row g-5 d-flex" eventKey="nav-bids">
+                        {/* <TabPane className="row g-5 d-flex" eventKey="nav-bids">
                             {myBids?.map((bid) => (
                                 <TopSeller
                                     key={`${bid.bidder}-${bid.token_id}`}
@@ -212,7 +203,7 @@ const UserProfileArea = ({ className }) => {
                                     }
                                 />
                             ))}
-                        </TabPane>
+                        </TabPane> */}
                     </TabContent>
                 </div>
             </TabContainer>
