@@ -160,12 +160,17 @@ const ProductDetailsArea = ({ space, className, product, bids }) => {
                                 <h6 className="title-name">
                                     {product.seller || ""}
                                 </h6>
-                                <Button
-                                    color="primary-alta"
-                                    onClick={handleBidModal}
-                                >
-                                    {nftInfo.buttonString}
-                                </Button>
+                                {!(
+                                    nftInfo.buttonString === "Sell" &&
+                                    connectedWallet?.address !== product.seller
+                                ) && (
+                                    <Button
+                                        color="primary-alta"
+                                        onClick={handleBidModal}
+                                    >
+                                        {nftInfo.buttonString}
+                                    </Button>
+                                )}
                                 {/* <div className="catagory-collection">
                                 <ProductCategory owner={product.owner} />
                                 <ProductCollection
