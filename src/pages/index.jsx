@@ -7,9 +7,11 @@ import HeroArea from "@containers/hero/layout-01";
 import TopSellerArea from "@containers/top-seller";
 import NewestItmesArea from "@containers/product/new-item";
 import CollectionArea from "@containers/collection/top-collection";
+import LiveExploreArea from "@containers/live-explore";
 
 // Demo Data
 import collectionsData from "../data/collections.json";
+import productData from "../data/products.json";
 
 const data = {
     section: "service-section",
@@ -100,13 +102,17 @@ const heroData = {
             path: "/create-nft",
         },
     ],
-    images: [
-        {
-            src: "/images/slider/slider-1.png",
-        },
-    ],
 };
-
+const liveAuctionData = productData
+    .filter(
+        (prod) =>
+            prod?.auction_date && new Date() <= new Date(prod?.auction_date)
+    )
+    .sort(
+        (a, b) =>
+            Number(new Date(b.published_at)) - Number(new Date(a.published_at))
+    )
+    .slice(0, 2);
 export async function getStaticProps() {
     return { props: { className: "template-color-1" } };
 }
@@ -116,7 +122,12 @@ const Home = () => (
         <SEO pageTitle="Home Default" />
         <Header />
         <div id="main-content">
-            <HeroArea data={heroData} />
+            <HeroArea data={{ ...heroData, products: liveAuctionData }} />
+            <LiveExploreArea
+                data={{
+                    products: liveAuctionData,
+                }}
+            />
             <ServiceArea data={data} />
             <NewestItmesArea />
             <TopSellerArea />

@@ -1,17 +1,18 @@
 import PropTypes from "prop-types";
-import Image from "next/image";
+// import Image from "next/image";
 import Button from "@ui/button";
 import { useWalletManager } from "@noahsaso/cosmodal";
 import { checkKeplr } from "src/context/WalletProvider";
 import { HeadingType, TextType, ButtonType, ImageType } from "@utils/types";
+import Product from "@components/product/layout-01";
 
 const HeroArea = ({ data }) => {
     const { connect, connectedWallet } = useWalletManager();
     return (
-        <div className="slider-one rn-section-gapTop">
+        <div className="slider-style-5 rn-section-gapTop">
             <div className="container">
-                <div className="row row-reverce-sm align-items-center">
-                    <div className="col-lg-5 col-md-6 col-sm-12 mt_sm--50">
+                <div className="row g-5 align-items-center">
+                    <div className="col-lg-6 order-2 order-lg-1 mt_md--30 mt_sm--30 pr--90">
                         {data?.headings[0]?.content && (
                             <h2
                                 className="title"
@@ -50,8 +51,29 @@ const HeroArea = ({ data }) => {
                             )}
                         </div>
                     </div>
-                    <div className="col-lg-5 col-md-6 col-sm-12 offset-lg-1">
-                        {data?.images?.[0]?.src && (
+                    <div className="col-lg-6 order-1 order-lg-2">
+                        <div className="row g-5">
+                            {data?.products?.map((prod) => (
+                                <div
+                                    className="col-lg-6 col-md-6"
+                                    key={prod.id}
+                                >
+                                    <Product
+                                        overlay
+                                        title={prod.title}
+                                        slug={prod.slug}
+                                        latestBid={prod.latestBid}
+                                        price={prod.price}
+                                        likeCount={prod.likeCount}
+                                        auction_date={prod.auction_date}
+                                        image={prod.images?.[0]}
+                                        authors={prod.authors}
+                                        bitCount={prod.bitCount}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                        {/* {data?.images?.[0]?.src && (
                             <div className="slider-thumbnail">
                                 <Image
                                     src={data.images[0].src}
@@ -60,7 +82,7 @@ const HeroArea = ({ data }) => {
                                     height={593}
                                 />
                             </div>
-                        )}
+                        )} */}
                     </div>
                 </div>
             </div>
