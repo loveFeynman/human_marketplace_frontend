@@ -20,8 +20,8 @@ const NftItem = ({ overlay, item }) => {
     const [showBidModal, setShowBidModal] = useState(false);
     const { sellNft, withdrawNft, buyNft, setBid, acceptBid } = useContract();
     const { connectedWallet } = useWalletManager();
+    const isOwner = item.owner === connectedWallet?.address;
     // const { connectedWallet } = useContext(CustomWalletContext);
-
     const nftInfo = useMemo(() => {
         const { price } = item;
         const image = item.image_url;
@@ -104,7 +104,6 @@ const NftItem = ({ overlay, item }) => {
             }
         }
     };
-
     return (
         <>
             <div
@@ -115,7 +114,9 @@ const NftItem = ({ overlay, item }) => {
             >
                 <div className="card-thumbnail">
                     {nftInfo.image && (
-                        <Anchor path={`/nft-detail?token_id=${item.token_id}`}>
+                        <Anchor
+                            path={`/nft-detail?token_id=${item.token_id}&collection=${item.token_address}`}
+                        >
                             <Image
                                 src={nftInfo.image}
                                 alt=""
@@ -130,12 +131,13 @@ const NftItem = ({ overlay, item }) => {
                             completedString="Auction Expired!"
                         />
                     )}
-                    {(!nftInfo.expired ||
-                        nftInfo.buttonString === "Withdraw") && (
-                        <Button onClick={handleBidModal} size="small">
-                            {nftInfo.buttonString}
-                        </Button>
-                    )}
+                    {isOwner &&
+                        (!nftInfo.expired ||
+                            nftInfo.buttonString === "Withdraw") && (
+                            <Button onClick={handleBidModal} size="small">
+                                {nftInfo.buttonString}
+                            </Button>
+                        )}
                 </div>
                 <div className="product-share-wrapper">
                     {nftInfo.bids && (

@@ -12,6 +12,7 @@ import PurchaseModal from "@components/modals/purchase-modal";
 import { ImageType } from "@utils/types";
 import { useContract } from "@hooks";
 import { ChainConfig } from "@constant";
+import { useAxios } from "@hooks";
 import { toast } from "react-toastify";
 // import { CustomWalletContext } from "@context";
 
@@ -28,6 +29,7 @@ const MintItem = ({
     contractAddress,
     filter,
 }) => {
+    const { saveMintHistory } = useAxios();
     const [showBidModal, setShowBidModal] = useState(false);
     const [stateInfo, setStateInfo] = useState({});
     const [show, setShow] = useState(false);
@@ -41,7 +43,7 @@ const MintItem = ({
         });
         if (
             filter === "all" ||
-            stateInfoResult.start_mint_time < Date.now() / 1000
+            stateInfoResult?.start_mint_time < Date.now() / 1000
         ) {
             setShow(true);
         }
@@ -86,8 +88,9 @@ const MintItem = ({
 
     const handleMint = async (amount, extraOption, callback) => {
         try {
+            let result = {};
             if (amount) {
-                const result = await runExecute(
+                result = await runExecute(
                     contractAddress,
                     {
                         mint: {},
@@ -96,12 +99,17 @@ const MintItem = ({
                         funds: `${amount}`,
                     }
                 );
-                console.log("result: ", result);
             } else {
-                await runExecute(contractAddress, {
+                result = await runExecute(contractAddress, {
                     mint: {},
                 });
             }
+            const reqData = {
+                token_id: result?.logs[0].events[5].attributes[8].value,
+                collection: result?.logs[0].events[5].attributes[4].value,
+                transaction_hash: result.transactionHash,
+            };
+            await saveMintHistory(reqData);
             toast.success("Success!");
             setShowBidModal(false);
         } catch (e) {

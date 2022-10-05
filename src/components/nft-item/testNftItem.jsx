@@ -39,7 +39,7 @@ const NftItem = ({ overlay, item }) => {
                 : null;
         return { price, buttonString, image, expiresAt, expired, bids };
     }, [connectedWallet, item]);
-
+    console.log("nftinfo: ", item);
     return (
         <>
             <div
@@ -50,7 +50,9 @@ const NftItem = ({ overlay, item }) => {
             >
                 <div className="card-thumbnail">
                     {nftInfo.image && (
-                        <Anchor path={`/fortest/${item.token_id}`}>
+                        <Anchor
+                            path={`/fortest/${item.token_id}?collection=${item.token_address}`}
+                        >
                             <Image
                                 src={nftInfo.image}
                                 alt=""
@@ -61,7 +63,9 @@ const NftItem = ({ overlay, item }) => {
                     )}
                 </div>
                 <div className="product-share-wrapper" />
-                <Anchor path={`/product/${item.tokenId}`}>
+                <Anchor
+                    path={`/fortest/${item.token_id}?collection=${item.token_address}`}
+                >
                     <span className="product-name">{item.token_id}</span>
                 </Anchor>
                 <div className="latest-bid">{item.collection}</div>

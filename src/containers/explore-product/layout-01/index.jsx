@@ -101,7 +101,6 @@ const ExploreProductArea = ({ className, space, data, hiddenExpired }) => {
     }, [data.products]);
 
     // const filterMethods = (item, filterKey, value) => {
-
     return (
         <div
             className={clsx(

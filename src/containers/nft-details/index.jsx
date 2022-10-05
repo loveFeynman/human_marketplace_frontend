@@ -173,6 +173,12 @@ const ProductDetailsArea = ({ space, className, product, bids }) => {
                                 />
                             </div> */}
                                 <div className="rn-bid-details">
+                                    {nftInfo.expiresAt && bids[0] && (
+                                        <PlaceBet
+                                            highest_bid={bids[0]}
+                                            auction_date={nftInfo.expiresAt.toString()}
+                                        />
+                                    )}
                                     <BidTab
                                         bids={bids}
                                         owner={product.owner}
@@ -180,12 +186,6 @@ const ProductDetailsArea = ({ space, className, product, bids }) => {
                                         tags={product?.tags}
                                         history={history}
                                     />
-                                    {nftInfo.expiresAt && bids[0] && (
-                                        <PlaceBet
-                                            highest_bid={bids[0]}
-                                            auction_date={nftInfo.expiresAt.toString()}
-                                        />
-                                    )}
                                 </div>
                             </div>
                         </div>

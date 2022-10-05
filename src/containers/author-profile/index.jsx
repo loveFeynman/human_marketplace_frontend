@@ -88,7 +88,6 @@ const AuthorProfileArea = ({ className }) => {
         marketplaceNfts,
         myNftsFromStorage,
     ]);
-
     return (
         <div className={clsx("rn-authore-profile-area", className)}>
             <TabContainer defaultActiveKey="nav-owned">
@@ -180,7 +179,7 @@ const AuthorProfileArea = ({ className }) => {
                                     eth={`${Number(bid.price) / 1e6}`}
                                     onClick={() =>
                                         router.push(
-                                            `/nft-detail?token_id=${bid.token_id}`
+                                            `/nft-detail?token_id=${bid.token_id}&collection=${bid.collection}`
                                         )
                                     }
                                 />

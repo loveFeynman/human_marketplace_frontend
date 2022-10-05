@@ -10,7 +10,7 @@ import ProductDetailsArea from "@containers/nft-details";
 import usePickNft from "src/hooks/use-pick-nft";
 import { useContract } from "@hooks";
 import { MarketplaceContract } from "@constant";
-import useAxios from "src/hooks/use-axios";
+import { useAxios } from "src/hooks";
 import { getReducedAddress } from "@utils/index";
 // demo data
 
@@ -18,9 +18,9 @@ const LIMIT_BIDS = 20;
 
 const NftDetail = () => {
     const router = useRouter();
-    const { token_id } = router.query;
+    const { token_id, collection } = router.query;
     const { runQuery } = useContract();
-    const selectedNft = usePickNft(token_id) || {};
+    const selectedNft = usePickNft(token_id, collection) || {};
     const [bids, setBids] = useState([]);
     const { fetchUserInfo } = useAxios();
 
