@@ -4,16 +4,18 @@ import PropTypes from "prop-types";
 import Image from "next/image";
 import Anchor from "@ui/anchor";
 import Button from "@ui/button";
-import PlaceBidModal from "@components/modals/placebid-modal";
 import Countdown from "@ui/countdown/layout-02";
 // import { ImageType } from "@utils/types";
 import { pinataUrl } from "@constant";
 
-const PlaceBet = ({ highest_bid, auction_date, btnColor, className }) => {
-    const [showBidModal, setShowBidModal] = useState(false);
-    const handleBidModal = () => {
-        setShowBidModal((prev) => !prev);
-    };
+const PlaceBet = ({
+    highest_bid,
+    auction_date,
+    btnColor,
+    className,
+    handleBid,
+    buttonString,
+}) => {
     return (
         <>
             <div className={clsx("place-bet-area", className)}>
@@ -60,12 +62,11 @@ const PlaceBet = ({ highest_bid, auction_date, btnColor, className }) => {
                 <Button
                     color={btnColor || "primary-alta"}
                     className="mt--30"
-                    onClick={handleBidModal}
+                    onClick={handleBid}
                 >
-                    Place a Bid
+                    {buttonString}
                 </Button>
             </div>
-            <PlaceBidModal show={showBidModal} handleModal={handleBidModal} />
         </>
     );
 };

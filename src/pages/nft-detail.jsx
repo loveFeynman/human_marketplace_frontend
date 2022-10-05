@@ -8,9 +8,8 @@ import Breadcrumb from "@components/breadcrumb";
 import ProductDetailsArea from "@containers/nft-details";
 // import ProductArea from "@containers/nft-details-area";
 import usePickNft from "src/hooks/use-pick-nft";
-import { useContract } from "@hooks";
+import { useContract, useRefresh, useAxios } from "@hooks";
 import { MarketplaceContract } from "@constant";
-import { useAxios } from "src/hooks";
 import { getReducedAddress } from "@utils/index";
 // demo data
 
@@ -23,9 +22,8 @@ const NftDetail = () => {
     const selectedNft = usePickNft(token_id, collection) || {};
     const [bids, setBids] = useState([]);
     const { fetchUserInfo } = useAxios();
-
+    const { normal } = useRefresh();
     useEffect(() => {
-        setBids([]);
         const fetchBids = async (startBidder) => {
             const msg = {
                 bids: {
@@ -43,7 +41,6 @@ const NftDetail = () => {
                     return info;
                 })
             );
-
             setBids(
                 fetchedBids.map((bid, index) => {
                     const _bids = {
@@ -54,7 +51,7 @@ const NftDetail = () => {
                         logo: bidersInfo[index].logo,
                         bidder: bid.bidder,
                         slug: `/profile/${bid.bidder}`,
-                        time: bid.time.slice(0, 13),
+                        time: bid?.time?.slice(0, 13),
                     };
                     return _bids;
                 })
@@ -72,7 +69,7 @@ const NftDetail = () => {
             }
         };
         fetchBids();
-    }, [runQuery, selectedNft.token_address, selectedNft.token_id]);
+    }, [runQuery, selectedNft.token_address, selectedNft.token_id, normal]);
 
     return (
         <Wrapper>

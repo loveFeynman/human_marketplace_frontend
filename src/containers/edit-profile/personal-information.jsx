@@ -119,8 +119,8 @@ const PersonalInformation = () => {
                 <div className="half-wid gender">
                     <NiceSelect
                         options={[
-                            { value: true, text: "male" },
-                            { value: false, text: "female" },
+                            { value: 1, text: "male" },
+                            { value: 0, text: "female" },
                         ]}
                         placeholder="Select Your Gender"
                         className="profile-edit-select"

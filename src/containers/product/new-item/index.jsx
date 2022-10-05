@@ -37,7 +37,7 @@ const ProductArea = ({ space, className }) => {
             // );
             // console.log("nftData: ", nftData);
             const newNftInfo = await Promise.all(
-                newNfts.map(async (nft) => {
+                newNfts?.map(async (nft) => {
                     try {
                         const nftData = await runQuery(nft.collection, {
                             all_nft_info: {
