@@ -1,13 +1,49 @@
 import PropTypes from "prop-types";
+import { useState, useEffect } from "react";
 // import Image from "next/image";
 import Button from "@ui/button";
 import { useWalletManager } from "@noahsaso/cosmodal";
 import { checkKeplr } from "src/context/WalletProvider";
 import { HeadingType, TextType, ButtonType, ImageType } from "@utils/types";
-import Product from "@components/product/layout-01";
+import { useContract } from "@hooks";
+import NftItem from "@components/nft-item";
+// import Product from "@components/product/layout-01";
+import { MarketplaceContract } from "@constant";
 
 const HeroArea = ({ data }) => {
     const { connect, connectedWallet } = useWalletManager();
+    const [displayNfts, setDisplayNfts] = useState([]);
+    const { runQuery } = useContract();
+    useEffect(() => {
+        (async () => {
+            const contractData = await runQuery(MarketplaceContract, {
+                asks_sorted_by_bid_count: {},
+            });
+            const dispData =
+                contractData &&
+                contractData.asks.map((_contractData) => ({
+                    bids: {
+                        max_bid: _contractData.max_bid,
+                        max_bidder: _contractData.max_bidder,
+                    },
+                    token_address: _contractData.collection,
+                    expires_at: Number(_contractData.expires_at.slice(0, 13)),
+                    funds_recipient: _contractData.funds_recipient,
+                    image_url: _contractData.img_url,
+                    // image_url: "/image",
+                    seller: _contractData.seller,
+                    price: {
+                        denom: "uheart",
+                        amount: Number(_contractData.price),
+                    },
+                    sale_type: _contractData.sale_type,
+                    token_id: _contractData.token_id,
+                    token_url: _contractData.img_url,
+                    // image_url: "/image",
+                }));
+            setDisplayNfts(dispData);
+        })();
+    }, []);
     return (
         <div className="slider-style-5 rn-section-gapTop">
             <div className="container">
@@ -53,23 +89,12 @@ const HeroArea = ({ data }) => {
                     </div>
                     <div className="col-lg-6 order-1 order-lg-2">
                         <div className="row g-5">
-                            {data?.products?.map((prod) => (
+                            {displayNfts.slice(0, 2).map((prod) => (
                                 <div
                                     className="col-lg-6 col-md-6"
                                     key={prod.id}
                                 >
-                                    <Product
-                                        overlay
-                                        title={prod.title}
-                                        slug={prod.slug}
-                                        latestBid={prod.latestBid}
-                                        price={prod.price}
-                                        likeCount={prod.likeCount}
-                                        auction_date={prod.auction_date}
-                                        image={prod.images?.[0]}
-                                        authors={prod.authors}
-                                        bitCount={prod.bitCount}
-                                    />
+                                    <NftItem overlay item={prod} />
                                 </div>
                             ))}
                         </div>

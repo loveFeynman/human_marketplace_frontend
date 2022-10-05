@@ -27,7 +27,6 @@ const ProductArea = ({ space, className }) => {
     useEffect(() => {
         (async () => {
             const newNfts = await getNewestItem();
-            console.log("newNfts: ", newNfts);
             // const nftData = await runQuery(
             //     "human1xt4ahzz2x8hpkc0tk6ekte9x6crw4w6u0r67cyt3kz9syh24pd7sx2rhv4",
             //     {

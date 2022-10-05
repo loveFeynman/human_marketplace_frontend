@@ -90,7 +90,7 @@ const Collection = () => {
             <Header />
             <main id="main-content">
                 <Breadcrumb
-                    pageTitle="Our Collections"
+                    pageTitle="Explore Products"
                     currentPage="Collections"
                 />
                 <CollectionArea data={{ collections: collectionsData }} />

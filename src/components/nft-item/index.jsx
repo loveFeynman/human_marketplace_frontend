@@ -117,7 +117,7 @@ const NftItem = ({ overlay, item }) => {
                         <Anchor
                             path={`/nft-detail?token_id=${item.token_id}&collection=${item.token_address}`}
                         >
-                            <Image
+                            <img
                                 src={nftInfo.image}
                                 alt=""
                                 width={533}
