@@ -16,6 +16,15 @@ import { getReducedAddress } from "@utils/index";
 import NiceSelect from "@ui/nice-select";
 import Button from "@ui/button";
 // demo data
+// william
+import { ChainConfig } from "@constant";
+import {
+    CosmWasmClient,
+    SigningCosmWasmClient,
+} from "@cosmjs/cosmwasm-stargate";
+import { GasPrice } from "@cosmjs/stargate";
+import { useWallet } from "@noahsaso/cosmodal";
+import { coins } from "@cosmjs/proto-signing";
 
 const LIMIT_BIDS = 20;
 
@@ -31,6 +40,10 @@ const NftDetail = () => {
     const [bids, setBids] = useState([]);
     const { fetchUserInfo } = useAxios();
     const [option, setOption] = useState("Execute1");
+
+    const { offlineSigner, signingCosmWasmClient, address } = useWallet(
+        ChainConfig.chainId
+    );
     useEffect(() => {
         setBids([]);
         const fetchBids = async (startBidder) => {
@@ -84,26 +97,52 @@ const NftDetail = () => {
         // setValue(name, item.value);
         setOption(item.value);
     };
+
     const handleSubmit = async () => {
         try {
             setLoading(true);
-            const result = await runExecute(
-                "human15fxl9g5pfjdhfqtmspmhpwtlxhfkwh9l2yk2uj926qqvg3gsfkuqwct4x8",
+
+            const cwClient = await SigningCosmWasmClient.connectWithSigner(
+                ChainConfig.rpcEndpoint,
+                offlineSigner,
                 {
-                    execute_algorithm: {
-                        msg: {
-                            provider_id: "2",
-                            nft_addr:
-                                "human1e8z2wjelypwxw5sey62jvwjyup88w55q3h6m0x8jtwjf6sx5c7ystheysl",
-                            token_id: "nft1",
-                        },
-                    },
-                },
-                {
-                    funds: "1",
-                    denom: "uheart",
+                    gasPrice: GasPrice.fromString(
+                        `${ChainConfig.gasPrice}${ChainConfig.microDenom}`
+                    ),
                 }
             );
+            
+            const execute_msg = {
+                provider_id: "2",
+                nft_addr: 'human1e8z2wjelypwxw5sey62jvwjyup88w55q3h6m0x8jtwjf6sx5c7ystheysl',
+                token_id: "ai_nft",
+              };
+
+            const signature = await window.keplr.signArbitrary(
+                ChainConfig.chainId,
+                address,
+                Buffer.from(JSON.stringify(execute_msg))
+                );
+
+            console.log("signature: ", signature)
+            // await cwClient.sign(address, )
+            console.log("address: ", address)
+            const result = await cwClient.execute(
+                // connectedWallet.address,
+                address,
+                "human15fxl9g5pfjdhfqtmspmhpwtlxhfkwh9l2yk2uj926qqvg3gsfkuqwct4x8",
+                { 
+                    execute_algorithm: {
+                        msg: execute_msg,
+                        pubkey: signature.pub_key.value,
+                        signature: signature.signature,
+                    }
+                },
+                "auto",
+                "",
+                coins("1000000", "uheart")
+            );
+
             const wasmData = result.logs[0].events[5].attributes;
             const endpoint = wasmData[2].value;
             const workload_id = wasmData[1].value;
@@ -117,6 +156,7 @@ const NftDetail = () => {
             console.log("err: ", err);
         }
     };
+
     return (
         <Wrapper>
             <SEO pageTitle="NFT Detail" />
