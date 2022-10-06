@@ -100,13 +100,7 @@ const heroData = {
             path: "/create-nft",
         },
     ],
-    images: [
-        {
-            src: "/images/slider/slider-1.png",
-        },
-    ],
 };
-
 export async function getStaticProps() {
     return { props: { className: "template-color-1" } };
 }
@@ -116,7 +110,7 @@ const Home = () => (
         <SEO pageTitle="Home Default" />
         <Header />
         <div id="main-content">
-            <HeroArea data={heroData} />
+            <HeroArea data={{ ...heroData }} />
             <ServiceArea data={data} />
             <NewestItmesArea />
             <TopSellerArea />

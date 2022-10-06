@@ -1,17 +1,54 @@
 import PropTypes from "prop-types";
-import Image from "next/image";
+import { useState, useEffect } from "react";
+// import Image from "next/image";
 import Button from "@ui/button";
 import { useWalletManager } from "@noahsaso/cosmodal";
 import { checkKeplr } from "src/context/WalletProvider";
 import { HeadingType, TextType, ButtonType, ImageType } from "@utils/types";
+import { useContract } from "@hooks";
+import NftItem from "@components/nft-item";
+// import Product from "@components/product/layout-01";
+import { MarketplaceContract } from "@constant";
 
 const HeroArea = ({ data }) => {
     const { connect, connectedWallet } = useWalletManager();
+    const [displayNfts, setDisplayNfts] = useState([]);
+    const { runQuery } = useContract();
+    useEffect(() => {
+        (async () => {
+            const contractData = await runQuery(MarketplaceContract, {
+                asks_sorted_by_bid_count: {},
+            });
+            const dispData =
+                contractData &&
+                contractData.asks.map((_contractData) => ({
+                    bids: {
+                        max_bid: _contractData.max_bid,
+                        max_bidder: _contractData.max_bidder,
+                    },
+                    token_address: _contractData.collection,
+                    expires_at: Number(_contractData.expires_at.slice(0, 13)),
+                    funds_recipient: _contractData.funds_recipient,
+                    image_url: _contractData.img_url,
+                    // image_url: "/image",
+                    seller: _contractData.seller,
+                    price: {
+                        denom: "uheart",
+                        amount: Number(_contractData.price),
+                    },
+                    sale_type: _contractData.sale_type,
+                    token_id: _contractData.token_id,
+                    token_url: _contractData.img_url,
+                    // image_url: "/image",
+                }));
+            setDisplayNfts(dispData);
+        })();
+    }, []);
     return (
-        <div className="slider-one rn-section-gapTop">
+        <div className="slider-style-5 rn-section-gapTop">
             <div className="container">
-                <div className="row row-reverce-sm align-items-center">
-                    <div className="col-lg-5 col-md-6 col-sm-12 mt_sm--50">
+                <div className="row g-5 align-items-center">
+                    <div className="col-lg-6 order-2 order-lg-1 mt_md--30 mt_sm--30 pr--90">
                         {data?.headings[0]?.content && (
                             <h2
                                 className="title"
@@ -50,8 +87,18 @@ const HeroArea = ({ data }) => {
                             )}
                         </div>
                     </div>
-                    <div className="col-lg-5 col-md-6 col-sm-12 offset-lg-1">
-                        {data?.images?.[0]?.src && (
+                    <div className="col-lg-6 order-1 order-lg-2">
+                        <div className="row g-5">
+                            {displayNfts.slice(0, 2).map((prod) => (
+                                <div
+                                    className="col-lg-6 col-md-6"
+                                    key={prod.id}
+                                >
+                                    <NftItem overlay item={prod} />
+                                </div>
+                            ))}
+                        </div>
+                        {/* {data?.images?.[0]?.src && (
                             <div className="slider-thumbnail">
                                 <Image
                                     src={data.images[0].src}
@@ -60,7 +107,7 @@ const HeroArea = ({ data }) => {
                                     height={593}
                                 />
                             </div>
-                        )}
+                        )} */}
                     </div>
                 </div>
             </div>

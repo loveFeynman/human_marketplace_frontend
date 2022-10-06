@@ -13,7 +13,7 @@ import PurchaseModal from "@components/modals/purchase-modal";
 // import ProductCollection from "@components/product-details/collection";
 import BidTab from "@components/product-details/bid-tab";
 import PlaceBet from "@components/product-details/place-bet";
-import { NftType } from "@utils/types";
+// import { NftType } from "@utils/types";
 import { ChainConfig } from "@constant";
 import { UseHistory } from "./hooks";
 // Demo Image
@@ -160,12 +160,17 @@ const ProductDetailsArea = ({ space, className, product, bids }) => {
                                 <h6 className="title-name">
                                     {product.seller || ""}
                                 </h6>
-                                <Button
-                                    color="primary-alta"
-                                    onClick={handleBidModal}
-                                >
-                                    {nftInfo.buttonString}
-                                </Button>
+                                {!(
+                                    nftInfo.buttonString === "Sell" &&
+                                    connectedWallet?.address !== product.seller
+                                ) && (
+                                    <Button
+                                        color="primary-alta"
+                                        onClick={handleBidModal}
+                                    >
+                                        {nftInfo.buttonString}
+                                    </Button>
+                                )}
                                 {/* <div className="catagory-collection">
                                 <ProductCategory owner={product.owner} />
                                 <ProductCollection
@@ -177,6 +182,8 @@ const ProductDetailsArea = ({ space, className, product, bids }) => {
                                         <PlaceBet
                                             highest_bid={bids[0]}
                                             auction_date={nftInfo.expiresAt.toString()}
+                                            handleBid={handleBidModal}
+                                            buttonString={nftInfo.buttonString}
                                         />
                                     )}
                                     <BidTab
