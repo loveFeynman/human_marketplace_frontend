@@ -23,7 +23,7 @@ const TopSeller = ({
                 <div className={clsx("thumbnail", isVarified && "varified")}>
                     <Anchor path={path}>
                         <Image
-                            src={image}
+                            src={image.src}
                             alt={image?.alt || name}
                             width={image?.width || 54}
                             height={image?.height || 54}

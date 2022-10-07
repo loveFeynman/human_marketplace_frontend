@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { useWalletManager } from "@noahsaso/cosmodal";
 import Sticky from "@ui/sticky";
 import Button from "@ui/button";
 import CountdownTimer from "@ui/countdown/layout-01";
-import { useContract } from "@hooks";
+import { useContract, useAxios } from "@hooks";
 import ProductTitle from "@components/product-details/title";
 import PurchaseModal from "@components/modals/purchase-modal";
 // import ProductCategory from "@components/product-details/category";
@@ -20,9 +20,19 @@ import { UseHistory } from "./hooks";
 
 const ProductDetailsArea = ({ space, className, product, bids }) => {
     const [showBidModal, setShowBidModal] = useState(false);
+    const [ownerInfo, setOwnerInfo] = useState({});
     const history = UseHistory(product.token_id);
+    const { fetchUserInfo } = useAxios();
     const { connectedWallet } = useWalletManager();
     const { sellNft, withdrawNft, buyNft, setBid, acceptBid } = useContract();
+    useEffect(() => {
+        (async () => {
+            const userInfo = await fetchUserInfo(
+                product.seller || product.owner
+            );
+            setOwnerInfo(userInfo);
+        })();
+    }, [product.owner]);
     const nftInfo = useMemo(() => {
         const { price } = product;
         const image = product.image_url;
@@ -69,7 +79,6 @@ const ProductDetailsArea = ({ space, className, product, bids }) => {
     const handleBidModal = () => {
         setShowBidModal((prev) => !prev);
     };
-
     const handleNft = async (amount, extraOption, callback) => {
         if (!nftInfo.price) {
             try {
@@ -188,10 +197,11 @@ const ProductDetailsArea = ({ space, className, product, bids }) => {
                                     )}
                                     <BidTab
                                         bids={bids}
-                                        owner={product.owner}
                                         properties={product?.properties}
                                         tags={product?.tags}
                                         history={history}
+                                        token_uri={product?.token_url}
+                                        ownerInfo={ownerInfo}
                                     />
                                 </div>
                             </div>

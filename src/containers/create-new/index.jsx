@@ -111,15 +111,18 @@ const CreateNewArea = ({ className, space }) => {
         setHasImageError(!selectedImage);
         // building NFT data
         // building attributes data
-        const attributes = {};
+        const attributes = [];
         attributesSet.forEach((attributeItem) => {
             const { field, value } = attributeItem;
+            let _attribute = {};
             if (field && value) {
-                attributes[field] = value;
+                _attribute["trait_type"] = field;
+                _attribute["value"] = value;
             }
+            attributes.push(_attribute);
         });
         const metadata = {};
-        if (Object.keys(attributes).length) {
+        if (attributes.length) {
             metadata.attributes = attributes;
         }
         metadataSet.forEach((metadataItem) => {

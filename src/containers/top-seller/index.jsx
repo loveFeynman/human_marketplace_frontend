@@ -61,7 +61,7 @@ const TopSellerArea = ({ className, space, id }) => {
                                 name={seller.name}
                                 total_sale={seller["SUM(amount)"]}
                                 slug={`/profile/${seller.from_a}`}
-                                image={seller.logo}
+                                image={{ src: seller.logo }}
                             />
                         </div>
                     ))}
