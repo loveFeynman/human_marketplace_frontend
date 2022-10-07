@@ -134,9 +134,9 @@ const AuthorIntroArea = ({ className, space }) => {
                                                 <i className="feather-share-2" />
                                             </button>
 
-                                            <div className="count at-follw">
+                                            {/* <div className="count at-follw">
                                                 <ShareDropdown isOwner />
-                                            </div>
+                                            </div> */}
                                             <Anchor
                                                 path="/edit-profile"
                                                 className="btn at-follw follow-button edit-btn"

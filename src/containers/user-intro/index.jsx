@@ -148,12 +148,12 @@ const UserIntroArea = ({ className, space }) => {
                                             <div className="count at-follw">
                                                 <ShareDropdown />
                                             </div>
-                                            <Anchor
+                                            {/* <Anchor
                                                 path="/edit-profile"
                                                 className="btn at-follw follow-button edit-btn"
                                             >
                                                 <i className="feather feather-edit" />
-                                            </Anchor>
+                                            </Anchor> */}
                                         </div>
                                     </div>
                                 </div>

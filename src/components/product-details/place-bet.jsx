@@ -40,7 +40,7 @@ const PlaceBet = ({
 
                                 <div className="top-seller-content">
                                     <span className="heighest-bid">
-                                        Heighest bid{" "}
+                                        Highest bid{" "}
                                         <Anchor path={highest_bid.slug}>
                                             {highest_bid.name}
                                         </Anchor>
@@ -54,7 +54,7 @@ const PlaceBet = ({
                     </div>
                     {auction_date && (
                         <div className="bid-list left-bid">
-                            <h6 className="title">Auction has ended</h6>
+                            {/* <h6 className="title">Auction has ended</h6> */}
                             <Countdown className="mt--15" date={auction_date} />
                         </div>
                     )}
