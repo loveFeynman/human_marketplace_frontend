@@ -225,7 +225,9 @@ function useContract() {
                 const errMsg = err.message;
                 // eslint-disable-next-line no-console
                 console.error(err, errMsg, typeof errMsg);
-                toast.error(`Fail! ${errMsg}`);
+                toast.error(
+                    `Transaction failed. Plz check your inputs and try it again.`
+                );
             }
         },
         [runExecute]

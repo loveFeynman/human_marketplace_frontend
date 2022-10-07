@@ -104,8 +104,8 @@ const WalletProvider = ({ children }) => (
         enabledWalletTypes={[WalletType.Keplr, WalletType.WalletConnectKeplr]}
         localStorageKey="keplr-wallet"
         walletConnectClientMeta={{
-            name: "Humans.io",
-            description: "Humans.io",
+            name: "Humans.ai",
+            description: "Humans.ai",
             url: "",
             icons: [],
         }}
