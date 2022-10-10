@@ -180,7 +180,7 @@ const PersonalInformation = () => {
                         name="address"
                         id="PhoneNumber"
                         type="text"
-                        placeholder="USA Cidni"
+                        placeholder="1234 NW Bobcat Lane"
                         value={personalInformation.address}
                         onChange={handleChangePersonalInfo}
                     />

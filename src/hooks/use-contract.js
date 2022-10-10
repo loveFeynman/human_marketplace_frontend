@@ -226,7 +226,7 @@ function useContract() {
                 // eslint-disable-next-line no-console
                 console.error(err, errMsg, typeof errMsg);
                 toast.error(
-                    `Transaction failed. Plz check your inputs and try it again.`
+                    `Transaction failed. Please check your inputs and try it again.`
                 );
             }
         },

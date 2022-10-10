@@ -142,7 +142,7 @@ html[data-theme="light"] body {
     .rn-service-one .inner .content .title,
     .nice-select .current,
     .share-btn-activation .share-btn-setting .btn-setting-text,
-    .product-style-one a .product-name,
+    .product-style-one a .ai-product-style-one .product-name,
     ul li a,
     .left-header-style .authore-profile .au-content p.name,
     .page-title-area h3,
@@ -170,7 +170,9 @@ html[data-theme="light"] body {
     .change-pass-wrapper input {
         color: var(--color-light-heading);
     }
-
+    // .ai-product-style-one{
+    //     color: var(--color-light-heading);
+    // }
     .share-btn-activation .share-btn-setting .btn-setting-text:hover,
     ul li a:hover,
     .maintanence-area .inner .content p a,
@@ -675,6 +677,7 @@ html[data-theme="light"] body .rn-header.sticky {
 }
 
 html[data-theme="light"] body .product-style-one,
+html[data-theme="light"] body .ai-product-style-one,
 html[data-theme="light"] body .rn-service-one,
 html[data-theme="light"] body .rn-collection-inner-one .collection-wrapper,
 html[data-theme="light"] body .slider-style-2 .single-slide .inner,
@@ -715,7 +718,13 @@ html[data-theme="light"] body {
             }
         }
     }
-
+    .ai-product-style-one {
+        .ai-nft-title {
+            h1 {
+                color: black;
+            }
+        }
+    }
     .single-rn-slider .inner .title {
         color: #fff;
     }
@@ -1811,7 +1820,13 @@ html[data-theme="light"] body {
     .product-style-one::before {
         background-image: linear-gradient(100deg, #fff, #0398ed);
     }
+    .ai-product-style-one::after {
+        background: #ffffff;
+    }
 
+    .ai-product-style-one::before {
+        background-image: linear-gradient(100deg, #fff, #0398ed);
+    }
     .logo-custom-css .logo-dark {
         display: block;
     }

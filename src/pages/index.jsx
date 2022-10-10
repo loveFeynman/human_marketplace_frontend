@@ -7,6 +7,7 @@ import HeroArea from "@containers/hero/layout-01";
 import TopSellerArea from "@containers/top-seller";
 import NewestItmesArea from "@containers/product/new-item";
 import CollectionArea from "@containers/collection/top-collection";
+import ExploreProductArea from "@containers/explore-product/layout-02";
 
 // Demo Data
 import collectionsData from "../data/collections.json";
@@ -113,6 +114,7 @@ const Home = () => (
             <HeroArea data={{ ...heroData }} />
             <ServiceArea data={data} />
             <NewestItmesArea />
+            <ExploreProductArea />
             <TopSellerArea />
             <CollectionArea
                 data={{

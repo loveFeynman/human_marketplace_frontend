@@ -19,6 +19,7 @@ const CreateNewArea = ({ className, space }) => {
     const [attributesSet, setAttributesSet] = useState([
         { field: "", value: "" },
     ]);
+    const [nftType, setNftType] = useState("");
     const [uploadShow, setUploadShow] = useState(false);
     const [hasImageError, setHasImageError] = useState(false);
     const [hasMetadataError, setHasMetadataError] = useState(false);
@@ -175,7 +176,7 @@ const CreateNewArea = ({ className, space }) => {
                     };
                     try {
                         await runExecute(data.collection, msg);
-                        toast.success("Successfuly Minted!");
+                        toast.success("Uploaded Successfuly!");
                         reset();
                         setSelectedImage();
                     } catch (err) {
@@ -310,7 +311,10 @@ const CreateNewArea = ({ className, space }) => {
     //         ) : null;
     //     });
     // };
-
+    const handleChangeCheckbox = (e) => {
+        console.log("e.target: ", e.target.name);
+        setNftType(e.target.name);
+    };
     return (
         <>
             <div
@@ -449,7 +453,74 @@ const CreateNewArea = ({ className, space }) => {
                                                 )}
                                             </div>
                                         </div>
-
+                                        <div className="col-md-12">
+                                            <div className="input-box pb--20">
+                                                <div className="form-label">
+                                                    NFT Type
+                                                </div>
+                                                <div>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={
+                                                            nftType === "ai"
+                                                        }
+                                                        className="rn-check-box-input"
+                                                        onChange={
+                                                            handleChangeCheckbox
+                                                        }
+                                                        id="ai-nft"
+                                                        name="ai"
+                                                    />
+                                                    <label
+                                                        className="rn-check-box-label"
+                                                        htmlFor="ai-nft"
+                                                    >
+                                                        AI NFT
+                                                    </label>
+                                                </div>
+                                                <div>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={
+                                                            nftType ===
+                                                            "language"
+                                                        }
+                                                        className="rn-check-box-input"
+                                                        onChange={
+                                                            handleChangeCheckbox
+                                                        }
+                                                        id="language-processing"
+                                                        name="language"
+                                                    />
+                                                    <label
+                                                        className="rn-check-box-label"
+                                                        htmlFor="language-processing"
+                                                    >
+                                                        Language Processing
+                                                    </label>
+                                                </div>
+                                                <div>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={
+                                                            nftType === "media"
+                                                        }
+                                                        className="rn-check-box-input"
+                                                        onChange={
+                                                            handleChangeCheckbox
+                                                        }
+                                                        id="syntetic-media"
+                                                        name="media"
+                                                    />
+                                                    <label
+                                                        className="rn-check-box-label"
+                                                        htmlFor="syntetic-media"
+                                                    >
+                                                        Syntetic media
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div className="col-md-12">
                                             <div className="input-box pb--20">
                                                 <label
