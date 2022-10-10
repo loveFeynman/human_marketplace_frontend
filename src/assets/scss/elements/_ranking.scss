@@ -17,6 +17,16 @@ tbody {
                         border-radius: 50%;
                     }
                 }
+                .ai-execute-button {
+                    border-radius: 0.5rem;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 10px 30px !important;
+                    text-decoration: none;
+                    span {
+                        color: white;
+                    }
+                }
             }
         }
     }

@@ -23,7 +23,7 @@ const AiNftsArea = ({ data, className, space, gap }) => (
                                 overlay
                                 placeBid={!!data.placeBid}
                                 title={prod.title}
-                                slug="ai-nft-1"
+                                slug="executor/ai-nft-1"
                                 auction_date={prod.auction_date}
                                 latestBid={prod.latestBid}
                                 price={prod.price}

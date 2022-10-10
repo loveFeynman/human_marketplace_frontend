@@ -5,118 +5,44 @@ import Image from "next/image";
 import Anchor from "@ui/anchor";
 import Pagination from "@components/pagination";
 import { IDType, ImageType } from "@utils/types";
+import Button from "@ui/button";
 
 const POSTS_PER_PAGE = 31;
 const temp_data = [
     {
         id: 1,
-        product: {
-            title: "Secure 25",
-            slug: "/collection",
-            image: {
-                src: "/images/portfolio/portfolio-05.jpg",
-            },
-        },
-        volume: "7,50,000",
-        "24h%": {
-            charge: "310.63%",
-            status: "-",
-        },
-        "7d%": {
-            charge: "62.21%",
-            status: "+",
-        },
-        floor_price: "33.02",
-        owners: "3k",
-        items: "10k",
+        volume: "222k",
+        queue: "4",
+        price: "72615",
+        floor_time: "10.2s",
     },
     {
         id: 2,
-        product: {
-            title: "Secure 25",
-            slug: "/collection",
-            image: {
-                src: "/images/portfolio/portfolio-06.jpg",
-            },
-        },
-        volume: "20,50,000",
-        "24h%": {
-            charge: "310.63%",
-            status: "+",
-        },
-        "7d%": {
-            charge: "62.21%",
-            status: "-",
-        },
-        floor_price: "33.02",
-        owners: "2.5k",
-        items: "30k",
+        volume: "22k",
+        queue: "3",
+        price: "1215",
+        floor_time: "10s",
     },
     {
         id: 3,
-        product: {
-            title: "Secure 25",
-            slug: "/collection",
-            image: {
-                src: "/images/portfolio/portfolio-07.jpg",
-            },
-        },
-        volume: "11,50,000",
-        "24h%": {
-            charge: "560.63%",
-            status: "+",
-        },
-        "7d%": {
-            charge: "62.21%",
-            status: "+",
-        },
-        floor_price: "33.02",
-        owners: "3.6k",
-        items: "230k",
+        volume: "432k",
+        queue: "4",
+        price: "42323",
+        floor_time: "8.4s",
     },
     {
         id: 4,
-        product: {
-            title: "Secure 25",
-            slug: "/collection",
-            image: {
-                src: "/images/portfolio/portfolio-08.jpg",
-            },
-        },
-        volume: "10,50,000",
-        "24h%": {
-            charge: "310.63%",
-            status: "+",
-        },
-        "7d%": {
-            charge: "22.21%",
-            status: "-",
-        },
-        floor_price: "33.02",
-        owners: "3.2k",
-        items: "100k",
+        volume: "784k",
+        queue: "2",
+        price: "93821",
+        floor_time: "6.5s",
     },
     {
         id: 5,
-        product: {
-            title: "Secure 25",
-            slug: "/collection",
-            image: {
-                src: "/images/portfolio/portfolio-01.jpg",
-            },
-        },
-        volume: "9,50,000",
-        "24h%": {
-            charge: "310.63%",
-            status: "-",
-        },
-        "7d%": {
-            charge: "62.21%",
-            status: "+",
-        },
-        floor_price: "300.02",
-        owners: "33k",
-        items: "50k",
+        volume: "873k",
+        queue: "1",
+        price: "39821",
+        floor_time: "13.4s",
     },
 ];
 const RankingArea = ({ className, space }) => {
@@ -150,35 +76,29 @@ const RankingArea = ({ className, space }) => {
                     <div className="col-12">
                         <div className="table-title-area d-flex">
                             <i className="feather-briefcase" />
-                            <h3>The top NFTs on Nuron</h3>
+                            <h3>Select Executor</h3>
                         </div>
                         <div className="box-table table-responsive">
                             <table className="table upcoming-projects">
                                 <thead>
                                     <tr>
                                         <th>
-                                            <span>SL</span>
+                                            <span>EXECUTOR</span>
                                         </th>
                                         <th>
-                                            <span>Product</span>
+                                            <span>EXEC COUNT</span>
                                         </th>
                                         <th>
-                                            <span>Volume</span>
+                                            <span>PRICE</span>
                                         </th>
                                         <th>
-                                            <span>24h%</span>
+                                            <span>AVERAGE EXEC TIME</span>
                                         </th>
                                         <th>
-                                            <span>7d%</span>
+                                            <span>IN QUEUE</span>
                                         </th>
                                         <th>
-                                            <span>Floor Price</span>
-                                        </th>
-                                        <th>
-                                            <span>Owners</span>
-                                        </th>
-                                        <th>
-                                            <span>Items</span>
+                                            <span />
                                         </th>
                                     </tr>
                                 </thead>
@@ -193,75 +113,29 @@ const RankingArea = ({ className, space }) => {
                                             }
                                         >
                                             <td>
-                                                <span>{index + 1}.</span>
-                                            </td>
-                                            <td>
-                                                <div className="product-wrapper d-flex align-items-center">
-                                                    {item?.product?.image
-                                                        ?.src && (
-                                                        <Anchor
-                                                            path={
-                                                                item.product
-                                                                    .slug
-                                                            }
-                                                            className="thumbnail"
-                                                        >
-                                                            <Image
-                                                                src={
-                                                                    item.product
-                                                                        .image
-                                                                        .src
-                                                                }
-                                                                alt="Nft_Profile"
-                                                                width={56}
-                                                                height={56}
-                                                                layout="fixed"
-                                                            />
-                                                        </Anchor>
-                                                    )}
-
-                                                    <span>
-                                                        {item.product.title}
-                                                    </span>
-                                                </div>
+                                                <span>
+                                                    Executor name{index + 1}.
+                                                </span>
                                             </td>
                                             <td>
                                                 <span>{item.volume}</span>
                                             </td>
                                             <td>
-                                                <span
-                                                    className={
-                                                        item["24h%"].status ===
-                                                        "-"
-                                                            ? "color-danger"
-                                                            : "color-green"
-                                                    }
+                                                <span>{item.price}</span>
+                                            </td>
+                                            <td>
+                                                <span>{item.floor_time}</span>
+                                            </td>
+                                            <td>
+                                                <span>{item.queue}</span>
+                                            </td>
+                                            <td>
+                                                <Button
+                                                    path={`/ai-nft/transaction?id=${item.id}&volume=${item.volume}&price=${item.price}&floor_time=${item.floor_time}&queue=${item.queue}`}
+                                                    className="ai-execute-button"
                                                 >
-                                                    {item["24h%"].status}
-                                                    {item["24h%"].charge}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span
-                                                    className={
-                                                        item["7d%"].status ===
-                                                        "-"
-                                                            ? "color-danger"
-                                                            : "color-green"
-                                                    }
-                                                >
-                                                    {item["7d%"].status}
-                                                    {item["7d%"].charge}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span>{item.floor_price}</span>
-                                            </td>
-                                            <td>
-                                                <span>{item.owners}</span>
-                                            </td>
-                                            <td>
-                                                <span>{item.items}</span>
+                                                    Use
+                                                </Button>
                                             </td>
                                         </tr>
                                     ))}

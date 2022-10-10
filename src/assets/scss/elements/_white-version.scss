@@ -467,7 +467,6 @@ html[data-theme="light"] body {
             color: var(--color-white);
         }
     }
-
     .theme-switch__label {
         background: #e4e4e4;
     }
@@ -542,7 +541,12 @@ html[data-theme="light"] body {
             }
         }
     }
-
+    .ai-transaction-content {
+        background-color: white;
+        h1 {
+          color: black;
+        }
+      }
     .place-bet-area {
         &.into-banner {
             background: var(--background-color-1);
