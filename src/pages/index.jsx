@@ -77,15 +77,14 @@ const heroData = {
     headings: [
         {
             id: 1,
-            content:
-                "Discover Digital Art, Collect and Sell Your Specific NFTs.",
+            content: "Explore Your Dedicated Dreams.",
         },
     ],
     texts: [
         {
             id: 1,
             content:
-                "Partner with one of the world's largest retailers to showcase your brand and products.",
+                "Your imagination is what makes you unique. Use our AI technology to share with the world your dreams and artistic vision. Digitize your way of living!",
         },
     ],
     buttons: [

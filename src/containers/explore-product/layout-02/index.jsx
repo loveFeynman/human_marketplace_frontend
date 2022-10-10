@@ -10,7 +10,13 @@ import { SectionTitleType, ProductType } from "@utils/types";
 import { useAppSelector } from "@app/hooks";
 
 const ExploreProductArea = ({ className, space, data }) => {
-    const filters = ["ai nft", "language processing", "syntetic media"];
+    const filters = [
+        "ai nft",
+        "language processing",
+        "syntetic media",
+        "lowest",
+        "highest",
+    ];
     const [products, setProducts] = useState([]);
     const marketplaceNfts = useAppSelector((state) => state.marketplaceNfts);
     // console.log("marketplace: ", marketplaceNfts);

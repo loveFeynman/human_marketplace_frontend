@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "@app/hooks";
 import { editUser } from "./hooks";
+import { countries } from "@constant";
 
 const PersonalInformation = () => {
     const { connectedWallet } = useWalletManager();
@@ -133,15 +134,14 @@ const PersonalInformation = () => {
             <div className="input-two-wrapper mt--15">
                 <div className="half-wid currency">
                     <NiceSelect
-                        options={[
-                            { value: "($)USD", text: "($)USD" },
-                            { value: "wETH", text: "wETH" },
-                            { value: "BIT Coin", text: "BIT Coin" },
-                        ]}
-                        placeholder="Currency"
+                        options={countries.map((country) => ({
+                            value: country,
+                            text: country,
+                        }))}
+                        placeholder="Location"
                         className="profile-edit-select"
-                        defaultCurrent={personalInformation.currency}
-                        onChange={(e) => handleChangeSelect("currency", e)}
+                        defaultCurrent={personalInformation.location}
+                        onChange={(e) => handleChangeSelect("location", e)}
                     />
                 </div>
                 <div className="half-wid phone-number">
@@ -161,15 +161,11 @@ const PersonalInformation = () => {
             <div className="input-two-wrapper mt--15">
                 <div className="half-wid currency">
                     <NiceSelect
-                        options={[
-                            { value: "United State", text: "United States" },
-                            { value: "Katar", text: "Katar" },
-                            { value: "Canada", text: "Canada" },
-                        ]}
-                        placeholder="Location"
+                        options={[{ value: "heart", text: "HEART" }]}
+                        placeholder="Currency"
                         className="profile-edit-select"
-                        defaultCurrent={personalInformation.location}
-                        onChange={(e) => handleChangeSelect("location", e)}
+                        defaultCurrent={personalInformation.currency}
+                        onChange={(e) => handleChangeSelect("currency", e)}
                     />
                 </div>
                 <div className="half-wid phone-number">
