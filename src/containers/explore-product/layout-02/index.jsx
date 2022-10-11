@@ -8,6 +8,8 @@ import NftItem from "@components/nft-item";
 // import { flatDeep } from "@utils/methods";
 import { SectionTitleType, ProductType } from "@utils/types";
 import { useAppSelector } from "@app/hooks";
+import { useContract } from "@hooks";
+import { MarketplaceContract, ChainConfig } from "@constant";
 
 const ExploreProductArea = ({ className, space, data }) => {
     const filters = [
@@ -17,19 +19,128 @@ const ExploreProductArea = ({ className, space, data }) => {
         "lowest",
         "highest",
     ];
+    const { runQuery } = useContract();
     const [products, setProducts] = useState([]);
     const marketplaceNfts = useAppSelector((state) => state.marketplaceNfts);
+    const collections = useAppSelector((state) => state.collections);
     // console.log("marketplace: ", marketplaceNfts);
     useEffect(() => {
         let marketNfts = [];
+        console.log("here");
         Object.keys(marketplaceNfts || {}).forEach((key) => {
             const crrNfts = marketplaceNfts[key];
             marketNfts = [...marketNfts, ...crrNfts];
         });
         setProducts(marketNfts);
-    }, [marketplaceNfts]);
+    }, []);
+    console.log("marketNfts: ", products, marketplaceNfts);
+    const getDataForShow = (item) => {
+        const collection = collections[item.collection];
+        const tokenIdNumber = item.token_id.split(".").pop();
+        const _data = {
+            token_address: item.collection,
+            token_id: item.token_id,
+            collection: collection.collection_info?.title,
+            image_url:
+                item.img_url ||
+                `https://secretsteampunks.mypinata.cloud/ipfs/QmdkjgT5CYivvFkvSvUdFF7b4QaeBikBaAbfthTVgD8FdP/SteamPunk_Human_${tokenIdNumber}.png`,
+            token_url: `${collection.mint_info?.base_token_uri}${tokenIdNumber}.png`,
+            seller: item.seller,
+            price: {
+                denom: ChainConfig.microDenom,
+                amount: Number(item.price) || 0,
+            },
+            sale_type: item.sale_type,
+            expires_at: Math.floor(Number(item.expires_at) / 1000000),
+            funds_recipient: item.funds_recipient,
+            bids: {
+                max_bid: item.max_bid,
+                max_bidder: item.max_bidder,
+            },
+        };
+        return _data;
+    };
+    const filterHandler = async (filterKey) => {
+        console.log("filterKey: ", filterKey);
+        switch (filterKey) {
+            case "all": {
+                let marketNfts = [];
+                Object.keys(marketplaceNfts || {}).forEach((key) => {
+                    const crrNfts = marketplaceNfts[key];
+                    marketNfts = [...marketNfts, ...crrNfts];
+                });
+                setProducts(marketNfts);
+                break;
+            }
+            case "ai nft": {
+                const queryData = await runQuery(MarketplaceContract, {
+                    asks_sorted_by_content_type: {
+                        content_type: "ai_nft",
+                        limit: 20,
+                    },
+                });
 
-    const filterHandler = (filterKey) => {
+                let marketNfts = queryData.asks.map((item) => {
+                    return getDataForShow(item);
+                });
+                setProducts(marketNfts);
+                break;
+            }
+            case "language processing": {
+                const queryData = await runQuery(MarketplaceContract, {
+                    asks_sorted_by_content_type: {
+                        content_type: "language_processing",
+                        limit: 20,
+                    },
+                });
+
+                let marketNfts = queryData.asks.map((item) => {
+                    return getDataForShow(item);
+                });
+                setProducts(marketNfts);
+                break;
+            }
+            case "syntetic media": {
+                const queryData = await runQuery(MarketplaceContract, {
+                    asks_sorted_by_content_type: {
+                        content_type: "syntetic_media",
+                        limit: 20,
+                    },
+                });
+
+                let marketNfts = queryData.asks.map((item) => {
+                    return getDataForShow(item);
+                });
+                setProducts(marketNfts);
+                break;
+            }
+            case "highest": {
+                const queryData = await runQuery(MarketplaceContract, {
+                    asks_sorted_by_bid_count: {
+                        limit: 20,
+                    },
+                });
+
+                let marketNfts = queryData.asks.map((item) => {
+                    return getDataForShow(item);
+                });
+                setProducts(marketNfts);
+                break;
+            }
+            case "lowest": {
+                const queryData = await runQuery(MarketplaceContract, {
+                    reverse_asks_sorted_by_bid_count: {
+                        limit: 20,
+                    },
+                });
+
+                let marketNfts = queryData.asks.map((item) => {
+                    return getDataForShow(item);
+                });
+                setProducts(marketNfts);
+                break;
+            }
+        }
         // const prods = data?.products ? [...data.products] : [];
         // if (filterKey === "all") {
         //     setProducts(data?.products);

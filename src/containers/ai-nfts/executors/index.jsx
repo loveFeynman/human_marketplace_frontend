@@ -1,10 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import Image from "next/image";
-import Anchor from "@ui/anchor";
+// import Image from "next/image";
+// import Anchor from "@ui/anchor";
 import Pagination from "@components/pagination";
-import { IDType, ImageType } from "@utils/types";
+// import { IDType, ImageType } from "@utils/types";
 import Button from "@ui/button";
 
 const POSTS_PER_PAGE = 31;

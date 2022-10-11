@@ -93,7 +93,7 @@ const UserIntroArea = ({ className, space }) => {
                                         <h4 className="title">
                                             {userData.name}
                                         </h4>
-                                        <a
+                                        {/* <a
                                             href="https://twitter.com"
                                             target="_blank"
                                             rel="noreferrer"
@@ -103,7 +103,7 @@ const UserIntroArea = ({ className, space }) => {
                                             <span className="user-name">
                                                 {userData.twitter}
                                             </span>
-                                        </a>
+                                        </a> */}
                                         <div className="follow-area">
                                             <div className="follow followers">
                                                 <span>

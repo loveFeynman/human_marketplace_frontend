@@ -168,12 +168,14 @@ const CreateNewArea = ({ className, space }) => {
                             token_id: data.token_id,
                             owner: connectedWallet.address,
                             token_uri,
+                            content_type: nftType,
                             extension: {
                                 minter: connectedWallet.address,
                                 image_url,
                             },
                         },
                     };
+                    console.log(msg);
                     try {
                         await runExecute(data.collection, msg);
                         toast.success("Uploaded Successfuly!");
@@ -312,7 +314,6 @@ const CreateNewArea = ({ className, space }) => {
     //     });
     // };
     const handleChangeCheckbox = (e) => {
-        console.log("e.target: ", e.target.name);
         setNftType(e.target.name);
     };
     return (
@@ -462,14 +463,14 @@ const CreateNewArea = ({ className, space }) => {
                                                     <input
                                                         type="checkbox"
                                                         checked={
-                                                            nftType === "ai"
+                                                            nftType === "ai_nft"
                                                         }
                                                         className="rn-check-box-input"
                                                         onChange={
                                                             handleChangeCheckbox
                                                         }
                                                         id="ai-nft"
-                                                        name="ai"
+                                                        name="ai_nft"
                                                     />
                                                     <label
                                                         className="rn-check-box-label"
@@ -483,14 +484,14 @@ const CreateNewArea = ({ className, space }) => {
                                                         type="checkbox"
                                                         checked={
                                                             nftType ===
-                                                            "language"
+                                                            "language_processing"
                                                         }
                                                         className="rn-check-box-input"
                                                         onChange={
                                                             handleChangeCheckbox
                                                         }
                                                         id="language-processing"
-                                                        name="language"
+                                                        name="language_processing"
                                                     />
                                                     <label
                                                         className="rn-check-box-label"
@@ -503,14 +504,15 @@ const CreateNewArea = ({ className, space }) => {
                                                     <input
                                                         type="checkbox"
                                                         checked={
-                                                            nftType === "media"
+                                                            nftType ===
+                                                            "syntetic_media"
                                                         }
                                                         className="rn-check-box-input"
                                                         onChange={
                                                             handleChangeCheckbox
                                                         }
                                                         id="syntetic-media"
-                                                        name="media"
+                                                        name="syntetic_media"
                                                     />
                                                     <label
                                                         className="rn-check-box-label"

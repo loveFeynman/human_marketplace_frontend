@@ -171,7 +171,7 @@ const ProductDetailsArea = ({ space, className, product, bids }) => {
                                 </h6>
                                 {!(
                                     nftInfo.buttonString === "Sell" &&
-                                    connectedWallet?.address !== product.seller
+                                    connectedWallet?.address !== product.owner
                                 ) && (
                                     <Button
                                         color="primary-alta"

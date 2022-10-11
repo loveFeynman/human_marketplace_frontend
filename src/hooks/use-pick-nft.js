@@ -25,7 +25,7 @@ function usePickNft(tokenId, collection) {
                 token_id: tokenId,
                 token_url: nftData?.info.token_uri,
                 collection: collections[collection]?.collection_info.title,
-                owner: nftData?.access.owner,
+                owner: marketplaceNft?.seller || nftData?.access.owner,
             };
             setSelectedNft(selectedNftData);
         })();

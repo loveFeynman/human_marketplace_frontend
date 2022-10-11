@@ -26,7 +26,7 @@ const UserDropdown = () => {
                 src={
                     userInfo.logo
                         ? getImageFromHash(userInfo.logo)
-                        : "/images/icons/boy-avater.png"
+                        : "/images/icons/avatar.png"
                 }
                 alt="Images"
                 layout="fixed"
@@ -60,7 +60,7 @@ const UserDropdown = () => {
                                     src={
                                         userInfo.logo
                                             ? getImageFromHash(userInfo.logo)
-                                            : "/images/icons/boy-avater.png"
+                                            : "/images/icons/avatar.png"
                                     }
                                     alt="Nft Product Images"
                                     layout="fixed"

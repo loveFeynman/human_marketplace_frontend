@@ -5,7 +5,6 @@ import { IDType, ImageType } from "@utils/types";
 import { getImageFromHash } from "@utils/ipfs";
 
 const DetailsTabContent = ({ token_uri, ownerInfo }) => {
-    console.log("token_uri: ", token_uri);
     // const [attributes, setAttributes] = useState([]);
     const [tags, setTags] = useState([]);
     useEffect(() => {

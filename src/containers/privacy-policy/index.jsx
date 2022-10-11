@@ -147,16 +147,6 @@ const PrivacyPolicyArea = ({ className, space }) => (
                     </div>
                 </div>
             </div>
-            <div className="row mt--50">
-                <div className="offset-lg-2 col-lg-8">
-                    <Button path="#" size="medium" className="mr--15 ml--25">
-                        Accept
-                    </Button>
-                    <Button path="#" color="primary-alta" size="medium">
-                        Decline
-                    </Button>
-                </div>
-            </div>
         </div>
     </div>
 );

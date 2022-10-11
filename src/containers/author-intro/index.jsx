@@ -26,7 +26,7 @@ const AuthorIntroArea = ({ className, space }) => {
                 alt: "",
                 src: userInfo.logo
                     ? getImageFromHash(userInfo.logo)
-                    : "/images/icons/boy-avater.png",
+                    : "/images/icons/avatar.png",
             },
             name: connectedWallet?.name || "",
             followers: 0,
@@ -82,7 +82,7 @@ const AuthorIntroArea = ({ className, space }) => {
                                         <h4 className="title">
                                             {userData.name}
                                         </h4>
-                                        <a
+                                        {/* <a
                                             href="https://twitter.com"
                                             target="_blank"
                                             rel="noreferrer"
@@ -92,7 +92,7 @@ const AuthorIntroArea = ({ className, space }) => {
                                             <span className="user-name">
                                                 {userData.twitter}
                                             </span>
-                                        </a>
+                                        </a> */}
                                         <div className="follow-area">
                                             <div className="follow followers">
                                                 <span>
