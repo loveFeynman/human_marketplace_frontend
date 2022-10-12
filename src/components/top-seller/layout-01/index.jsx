@@ -1,4 +1,3 @@
-import { useWalletManager } from "@noahsaso/cosmodal";
 import PropTypes from "prop-types";
 import Image from "next/image";
 import clsx from "clsx";
@@ -14,14 +13,11 @@ const TopSeller = ({
     isVarified,
     followBtn,
 }) => {
-    const { connectedWallet } = useWalletManager();
-    const path =
-        slug.split("/")[2] === connectedWallet?.address ? "/profile" : slug;
     return (
         <div className={clsx("top-seller-inner-one", className)}>
             <div className="top-seller-wrapper">
                 <div className={clsx("thumbnail", isVarified && "varified")}>
-                    <Anchor path={path}>
+                    <Anchor path={slug}>
                         <Image
                             src={image.src}
                             alt={image?.alt || name}
@@ -32,7 +28,7 @@ const TopSeller = ({
                     </Anchor>
                 </div>
                 <div className="top-seller-content">
-                    <Anchor path={path}>
+                    <Anchor path={slug}>
                         <h6 className="name">{name}</h6>
                     </Anchor>
                     {total_sale && (
@@ -45,7 +41,7 @@ const TopSeller = ({
                 </div>
             </div>
             {followBtn && (
-                <Button path={path} color="primary-alta" size="small">
+                <Button path={slug} color="primary-alta" size="small">
                     Follow
                 </Button>
             )}

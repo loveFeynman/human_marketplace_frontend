@@ -9,6 +9,7 @@ import { useAppSelector } from "@app/hooks";
 const POSTS_PER_PAGE = 8;
 
 const CollectionArea = ({ className, space, id, data }) => {
+    console.log("data; ", data.collections);
     const [collections, setCollections] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const marketplaceNfts = useAppSelector((state) => state.marketplaceNfts);

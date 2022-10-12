@@ -2,7 +2,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 
-const FilterButtons = ({ buttons, filterHandler }) => {
+const FilterButtons = ({ buttons, filterHandler, allShow = true }) => {
     const [active, setActive] = useState("all");
     const activeHandler = (filterKey) => {
         setActive(filterKey);
@@ -10,13 +10,15 @@ const FilterButtons = ({ buttons, filterHandler }) => {
     };
     return (
         <div className="button-group isotop-filter filters-button-group d-flex justify-content-start justify-content-lg-end mt_md--30 mt_sm--30">
-            <button
-                type="button"
-                className={clsx(active === "all" && "is-checked")}
-                onClick={() => activeHandler("all")}
-            >
-                All
-            </button>
+            {allShow && (
+                <button
+                    type="button"
+                    className={clsx(active === "all" && "is-checked")}
+                    onClick={() => activeHandler("all")}
+                >
+                    All
+                </button>
+            )}
             {buttons.map((button) => (
                 <button
                     key={button}

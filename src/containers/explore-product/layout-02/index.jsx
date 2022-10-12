@@ -33,7 +33,6 @@ const ExploreProductArea = ({ className, space, data }) => {
         });
         setProducts(marketNfts);
     }, []);
-    console.log("marketNfts: ", products, marketplaceNfts);
     const getDataForShow = (item) => {
         const collection = collections[item.collection];
         const tokenIdNumber = item.token_id.split(".").pop();
@@ -61,7 +60,6 @@ const ExploreProductArea = ({ className, space, data }) => {
         return _data;
     };
     const filterHandler = async (filterKey) => {
-        console.log("filterKey: ", filterKey);
         switch (filterKey) {
             case "all": {
                 let marketNfts = [];

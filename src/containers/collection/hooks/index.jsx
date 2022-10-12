@@ -35,6 +35,7 @@ export const GetTopCollections = () => {
                                 id: _data.collection,
                                 slug: `/marketplace?nftAddress=${_data.collection}`,
                                 total_item: totalItem,
+                                tradingVolume: _data["SUM(amount)"],
                                 image: {
                                     src:
                                         collectionState.collection_info
