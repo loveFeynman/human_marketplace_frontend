@@ -33,7 +33,6 @@ const RandomMint = () => {
                 },
                 images: [
                     {
-                        // src: collection.collection_info?.logo_url || "",
                         src: image_url.includes("background_url")
                             ? "https://secretsteampunks.mypinata.cloud/ipfs/QmZH3FPdSeJo17MNX7poDN8aTuNcKCC4qfaADhRJLCS1aj/SteamPunk_Robot_303.png"
                             : image_url,
