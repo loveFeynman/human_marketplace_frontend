@@ -185,7 +185,7 @@ const NftItem = ({ overlay, item }) => {
                 {nftInfo.price && (
                     <div className="bid-react-area">
                         <div className="last-bid">
-                            {nftInfo.price.amount / 1e6} {nftInfo.price.denom}
+                            {nftInfo.price.amount / 1e6} Heart
                         </div>
                     </div>
                 )}

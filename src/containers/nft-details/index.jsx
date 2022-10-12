@@ -21,6 +21,7 @@ import { UseHistory } from "./hooks";
 const ProductDetailsArea = ({ space, className, product, bids }) => {
     const [showBidModal, setShowBidModal] = useState(false);
     const [ownerInfo, setOwnerInfo] = useState({});
+    const [creatorInfo, setCreatorInfo] = useState({});
     const history = UseHistory(product.token_id);
     const { fetchUserInfo } = useAxios();
     const { connectedWallet } = useWalletManager();
@@ -30,9 +31,11 @@ const ProductDetailsArea = ({ space, className, product, bids }) => {
             const userInfo = await fetchUserInfo(
                 product.seller || product.owner
             );
+            const creatorInfo = await fetchUserInfo(product.creator);
+            setCreatorInfo(creatorInfo);
             setOwnerInfo(userInfo);
         })();
-    }, [product.owner]);
+    }, [product.owner, product.creator]);
     const nftInfo = useMemo(() => {
         const { price } = product;
         const image = product.image_url;
@@ -202,6 +205,7 @@ const ProductDetailsArea = ({ space, className, product, bids }) => {
                                         history={history}
                                         token_uri={product?.token_url}
                                         ownerInfo={ownerInfo}
+                                        creatorInfo={creatorInfo}
                                     />
                                 </div>
                             </div>

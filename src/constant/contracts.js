@@ -1,5 +1,6 @@
 export const MarketplaceContract =
-    "human13hj45tzlfgxk55ql36jn46kl9hsvnn2tnwrp6aq8g43jpqfwsuyqvrlqr8";
+    "human1vmvngdhu7xhgm6rchf7ka9yktvjavqycsyddmxj38umrscsywt2qu3jeus";
+// "human13hj45tzlfgxk55ql36jn46kl9hsvnn2tnwrp6aq8g43jpqfwsuyqvrlqr8";
 // "human1armcr7lme0ac3l59dx6ne3et3pe9mfyv57d8pc9m5tyxtzm64dpqwuhe9g";
 
 export const CollectionCreatorContract =
