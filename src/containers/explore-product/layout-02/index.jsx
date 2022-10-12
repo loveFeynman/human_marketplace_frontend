@@ -127,7 +127,7 @@ const ExploreProductArea = ({ className, space, data }) => {
             }
             case "lowest": {
                 const queryData = await runQuery(MarketplaceContract, {
-                    reverse_asks_sorted_by_sell_price: {
+                    reverse_sorted_by_sell_price: {
                         limit: 20,
                     },
                 });
