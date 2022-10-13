@@ -18,6 +18,7 @@ function usePickNft(tokenId, collection) {
                     token_id: tokenId,
                 },
             });
+            console.log("nftData: ", nftData);
             const selectedNftData = {
                 ...marketplaceNft,
                 image_url: nftData?.info.extension.image_url,
@@ -27,6 +28,7 @@ function usePickNft(tokenId, collection) {
                 collection: collections[collection]?.collection_info.title,
                 owner: marketplaceNft?.seller || nftData?.access.owner,
                 creator: nftData?.info.extension.minter,
+                created_at: nftData?.info.created_time,
             };
             setSelectedNft(selectedNftData);
         })();

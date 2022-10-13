@@ -15,6 +15,7 @@ const BidTab = ({
     token_uri,
     ownerInfo,
     creatorInfo,
+    created_at,
 }) => (
     <TabContainer defaultActiveKey="nav-home">
         <div className={clsx("tab-wrapper-one", className)}>
@@ -44,7 +45,7 @@ const BidTab = ({
                 <TabPane eventKey="nav-contact">
                     <HistoryTabContent
                         history={history}
-                        creatorInfo={creatorInfo}
+                        creatorInfo={{ ...creatorInfo, time: created_at }}
                     />
                 </TabPane>
             </TabContent>

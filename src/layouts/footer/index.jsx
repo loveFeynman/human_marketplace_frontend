@@ -71,6 +71,11 @@ const footerData = {
                 text: "Privacy Policy",
                 path: "/privacy-policy",
             },
+            {
+                id: 3,
+                text: "Tutorials",
+                path: "/tutorials",
+            },
         ],
     },
     copyright_text: "Copyright © 2022 Humans Token AG. All rights reserved.",
@@ -81,7 +86,7 @@ const Footer = () => (
         {/* <div className="plr--20"> */}
         <div className="container">
             <div className="row align-items-center">
-                <div className="col-lg-6 col-md-12 col-sm-12">
+                <div className="col-lg-8 col-md-12 col-sm-12">
                     <div className="copyright-left">
                         <span>{footerData.copyright_text}</span>
                         <FooterLinkWidget
@@ -89,7 +94,7 @@ const Footer = () => (
                         />
                     </div>
                 </div>
-                <div className="col-lg-6 col-md-12 col-sm-12">
+                <div className="col-lg-4 col-md-12 col-sm-12">
                     <div className="copyright-right">
                         <SocialWidget socials={SocialData} others={OtherData} />
                     </div>

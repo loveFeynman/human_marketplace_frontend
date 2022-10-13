@@ -265,6 +265,7 @@ const ProductDetailsArea = ({
                                         token_uri={product?.token_url}
                                         ownerInfo={ownerInfo}
                                         creatorInfo={creatorInfo}
+                                        created_at={product?.created_at}
                                     />
                                 </div>
                             </div>
