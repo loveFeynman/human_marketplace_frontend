@@ -25,6 +25,7 @@ import {
 import { GasPrice } from "@cosmjs/stargate";
 import { useWallet } from "@noahsaso/cosmodal";
 import { coins } from "@cosmjs/proto-signing";
+import axios from "axios";
 
 const LIMIT_BIDS = 20;
 
@@ -111,31 +112,19 @@ const NftDetail = () => {
                     ),
                 }
             );
-            
-            const execute_msg = {
-                provider_id: "2",
-                nft_addr: 'human1e8z2wjelypwxw5sey62jvwjyup88w55q3h6m0x8jtwjf6sx5c7ystheysl',
-                token_id: "ai_nft",
-              };
 
-            const signature = await window.keplr.signArbitrary(
-                ChainConfig.chainId,
-                address,
-                Buffer.from(JSON.stringify(execute_msg))
-                );
 
-            console.log("signature: ", signature)
-            // await cwClient.sign(address, )
             console.log("address: ", address)
             const result = await cwClient.execute(
-                // connectedWallet.address,
                 address,
-                "human15fxl9g5pfjdhfqtmspmhpwtlxhfkwh9l2yk2uj926qqvg3gsfkuqwct4x8",
+                "human1rshdhvvhra8gl3ywhpgtd29aythlt9tjzdv648nq3hl922499cgqx5zjzk",
                 { 
                     execute_algorithm: {
-                        msg: execute_msg,
-                        pubkey: signature.pub_key.value,
-                        signature: signature.signature,
+                        msg: {
+                            provider_id: "0",
+                            nft_addr: 'human1e8z2wjelypwxw5sey62jvwjyup88w55q3h6m0x8jtwjf6sx5c7ystheysl',
+                            token_id: "ai_nft",
+                        }
                     }
                 },
                 "auto",
@@ -146,8 +135,58 @@ const NftDetail = () => {
             const wasmData = result.logs[0].events[5].attributes;
             const endpoint = wasmData[2].value;
             const workload_id = wasmData[1].value;
-            setShowData({ endpoint, workload_id });
-            // await axios.post("http://44.211.12.215:443/set", postData);
+
+            const signature = await window.keplr.signArbitrary(
+                ChainConfig.chainId,
+                address,
+                workload_id //Buffer.from(JSON.stringify(execute_msg)).toString("base64")
+                );
+
+            console.log("signature: ", signature)
+
+            // Create the document for signing.
+            // const signDoc = {
+            //     chain_id: "",
+            //     account_number: "0",
+            //     sequence: "0",
+            //     fee: {
+            //         gas: "0",
+            //         amount: [],
+            //     },
+            //     msgs: [
+            //         {
+            //             type: "sign/MsgSignData",
+            //             value: {
+            //                 signer: address,
+            //                 data: Buffer.from(JSON.stringify(execute_msg)).toString("base64"),
+            //             },
+            //         },
+            //     ],
+            //     memo: "",
+            // };
+
+            // const res = await window.keplr.signAmino(
+            //     ChainConfig.chainId,
+            //     address,
+            //     signDoc,
+            //     );
+            
+            console.log("workload: ", workload_id, signature.signature, signature.pub_key.value)
+
+            const postData = {
+                workload_id,
+                signature: signature.signature,
+                pubkey: signature.pub_key.value
+            };
+            try {
+                console.log("post data: ", postData)
+                const resData = await axios.post("http://18.220.100.80:443/set-state", postData);
+                console.log('resData: ', postData, resData);
+                setShowData({endpoint: resData.data, workload_id});
+            } catch (err) {
+                console.log('err: ', err)
+            }
+
             setSuccess(true);
             setLoading(false);
         } catch (err) {
@@ -218,7 +257,7 @@ const NftDetail = () => {
                     <>
                         <div>Workload Id: {showData.workload_id}</div>
                         <iframe
-                            src={showData.endpoint}
+                            src={`http://18.220.100.80:443${showData.endpoint}`}
                             style={{ height: "600px" }}
                         ></iframe>
                     </>
