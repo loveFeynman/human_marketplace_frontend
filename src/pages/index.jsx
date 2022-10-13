@@ -5,6 +5,7 @@ import Footer from "@layout/footer";
 import ServiceArea from "@containers/services/layout-01";
 import HeroArea from "@containers/hero/layout-01";
 import TopSellerArea from "@containers/top-seller";
+import LiveExploreArea from "@containers/live-explore";
 import NewestItmesArea from "@containers/product/new-item";
 import CollectionArea from "@containers/collection/top-collection";
 import ExploreProductArea from "@containers/explore-product/layout-02";
@@ -50,7 +51,7 @@ const data = {
             path: "/create-nft",
             subtitle: "STEP 3",
             description:
-                "To add an NFT, you'll need a crypto wallet to generate and mint your NFT(the process of writing a digital object to the blockchain).This provides an unchangeable record of legitimacy and ownership.",
+                "To add an NFT, you'll need a crypto wallet to generate and mint your NFT. This provides an unchangeable record of legitimacy and ownership.",
             images: [
                 {
                     src: "/images/icons/shape-5.png",
@@ -112,6 +113,7 @@ const Home = () => (
         <div id="main-content">
             <HeroArea data={{ ...heroData }} />
             <ServiceArea data={data} />
+            <LiveExploreArea />
             <NewestItmesArea />
             <ExploreProductArea />
             <TopSellerArea />

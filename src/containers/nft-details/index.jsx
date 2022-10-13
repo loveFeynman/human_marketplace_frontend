@@ -199,7 +199,7 @@ const ProductDetailsArea = ({
                                 </h6>
                                 <div className="catagory-collection">
                                     <div className="catagory">
-                                        <span>OwnedBy</span>
+                                        <span>Owned by</span>
                                         <TopSellerArea
                                             name={
                                                 ownerInfo.first_name ||
@@ -216,7 +216,7 @@ const ProductDetailsArea = ({
                                             }}
                                         />
                                     </div>
-                                    <div className="collection">
+                                    <div className="catagory">
                                         <span>Collections</span>
                                         <TopSellerArea
                                             name={collectionInfo.title}
