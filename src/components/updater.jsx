@@ -159,7 +159,6 @@ const Updater = () => {
                     limit: 100,
                 },
             });
-            console.log("queryResult: ", queryResult, key, collection);
             const nftList =
                 queryResult?.tokens?.map((item) => {
                     const newItem = {

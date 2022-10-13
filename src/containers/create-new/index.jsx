@@ -175,7 +175,6 @@ const CreateNewArea = ({ className, space }) => {
                             },
                         },
                     };
-                    console.log(msg);
                     try {
                         await runExecute(data.collection, msg);
                         toast.success("Uploaded Successfuly!");

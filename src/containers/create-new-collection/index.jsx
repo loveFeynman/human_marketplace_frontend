@@ -51,7 +51,6 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
     };
 
     const onSubmit = async (data) => {
-        console.log("data", data);
         if (!connectedWallet) {
             toast.error("Connect Wallet!");
             return;
@@ -138,7 +137,6 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                         },
                     };
                 }
-                console.log("message", msg);
                 try {
                     await runExecute(CollectionCreatorContract, msg);
                     toast.success("Successfully Created!");

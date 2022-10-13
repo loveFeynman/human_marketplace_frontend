@@ -22,9 +22,9 @@ const data = {
             id: 1,
             title: "Set up your wallet",
             path: "/",
-            subtitle: "Step-01",
+            subtitle: "STEP 1",
             description:
-                "Powerful features and inclusions, which makes Nuron standout, easily customizable and scalable.",
+                "The procedure for setting up your wallet differs based on the wallet, however for this example, we'll go through the steps of creating a Keplr wallet.",
             images: [
                 {
                     src: "/images/icons/shape-7.png",
@@ -35,9 +35,9 @@ const data = {
             id: 2,
             title: "Create your collection",
             path: "/collections",
-            subtitle: "Step-02",
+            subtitle: "STEP 2",
             description:
-                "A great collection of beautiful website templates for your need. Choose the best suitable template.",
+                "Creating a collection on our platform is simple and straightforward. You only need to determine the purpose and royalty rate of your collection and add your NFT's.",
             images: [
                 {
                     src: "/images/icons/shape-1.png",
@@ -48,9 +48,9 @@ const data = {
             id: 3,
             title: "Add your NFT's",
             path: "/create-nft",
-            subtitle: "Step-03",
+            subtitle: "STEP 3",
             description:
-                "We've made the template fully responsive, so it looks great on all devices: desktop, tablets and.",
+                "To add an NFT, you'll need a crypto wallet to generate and mint your NFT(the process of writing a digital object to the blockchain).This provides an unchangeable record of legitimacy and ownership.",
             images: [
                 {
                     src: "/images/icons/shape-5.png",
@@ -61,9 +61,9 @@ const data = {
             id: 4,
             title: "Sell Your NFT's",
             path: "/",
-            subtitle: "Step-04",
+            subtitle: "STEP 4",
             description:
-                "I throw myself down among the tall grass by the stream as I lie close to the earth NFT's.",
+                "Selling an NFT on our platform is quick and straightforward. Anyone who has an NFT, whether the inventor or the person who most recently collected it, can sell it for sale.",
             images: [
                 {
                     src: "/images/icons/shape-6.png",

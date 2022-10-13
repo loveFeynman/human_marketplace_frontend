@@ -26,7 +26,6 @@ const ExploreProductArea = ({ className, space, data }) => {
     // console.log("marketplace: ", marketplaceNfts);
     useEffect(() => {
         let marketNfts = [];
-        console.log("here");
         Object.keys(marketplaceNfts || {}).forEach((key) => {
             const crrNfts = marketplaceNfts[key];
             marketNfts = [...marketNfts, ...crrNfts];
