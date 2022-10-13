@@ -28,7 +28,7 @@ const AuthorIntroArea = ({ className, space }) => {
                     ? getImageFromHash(userInfo.logo)
                     : "/images/icons/avatar.png",
             },
-            name: connectedWallet?.name || "",
+            name: userInfo.first_name || "",
             followers: 0,
             following: 0,
         };

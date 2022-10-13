@@ -31,6 +31,7 @@ function useContract() {
     const runQuery = useCallback(
         async (contractAddress, queryMsg) => {
             try {
+                console.log("queryContractAddress: ", contractAddress);
                 if (signingCosmWasmClient) {
                     const result =
                         await signingCosmWasmClient.queryContractSmart(

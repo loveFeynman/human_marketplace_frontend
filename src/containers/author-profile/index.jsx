@@ -65,6 +65,11 @@ const AuthorProfileArea = ({ className }) => {
         const userDefinedAddresses = (
             collectionAddresses?.userDefined || []
         ).map((collection) => collection.address);
+        console.log(
+            "myNftsFromStorage: ",
+            myNftsFromStorage,
+            connectedWallet?.address
+        );
         Object.keys(myNftsFromStorage || {}).forEach((key) => {
             const crrNfts = myNftsFromStorage[key];
             crrNfts.forEach((nft) => {
