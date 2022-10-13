@@ -165,7 +165,7 @@ const ProductDetailsArea = ({ space, className, product, bids }) => {
                                     <span className="bid">
                                         Listed Price{" "}
                                         <span className="price">
-                                            {product.price.amount / 1e6} Heart
+                                            {product.price.amount / 1e6} $Heart
                                         </span>
                                     </span>
                                 )}

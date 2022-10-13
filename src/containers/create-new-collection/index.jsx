@@ -638,7 +638,7 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                                                             </label>
                                                             <input
                                                                 id="publicPrice"
-                                                                placeholder="e. g. `3 HEART`"
+                                                                placeholder="e. g. `3 $HEART`"
                                                                 {...register(
                                                                     "publicPrice",
                                                                     {
@@ -669,7 +669,7 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                                                             </label>
                                                             <input
                                                                 id="privatePrice"
-                                                                placeholder="e. g. `3 HEART`"
+                                                                placeholder="e. g. `3 $HEART`"
                                                                 {...register(
                                                                     "privatePrice",
                                                                     {

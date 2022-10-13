@@ -46,7 +46,7 @@ const PlaceBet = ({
                                         </Anchor>
                                     </span>
                                     <span className="count-number">
-                                        {highest_bid.price} HEART
+                                        {highest_bid.price} $HEART
                                     </span>
                                 </div>
                             </div>

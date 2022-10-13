@@ -165,12 +165,12 @@ const MintItem = ({
                                 </div> */}
                                 <div className="last-bid">
                                     {"Private Price: "}
-                                    {Number(price.private.amount) / 1e6} HEART
+                                    {Number(price.private.amount) / 1e6} $HEART
                                     &nbsp;
                                 </div>
                                 <div className="last-bid">
                                     {"Public Price: "}
-                                    {Number(price.public.amount) / 1e6} HEART
+                                    {Number(price.public.amount) / 1e6} $HEART
                                 </div>
                             </div>
                             {/* <Anchor path={`/product/${slug}`}>

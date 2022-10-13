@@ -129,9 +129,6 @@ const PersonalInformation = () => {
                         onChange={(e) => handleChangeSelect("gendor", e)}
                     />
                 </div>
-            </div>
-
-            <div className="input-two-wrapper mt--15">
                 <div className="half-wid currency">
                     <NiceSelect
                         options={countries.map((country) => ({
@@ -144,44 +141,8 @@ const PersonalInformation = () => {
                         onChange={(e) => handleChangeSelect("location", e)}
                     />
                 </div>
-                <div className="half-wid phone-number">
-                    <label htmlFor="PhoneNumber" className="form-label mb--10">
-                        Phone Number
-                    </label>
-                    <input
-                        name="phone"
-                        id="PhoneNumber"
-                        type="text"
-                        placeholder="+880100000000"
-                        value={personalInformation.phone || ""}
-                        onChange={handleChangePersonalInfo}
-                    />
-                </div>
             </div>
-            <div className="input-two-wrapper mt--15">
-                <div className="half-wid currency">
-                    <NiceSelect
-                        options={[{ value: "heart", text: "HEART" }]}
-                        placeholder="Currency"
-                        className="profile-edit-select"
-                        defaultCurrent={personalInformation.currency}
-                        onChange={(e) => handleChangeSelect("currency", e)}
-                    />
-                </div>
-                <div className="half-wid phone-number">
-                    <label htmlFor="PhoneNumber" className="form-label mb--10">
-                        Address
-                    </label>
-                    <input
-                        name="address"
-                        id="PhoneNumber"
-                        type="text"
-                        placeholder="1234 NW Bobcat Lane"
-                        value={personalInformation.address}
-                        onChange={handleChangePersonalInfo}
-                    />
-                </div>
-            </div>
+
             <div className="button-area save-btn-edit">
                 <Button className="mr--15" color="primary-alta" size="medium">
                     Cancel
