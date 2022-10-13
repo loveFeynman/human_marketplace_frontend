@@ -85,8 +85,8 @@ const AuthorProfileArea = ({ className }) => {
                     } else {
                         myOwned.push(nft);
                     }
+                    myOnSale = [...myOnSale, ...crrNfts];
                 });
-                myOnSale = [...myOnSale, ...crrNfts];
             });
         }
         return { onSale: myOnSale, created: myCreated, owned: myOwned };
