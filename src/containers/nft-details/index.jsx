@@ -18,7 +18,13 @@ import { ChainConfig } from "@constant";
 import { UseHistory } from "./hooks";
 // Demo Image
 
-const ProductDetailsArea = ({ space, className, product, bids }) => {
+const ProductDetailsArea = ({
+    space,
+    className,
+    product,
+    bids,
+    refreshData,
+}) => {
     const [showBidModal, setShowBidModal] = useState(false);
     const [ownerInfo, setOwnerInfo] = useState({});
     const [creatorInfo, setCreatorInfo] = useState({});
@@ -104,6 +110,7 @@ const ProductDetailsArea = ({ space, className, product, bids }) => {
             } catch (e) {
             } finally {
                 callback();
+                refreshData();
             }
         } else if (product.sale_type === "auction") {
             try {
@@ -116,6 +123,7 @@ const ProductDetailsArea = ({ space, className, product, bids }) => {
             } catch (e) {
             } finally {
                 callback();
+                refreshData();
             }
         } else {
             try {

@@ -94,9 +94,8 @@ const UserProfileArea = ({ className }) => {
             crrNfts.forEach((nft) => {
                 if (userDefinedAddresses.includes(nft.token_address)) {
                     myCreated.push(nft);
-                } else {
-                    myOwned.push(nft);
                 }
+                myOwned.push(nft);
             });
         });
         if (connectedWallet) {
