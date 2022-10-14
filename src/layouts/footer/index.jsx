@@ -71,11 +71,6 @@ const footerData = {
                 text: "Privacy Policy",
                 path: "/privacy-policy",
             },
-            {
-                id: 3,
-                text: "Tutorials",
-                path: "/tutorials",
-            },
         ],
     },
     copyright_text: "Copyright © 2022 Humans Token AG. All rights reserved.",
