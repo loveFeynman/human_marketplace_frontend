@@ -25,6 +25,7 @@ const MintItem = ({
     // authors,
     // bitCount,
     // likeCount,
+    total_supply,
     className,
     contractAddress,
     filter,
@@ -176,7 +177,10 @@ const MintItem = ({
                             {/* <Anchor path={`/product/${slug}`}>
                                 <h6 className="title">{title}</h6>
                             </Anchor> */}
-                            <h6 className="title">{title}</h6>
+                            <h6 className="title">
+                                {title}
+                                {`(${total_supply})`}
+                            </h6>
                             {mintInfo.startMintTime && (
                                 <CountdownTimer
                                     date={mintInfo.startMintTime.toString()}

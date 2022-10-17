@@ -56,7 +56,7 @@ const CollectionArea = ({ className, space, id, data }) => {
             <div className="container">
                 <div className="row g-5">
                     {collections
-                        // .filter((collection) => totalNfts[collection.id] > 0)
+                        .filter((collection) => totalNfts[collection.id] > 0)
                         .map((collection) => (
                             <div
                                 key={collection.id}

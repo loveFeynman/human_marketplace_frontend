@@ -35,7 +35,7 @@ const TopSeller = ({
                         <span className="count-number">
                             {new Intl.NumberFormat("en-US", {
                                 currency: "USD",
-                            }).format(total_sale)}
+                            }).format(total_sale / 1000000)}
                         </span>
                     )}
                 </div>

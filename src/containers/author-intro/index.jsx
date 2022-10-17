@@ -5,16 +5,18 @@ import Anchor from "@ui/anchor";
 import clsx from "clsx";
 import Image from "next/image";
 import PropTypes from "prop-types";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useAppSelector } from "@app/hooks";
 import { getImageFromHash } from "@utils/ipfs";
+import { useAxios } from "src/hooks";
 
 const AuthorIntroArea = ({ className, space }) => {
     const [isShareModalOpen, setIsShareModalOpen] = useState(false);
     const { connectedWallet } = useWalletManager();
     const shareModalHandler = () => setIsShareModalOpen((prev) => !prev);
     const userInfo = useAppSelector((state) => state.user.userInfo);
-
+    const [follow, setFollow] = useState({});
+    const { fetchFollowInfo } = useAxios();
     const userData = useMemo(() => {
         const result = {
             background: {
@@ -34,7 +36,18 @@ const AuthorIntroArea = ({ className, space }) => {
         };
         return result;
     }, [connectedWallet, userInfo.cover, userInfo.logo]);
-
+    const fetchFollow = async () => {
+        const followInfo = await fetchFollowInfo(connectedWallet?.address);
+        setFollow({
+            from: followInfo.from.map((_data) => _data.to_address),
+            to: followInfo.to.map((_data) => _data.from_address),
+        });
+    };
+    useEffect(() => {
+        (async () => {
+            await fetchFollow();
+        })();
+    }, []);
     return (
         <>
             <ShareModal
@@ -96,7 +109,8 @@ const AuthorIntroArea = ({ className, space }) => {
                                         <div className="follow-area">
                                             <div className="follow followers">
                                                 <span>
-                                                    {userData.followers}{" "}
+                                                    {follow.to &&
+                                                        follow.to.length}{" "}
                                                     <a
                                                         href="https://twitter.com"
                                                         target="_blank"
@@ -109,7 +123,8 @@ const AuthorIntroArea = ({ className, space }) => {
                                             </div>
                                             <div className="follow following">
                                                 <span>
-                                                    {userData.following}{" "}
+                                                    {follow.from &&
+                                                        follow.from.length}{" "}
                                                     <a
                                                         href="https://twitter.com"
                                                         target="_blank"

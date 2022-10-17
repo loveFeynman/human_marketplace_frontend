@@ -39,6 +39,7 @@ const RandomMint = () => {
                     },
                 ],
                 contractAddress: collection.minter,
+                total_supply: collection.mint_info?.total_supply,
             });
         }
     });

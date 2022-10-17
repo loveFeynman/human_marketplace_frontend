@@ -54,12 +54,40 @@ function useAxios() {
             return [];
         }
     }, []);
+    const fetchFollowInfo = useCallback(async (address) => {
+        try {
+            const { data } = await axios.get(
+                `${backendBaseUrl}/api/follow/get_follow_info`,
+                {
+                    params: {
+                        address,
+                    },
+                }
+            );
+            return data;
+        } catch (err) {
+            return {};
+        }
+    }, []);
+    const handleFollow = useCallback(async (from, to) => {
+        try {
+            await axios.post(`${backendBaseUrl}/api/follow/register_follow`, {
+                from,
+                to,
+            });
+            return true;
+        } catch (err) {
+            return false;
+        }
+    });
     return {
         saveSaleHistory,
         fetchUserInfo,
         saveMintHistory,
         getNewestItem,
         getHistoricalData,
+        fetchFollowInfo,
+        handleFollow,
     };
 }
 
