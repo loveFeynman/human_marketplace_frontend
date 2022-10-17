@@ -31,7 +31,7 @@ const NftPreviewProduct = ({ overlay, title, image, client, metadata }) => (
         <span className="product-name">{title}</span>
         <div className="mt-3">Metadata</div>
         <div className="container border p-4">
-            {Object.keys(metadata).map((key) => {
+            {/* {Object.keys(metadata).map((key) => {
                 if (key === "attributes") return null;
                 const value = metadata[key];
                 return (
@@ -40,27 +40,25 @@ const NftPreviewProduct = ({ overlay, title, image, client, metadata }) => (
                         <div className="col-md-8">{value}</div>
                     </div>
                 );
-            })}
+            })} */}
             {metadata?.attributes && (
                 <>
                     <div>Attributes</div>
                     <div className="container">
-                        {Object.keys(metadata.attributes).map(
-                            (attributeField) => {
-                                const attributeValue =
-                                    metadata.attributes[attributeField];
-                                return (
-                                    <div className="row" key={attributeField}>
-                                        <div className="col-md-4">
-                                            {attributeField}
-                                        </div>
-                                        <div className="col-md-8">
-                                            {attributeValue}
-                                        </div>
+                        {metadata.attributes.map((attributeField) => {
+                            // const attributeValue =
+                            //     metadata.attributes[attributeField];
+                            return (
+                                <div className="row" key={attributeField}>
+                                    <div className="col-md-4">
+                                        {attributeField.trait_type}
                                     </div>
-                                );
-                            }
-                        )}
+                                    <div className="col-md-8">
+                                        {attributeField.value}
+                                    </div>
+                                </div>
+                            );
+                        })}
                     </div>
                 </>
             )}
