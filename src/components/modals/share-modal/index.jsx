@@ -1,6 +1,19 @@
 import PropTypes from "prop-types";
 import Modal from "react-bootstrap/Modal";
+import { useRouter } from "next/router";
+//import { usePath } from "@hooks";
 
+function getPath() {
+    const router = useRouter()
+    const origin =
+        typeof window !== 'undefined' && window.location.origin
+            ? window.location.origin
+            : '';
+    const path = origin.replace(/^https?:\/\//, '') + router.asPath
+    return path
+}
+
+const facebookSharer = 'https://www.facebook.com/sharer/sharer.php?u=';
 const ShareModal = ({ show, handleModal }) => (
     <Modal
         className="rn-popup-modal share-modal-wrapper"
@@ -18,7 +31,6 @@ const ShareModal = ({ show, handleModal }) => (
                 <i className="feather-x" />
             </button>
         )}
-
         <Modal.Header className="share-area">
             <h5 className="modal-title">Share this NFT</h5>
         </Modal.Header>
@@ -26,7 +38,7 @@ const ShareModal = ({ show, handleModal }) => (
             <ul className="social-share-default">
                 <li>
                     <a
-                        href="https://www.facebook.com/humansdotai"
+                        href={facebookSharer+getPath()}
                         target="__blank"
                     >
                         <span className="icon">
@@ -63,14 +75,6 @@ const ShareModal = ({ show, handleModal }) => (
                             <i className="feather-instagram" />
                         </span>
                         <span className="text">instagram</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#!">
-                        <span className="icon">
-                            <i className="feather-youtube" />
-                        </span>
-                        <span className="text">youtube</span>
                     </a>
                 </li>
             </ul>
