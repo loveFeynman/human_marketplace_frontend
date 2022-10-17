@@ -14,6 +14,8 @@ function getPath() {
 }
 
 const facebookSharer = 'https://www.facebook.com/sharer/sharer.php?u=';
+const twitterSharer = 'https://twitter.com/intent/tweet?url=';
+const linkedinSharer = 'https://www.linkedin.com/sharing/share-offsite/?url=';
 const ShareModal = ({ show, handleModal }) => (
     <Modal
         className="rn-popup-modal share-modal-wrapper"
@@ -48,7 +50,7 @@ const ShareModal = ({ show, handleModal }) => (
                     </a>
                 </li>
                 <li>
-                    <a href="https://twitter.com/humansdotai" target="__blank">
+                    <a href={twitterSharer+getPath()} target="__blank">
                         <span className="icon">
                             <i className="feather-twitter" />
                         </span>
@@ -57,7 +59,7 @@ const ShareModal = ({ show, handleModal }) => (
                 </li>
                 <li>
                     <a
-                        href="https://www.linkedin.com/company/humansdotai/"
+                        href={linkedinSharer+getPath()}
                         target="__blank"
                     >
                         <span className="icon">
