@@ -18,6 +18,7 @@ import PlaceBet from "@components/product-details/place-bet";
 import { ChainConfig } from "@constant";
 import { UseHistory } from "./hooks";
 import { getImageFromHash } from "@utils/ipfs";
+import { getReducedAddress } from "@utils/index";
 // Demo Image
 
 const ProductDetailsArea = ({
@@ -203,7 +204,9 @@ const ProductDetailsArea = ({
                                         <TopSellerArea
                                             name={
                                                 ownerInfo.first_name ||
-                                                ownerInfo.wallet
+                                                getReducedAddress(
+                                                    ownerInfo.wallet
+                                                )
                                             }
                                             // total_sale={ownerInfo.total_sale}
                                             slug={`/profile/${ownerInfo.wallet}`}
@@ -217,7 +220,7 @@ const ProductDetailsArea = ({
                                         />
                                     </div>
                                     <div className="catagory">
-                                        <span>Collections</span>
+                                        <span>Collection</span>
                                         <TopSellerArea
                                             name={collectionInfo.title}
                                             // total_sale={ownerInfo.total_sale}

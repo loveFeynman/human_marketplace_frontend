@@ -18,7 +18,6 @@ function usePickNft(tokenId, collection) {
                     token_id: tokenId,
                 },
             });
-            console.log("nftData: ", nftData);
             const selectedNftData = {
                 ...marketplaceNft,
                 image_url: nftData?.info.extension.image_url,

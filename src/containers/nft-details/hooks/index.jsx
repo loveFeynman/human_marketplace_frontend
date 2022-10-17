@@ -40,7 +40,7 @@ export const UseHistory = (token_id) => {
                         : "/images/client/client-2.png";
                     _data.name =
                         avatars[index].first_name ||
-                        getReducedAddress(_data.from_a);
+                        getReducedAddress(_data.to_a);
                     _data.slug = `/profile/${_data.to_a}`;
                     return _data;
                 })

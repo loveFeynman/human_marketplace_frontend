@@ -38,7 +38,29 @@ function useAxios() {
             return {};
         }
     }, []);
-    return { saveSaleHistory, fetchUserInfo, saveMintHistory, getNewestItem };
+    const getHistoricalData = useCallback(async (skip = 0, limit = 10) => {
+        try {
+            const { data } = await axios.get(
+                `${backendBaseUrl}/api/sale_history/get_historical_data`,
+                {
+                    params: {
+                        skip,
+                        limit,
+                    },
+                }
+            );
+            return data;
+        } catch (err) {
+            return [];
+        }
+    }, []);
+    return {
+        saveSaleHistory,
+        fetchUserInfo,
+        saveMintHistory,
+        getNewestItem,
+        getHistoricalData,
+    };
 }
 
 export default useAxios;

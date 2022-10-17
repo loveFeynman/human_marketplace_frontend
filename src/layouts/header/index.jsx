@@ -5,6 +5,7 @@ import { useWalletManager } from "@noahsaso/cosmodal";
 import Logo from "@components/logo";
 import MainMenu from "@components/menu/main-menu";
 import MobileMenu from "@components/menu/mobile-menu";
+import Anchor from "@ui/anchor";
 // import SearchForm from "@components/search-form/layout-01";
 // import FlyoutSearchForm from "@components/search-form/layout-02";
 import UserDropdown from "@components/user-dropdown";
@@ -177,14 +178,14 @@ const Header = ({ className }) => {
                                     <UserDropdown />
                                 </div>
                             )}
-                            {/* <div className="setting-option rn-icon-list notification-badge">
+                            <div className="setting-option rn-icon-list notification-badge">
                                 <div className="icon-box">
-                                    <Anchor path={headerData.activity_link}>
+                                    <Anchor path="/activity">
                                         <i className="feather-bell" />
-                                        <span className="badge">6</span>
+                                        {/* <span className="badge">6</span> */}
                                     </Anchor>
                                 </div>
-                            </div> */}
+                            </div>
                             <div className="setting-option mobile-menu-bar d-block d-xl-none">
                                 <div className="hamberger">
                                     <BurgerButton onClick={offcanvasHandler} />
