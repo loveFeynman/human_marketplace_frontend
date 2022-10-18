@@ -37,7 +37,6 @@ const Product = () => {
             }),
         [marketplaceNfts, nftAddress]
     );
-    console.log('collection info', collectionInfo)
 
     return (
         <Wrapper>
