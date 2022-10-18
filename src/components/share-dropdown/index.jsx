@@ -17,29 +17,32 @@ const ShareDropdown = ({ isOwner = false }) => {
             <Dropdown className="share-btn share-btn-activation">
                 <Dropdown.Toggle className="icon" variant="link" bsPrefix="p-0">
                     <svg
-                        viewBox="0 0 14 4"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
                         fill="none"
-                        width="16"
-                        height="16"
-                        className="sc-bdnxRM sc-hKFxyN hOiKLt"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="feather feather-flag"
                     >
-                        <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M3.5 2C3.5 2.82843 2.82843 3.5 2 3.5C1.17157 3.5 0.5 2.82843 0.5 2C0.5 1.17157 1.17157 0.5 2 0.5C2.82843 0.5 3.5 1.17157 3.5 2ZM8.5 2C8.5 2.82843 7.82843 3.5 7 3.5C6.17157 3.5 5.5 2.82843 5.5 2C5.5 1.17157 6.17157 0.5 7 0.5C7.82843 0.5 8.5 1.17157 8.5 2ZM11.999 3.5C12.8274 3.5 13.499 2.82843 13.499 2C13.499 1.17157 12.8274 0.5 11.999 0.5C11.1706 0.5 10.499 1.17157 10.499 2C10.499 2.82843 11.1706 3.5 11.999 3.5Z"
-                            fill="currentColor"
-                        />
+                        <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
+                        <line x1="4" y1="22" x2="4" y2="15"></line>
                     </svg>
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu className="share-btn-setting" align="end">
-                    <button
-                        type="button"
-                        className="btn-setting-text share-text"
-                        onClick={handleShareModal}
-                    >
-                        Share
-                    </button>
+                    {isOwner && (
+                        <button
+                            type="button"
+                            className="btn-setting-text share-text"
+                            onClick={handleShareModal}
+                        >
+                            Share
+                        </button>
+                    )}
                     {!isOwner && (
                         <button
                             type="button"

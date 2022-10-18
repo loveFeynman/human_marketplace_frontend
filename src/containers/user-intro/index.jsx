@@ -14,18 +14,31 @@ import { useAxios } from "src/hooks";
 const UserIntroArea = ({ className, space }) => {
     const [isShareModalOpen, setIsShareModalOpen] = useState(false);
     const [userInfo, setUserInfo] = useState({});
-    const { fetchUserInfo } = useAxios();
+    const [follow, setFollow] = useState({});
+    const { fetchUserInfo, fetchFollowInfo, handleFollow } = useAxios();
+    const { connectedWallet } = useWalletManager();
     const { asPath } = useRouter();
     const userAddress = asPath.split("/")[2];
+    const fetchFollow = async () => {
+        const followInfo = await fetchFollowInfo(userAddress);
+        setFollow({
+            from: followInfo.from.map((_data) => _data.to_address),
+            to: followInfo.to.map((_data) => _data.from_address),
+        });
+    };
     useEffect(() => {
         (async () => {
             const info = await fetchUserInfo(userAddress);
             setUserInfo(info);
+            await fetchFollow();
         })();
     }, [userAddress]);
 
     const shareModalHandler = () => setIsShareModalOpen((prev) => !prev);
-
+    const handleFollowClick = async () => {
+        await handleFollow(connectedWallet?.address, userAddress);
+        await fetchFollow();
+    };
     const userData = useMemo(() => {
         const result = {
             background: {
@@ -40,8 +53,6 @@ const UserIntroArea = ({ className, space }) => {
                     : "/images/icons/boy-avater.png",
             },
             name: userInfo.first_name || "",
-            followers: 0,
-            following: 0,
         };
         return result;
     }, [userInfo.first_name, userInfo.cover, userInfo.logo]);
@@ -93,7 +104,7 @@ const UserIntroArea = ({ className, space }) => {
                                         <h4 className="title">
                                             {userData.name}
                                         </h4>
-                                        <a
+                                        {/* <a
                                             href="https://twitter.com"
                                             target="_blank"
                                             rel="noreferrer"
@@ -103,11 +114,12 @@ const UserIntroArea = ({ className, space }) => {
                                             <span className="user-name">
                                                 {userData.twitter}
                                             </span>
-                                        </a>
+                                        </a> */}
                                         <div className="follow-area">
                                             <div className="follow followers">
                                                 <span>
-                                                    {userData.followers}{" "}
+                                                    {follow.to &&
+                                                        follow.to.length}{" "}
                                                     <a
                                                         href="https://twitter.com"
                                                         target="_blank"
@@ -120,7 +132,8 @@ const UserIntroArea = ({ className, space }) => {
                                             </div>
                                             <div className="follow following">
                                                 <span>
-                                                    {userData.following}{" "}
+                                                    {follow.from &&
+                                                        follow.from.length}{" "}
                                                     <a
                                                         href="https://twitter.com"
                                                         target="_blank"
@@ -133,10 +146,20 @@ const UserIntroArea = ({ className, space }) => {
                                             </div>
                                         </div>
                                         <div className="author-button-area">
-                                            <span className="btn at-follw follow-button">
-                                                <i className="feather-user-plus" />
-                                                Follow
-                                            </span>
+                                            {connectedWallet && (
+                                                <span
+                                                    className="btn at-follw follow-button"
+                                                    onClick={handleFollowClick}
+                                                >
+                                                    <i className="feather-user-plus" />
+                                                    {follow.to &&
+                                                    follow.to.includes(
+                                                        connectedWallet?.address
+                                                    )
+                                                        ? "Unfollow"
+                                                        : "Follow"}
+                                                </span>
+                                            )}
                                             <button
                                                 type="button"
                                                 className="btn at-follw share-button"
@@ -148,12 +171,12 @@ const UserIntroArea = ({ className, space }) => {
                                             <div className="count at-follw">
                                                 <ShareDropdown />
                                             </div>
-                                            <Anchor
+                                            {/* <Anchor
                                                 path="/edit-profile"
                                                 className="btn at-follw follow-button edit-btn"
                                             >
                                                 <i className="feather feather-edit" />
-                                            </Anchor>
+                                            </Anchor> */}
                                         </div>
                                     </div>
                                 </div>

@@ -15,6 +15,9 @@ const BidsTabContent = ({ bids }) => {
     };
     return (
         <div>
+            {(!sortedBids || sortedBids?.length === 0) && (
+                <div className="pt--20">No bids placed yet</div>
+            )}
             {sortedBids?.map((bid) => (
                 <TopSeller
                     key={bid.bidder}

@@ -161,7 +161,7 @@ const NftItem = ({ overlay, item }) => {
                                 }}
                                 className="more-author-text"
                             >
-                                {Number(nftInfo.bids.max_bid) / 1e6} Heart by{" "}
+                                {Number(nftInfo.bids.max_bid) / 1e6} $Heart by{" "}
                                 {nftInfo.bids.max_bidder}
                             </span>
                         </div>
@@ -185,7 +185,7 @@ const NftItem = ({ overlay, item }) => {
                 {nftInfo.price && (
                     <div className="bid-react-area">
                         <div className="last-bid">
-                            {nftInfo.price.amount / 1e6} {nftInfo.price.denom}
+                            {nftInfo.price.amount / 1e6} $Heart
                         </div>
                     </div>
                 )}

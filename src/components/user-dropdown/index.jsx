@@ -26,7 +26,7 @@ const UserDropdown = () => {
                 src={
                     userInfo.logo
                         ? getImageFromHash(userInfo.logo)
-                        : "/images/icons/boy-avater.png"
+                        : "/images/icons/avatar.png"
                 }
                 alt="Images"
                 layout="fixed"
@@ -60,7 +60,7 @@ const UserDropdown = () => {
                                     src={
                                         userInfo.logo
                                             ? getImageFromHash(userInfo.logo)
-                                            : "/images/icons/boy-avater.png"
+                                            : "/images/icons/avatar.png"
                                     }
                                     alt="Nft Product Images"
                                     layout="fixed"
@@ -114,7 +114,9 @@ const UserDropdown = () => {
                         <Anchor path="/my-collections">My Collections</Anchor>
                     </li>
                     <li>
-                        <Anchor path="/profile">My Profile</Anchor>
+                        <Anchor path={`/profile/${connectedWallet?.address}`}>
+                            My Profile
+                        </Anchor>
                     </li>
                     {/* <li>
                         <Anchor path="/my-nfts">My Nfts</Anchor>

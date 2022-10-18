@@ -225,7 +225,9 @@ function useContract() {
                 const errMsg = err.message;
                 // eslint-disable-next-line no-console
                 console.error(err, errMsg, typeof errMsg);
-                toast.error(`Fail! ${errMsg}`);
+                toast.error(
+                    `Transaction failed. Please check your inputs and try it again.`
+                );
             }
         },
         [runExecute]
@@ -269,8 +271,6 @@ function useContract() {
 
     const acceptBid = useCallback(
         async (item) => {
-            console.log("item: ", item);
-
             const expiresAt = item.expires_at
                 ? new Date(item.expires_at)
                 : null;
@@ -306,6 +306,15 @@ function useContract() {
         [runExecute]
     );
 
+    const getCollectionInfo = useCallback(
+        async (address) => {
+            const data = await runQuery(address, {
+                get_collection_state: {},
+            });
+            return data;
+        },
+        [runQuery]
+    );
     return {
         runQuery,
         runExecute,
@@ -314,6 +323,7 @@ function useContract() {
         buyNft,
         setBid,
         acceptBid,
+        getCollectionInfo,
     };
 }
 

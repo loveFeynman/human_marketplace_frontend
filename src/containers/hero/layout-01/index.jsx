@@ -41,7 +41,7 @@ const HeroArea = ({ data }) => {
                     token_url: _contractData.img_url,
                     // image_url: "/image",
                 }));
-            setDisplayNfts(dispData);
+            setDisplayNfts(dispData || []);
         })();
     }, []);
     return (

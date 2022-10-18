@@ -68,6 +68,7 @@ const ProductArea = ({ className, space, data }) => (
                                         // bitCount={prod.bitCount}
                                         contractAddress={prod.contractAddress}
                                         filter="all"
+                                        total_supply={prod.total_supply}
                                     />
                                 ))}
                             </TabPane>
@@ -88,6 +89,7 @@ const ProductArea = ({ className, space, data }) => (
                                         // authors={prod.authors}
                                         // bitCount={prod.bitCount}
                                         contractAddress={prod.contractAddress}
+                                        total_supply={prod.total_supply}
                                         filter="live"
                                     />
                                 ))}

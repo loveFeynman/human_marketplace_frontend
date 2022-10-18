@@ -2,24 +2,20 @@ import SEO from "@components/seo";
 import Wrapper from "@layout/wrapper";
 import Header from "@layout/header";
 import Footer from "@layout/footer";
-import AuthorIntroArea from "@containers/author-intro";
-import AuthorProfileArea from "@containers/author-profile";
-import withAuth from "@utils/auth";
+import ActivityArea from "@containers/activity";
 
 export async function getStaticProps() {
     return { props: { className: "template-color-1" } };
 }
-
-const Profile = () => (
+const Home = () => (
     <Wrapper>
-        <SEO pageTitle="Profile" />
+        <SEO pageTitle="Acivity" />
         <Header />
         <main id="main-content">
-            <AuthorIntroArea />
-            <AuthorProfileArea />
+            <ActivityArea />
         </main>
         <Footer />
     </Wrapper>
 );
 
-export default withAuth(Profile);
+export default Home;

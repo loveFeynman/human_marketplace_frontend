@@ -94,15 +94,23 @@ const UserProfileArea = ({ className }) => {
             crrNfts.forEach((nft) => {
                 if (userDefinedAddresses.includes(nft.token_address)) {
                     myCreated.push(nft);
-                } else {
-                    myOwned.push(nft);
                 }
+                myOwned.push(nft);
             });
         });
         if (connectedWallet) {
             Object.keys(marketplaceNfts || {}).forEach((key) => {
                 const crrNfts = marketplaceNfts[key] || [];
-                myOnSale = [...myOnSale, ...crrNfts];
+                crrNfts.forEach((nft, index) => {
+                    if (nft.seller !== userAddress) return;
+                    if (userDefinedAddresses.includes(nft.token_address)) {
+                        myCreated.push(nft);
+                    } else {
+                        myOwned.push(nft);
+                    }
+                    myOnSale.push(nft);
+                    // myOnSale = [...myOnSale, ...crrNfts];
+                });
             });
         }
         return { onSale: myOnSale, created: myCreated, owned: myOwned };
@@ -155,9 +163,9 @@ const UserProfileArea = ({ className }) => {
                             className="row d-flex g-5"
                             eventKey="nav-on-sale"
                         >
-                            {myNfts?.onSale?.map((prod) => (
+                            {myNfts?.onSale?.map((prod, index) => (
                                 <div
-                                    key={prod.token_id}
+                                    key={index}
                                     className="col-5 col-lg-4 col-md-6 col-sm-6 col-12"
                                 >
                                     <NftItem overlay item={prod} />
@@ -168,9 +176,9 @@ const UserProfileArea = ({ className }) => {
                             className="row g-5 d-flex"
                             eventKey="nav-owned"
                         >
-                            {myNfts?.owned?.map((prod) => (
+                            {myNfts?.owned?.map((prod, index) => (
                                 <div
-                                    key={prod.token_id}
+                                    key={index}
                                     className="col-5 col-lg-4 col-md-6 col-sm-6 col-12"
                                 >
                                     <NftItem overlay item={prod} />
@@ -181,9 +189,9 @@ const UserProfileArea = ({ className }) => {
                             className="row g-5 d-flex"
                             eventKey="nav-created"
                         >
-                            {myNfts?.created?.map((prod) => (
+                            {myNfts?.created?.map((prod, index) => (
                                 <div
-                                    key={prod.token_id}
+                                    key={index}
                                     className="col-5 col-lg-4 col-md-6 col-sm-6 col-12"
                                 >
                                     <NftItem overlay item={prod} />

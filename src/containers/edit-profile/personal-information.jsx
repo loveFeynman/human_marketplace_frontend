@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "@app/hooks";
 import { editUser } from "./hooks";
+import { countries } from "@constant";
 
 const PersonalInformation = () => {
     const { connectedWallet } = useWalletManager();
@@ -128,64 +129,20 @@ const PersonalInformation = () => {
                         onChange={(e) => handleChangeSelect("gendor", e)}
                     />
                 </div>
-            </div>
-
-            <div className="input-two-wrapper mt--15">
                 <div className="half-wid currency">
                     <NiceSelect
-                        options={[
-                            { value: "($)USD", text: "($)USD" },
-                            { value: "wETH", text: "wETH" },
-                            { value: "BIT Coin", text: "BIT Coin" },
-                        ]}
-                        placeholder="Currency"
-                        className="profile-edit-select"
-                        defaultCurrent={personalInformation.currency}
-                        onChange={(e) => handleChangeSelect("currency", e)}
-                    />
-                </div>
-                <div className="half-wid phone-number">
-                    <label htmlFor="PhoneNumber" className="form-label mb--10">
-                        Phone Number
-                    </label>
-                    <input
-                        name="phone"
-                        id="PhoneNumber"
-                        type="text"
-                        placeholder="+880100000000"
-                        value={personalInformation.phone || ""}
-                        onChange={handleChangePersonalInfo}
-                    />
-                </div>
-            </div>
-            <div className="input-two-wrapper mt--15">
-                <div className="half-wid currency">
-                    <NiceSelect
-                        options={[
-                            { value: "United State", text: "United States" },
-                            { value: "Katar", text: "Katar" },
-                            { value: "Canada", text: "Canada" },
-                        ]}
+                        options={countries.map((country) => ({
+                            value: country,
+                            text: country,
+                        }))}
                         placeholder="Location"
                         className="profile-edit-select"
                         defaultCurrent={personalInformation.location}
                         onChange={(e) => handleChangeSelect("location", e)}
                     />
                 </div>
-                <div className="half-wid phone-number">
-                    <label htmlFor="PhoneNumber" className="form-label mb--10">
-                        Address
-                    </label>
-                    <input
-                        name="address"
-                        id="PhoneNumber"
-                        type="text"
-                        placeholder="USA Cidni"
-                        value={personalInformation.address}
-                        onChange={handleChangePersonalInfo}
-                    />
-                </div>
             </div>
+
             <div className="button-area save-btn-edit">
                 <Button className="mr--15" color="primary-alta" size="medium">
                     Cancel

@@ -1,38 +1,13 @@
-import { useMemo } from "react";
+import { useState, useEffect } from "react";
 import SEO from "@components/seo";
 import Wrapper from "@layout/wrapper";
 import Header from "@layout/header";
 import Footer from "@layout/footer";
 import Breadcrumb from "@components/breadcrumb";
+import FilterButtons from "@components/filter-buttons";
 import CollectionArea from "@containers/collection";
 import { useAppSelector } from "@app/hooks";
-
-// demo data
-// const collectionsData = [
-//     {
-//         id: 1,
-//         title: "Cubic Trad",
-//         slug: "/marketplace",
-//         total_item: 27,
-//         image: {
-//             src: "/images/collection/collection-lg-01.jpg",
-//         },
-//         thumbnails: [
-//             {
-//                 src: "/images/collection/collection-sm-01.jpg",
-//             },
-//             {
-//                 src: "/images/collection/collection-sm-02.jpg",
-//             },
-//             {
-//                 src: "/images/collection/collection-sm-03.jpg",
-//             },
-//         ],
-//         profile_image: {
-//             src: "/images/client/client-15.png",
-//         },
-//     },
-// ];
+import { GetTopCollections } from "@containers/collection/hooks";
 
 export async function getStaticProps() {
     return { props: { className: "template-color-1" } };
@@ -40,7 +15,11 @@ export async function getStaticProps() {
 
 const Collection = () => {
     const collections = useAppSelector((state) => state.collections);
-    const collectionsData = useMemo(() => {
+    const topCollections = GetTopCollections();
+    const filters = ["lowest", "highest"];
+    const [sortedData, setSortedData] = useState([]);
+    const [sortKey, setSortKey] = useState("highest");
+    useEffect(() => {
         const result = [];
         Object.keys(collections).forEach((key) => {
             const collection = collections[key];
@@ -49,12 +28,16 @@ const Collection = () => {
             )
                 ? 0
                 : Number(collection.mint_info?.total_supply);
+            const tradingVolume =
+                topCollections.find((_item) => _item.id === key)
+                    ?.tradingVolume || 0;
             if (key !== "addresses") {
                 result.push({
                     id: key,
                     title: collection.collection_info?.title || "",
                     slug: `/marketplace?nftAddress=${key}`,
                     total_item: totalItem,
+                    tradingVolume,
                     image: {
                         src:
                             collection.collection_info?.background_url ||
@@ -81,9 +64,20 @@ const Collection = () => {
                 });
             }
         });
-        return result;
-    }, [collections]);
+        if (sortKey === "highest") {
+            setSortedData(
+                result.sort((a, b) => a.tradingVolume - b.tradingVolume)
+            );
+        } else {
+            setSortedData(
+                result.sort((a, b) => b.tradingVolume - a.tradingVolume)
+            );
+        }
+    }, [collections, sortKey]);
 
+    const filterHandler = async (filterKey) => {
+        setSortKey(filterKey);
+    };
     return (
         <Wrapper>
             <SEO pageTitle="Collections" />
@@ -93,7 +87,15 @@ const Collection = () => {
                     pageTitle="Explore Products"
                     currentPage="Collections"
                 />
-                <CollectionArea data={{ collections: collectionsData }} />
+                <div className="container mt--20">
+                    <FilterButtons
+                        buttons={filters}
+                        filterHandler={filterHandler}
+                        allShow={false}
+                    />
+                </div>
+
+                <CollectionArea data={{ collections: sortedData }} />
             </main>
             <Footer />
         </Wrapper>

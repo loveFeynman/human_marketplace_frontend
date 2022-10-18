@@ -30,7 +30,7 @@ const PlaceBidModal = ({ show, handleModal }) => (
                     <div className="bid-content-top">
                         <div className="bid-content-left">
                             <input id="value" type="text" name="value" />
-                            <span>HEART</span>
+                            <span>$HEART</span>
                         </div>
                     </div>
 

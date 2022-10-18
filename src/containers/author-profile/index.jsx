@@ -70,15 +70,22 @@ const AuthorProfileArea = ({ className }) => {
             crrNfts.forEach((nft) => {
                 if (userDefinedAddresses.includes(nft.token_address)) {
                     myCreated.push(nft);
-                } else {
-                    myOwned.push(nft);
                 }
+                myOwned.push(nft);
             });
         });
         if (connectedWallet) {
             Object.keys(marketplaceNfts || {}).forEach((key) => {
                 const crrNfts = marketplaceNfts[key];
-                myOnSale = [...myOnSale, ...crrNfts];
+                crrNfts.forEach((nft) => {
+                    if (nft.seller !== connectedWallet?.address) return;
+                    if (userDefinedAddresses.includes(nft.token_address)) {
+                        myCreated.push(nft);
+                    } else {
+                        myOwned.push(nft);
+                    }
+                    myOnSale.push(nft);
+                });
             });
         }
         return { onSale: myOnSale, created: myCreated, owned: myOwned };

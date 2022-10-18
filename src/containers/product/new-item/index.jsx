@@ -98,7 +98,10 @@ const ProductArea = ({ space, className }) => {
                             // data-sal="slide-up"
                             // data-sal-duration="800"
                         >
-                            <Anchor className="btn-transparent" path="/product">
+                            <Anchor
+                                className="btn-transparent"
+                                path="/collections"
+                            >
                                 VIEW ALL
                                 <i className="feather feather-arrow-right" />
                             </Anchor>

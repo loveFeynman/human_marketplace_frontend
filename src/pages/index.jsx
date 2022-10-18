@@ -5,8 +5,10 @@ import Footer from "@layout/footer";
 import ServiceArea from "@containers/services/layout-01";
 import HeroArea from "@containers/hero/layout-01";
 import TopSellerArea from "@containers/top-seller";
+import LiveExploreArea from "@containers/live-explore";
 import NewestItmesArea from "@containers/product/new-item";
 import CollectionArea from "@containers/collection/top-collection";
+import ExploreProductArea from "@containers/explore-product/layout-02";
 
 // Demo Data
 import collectionsData from "../data/collections.json";
@@ -20,10 +22,10 @@ const data = {
         {
             id: 1,
             title: "Set up your wallet",
-            path: "/",
-            subtitle: "Step-01",
+            path: "/tutorials/set_up_your_wallet",
+            subtitle: "STEP 1",
             description:
-                "Powerful features and inclusions, which makes Nuron standout, easily customizable and scalable.",
+                "The procedure for setting up your wallet differs based on the wallet, however for this example, we'll go through the steps of creating a Keplr wallet.",
             images: [
                 {
                     src: "/images/icons/shape-7.png",
@@ -33,10 +35,10 @@ const data = {
         {
             id: 2,
             title: "Create your collection",
-            path: "/collections",
-            subtitle: "Step-02",
+            path: "/tutorials/create_your_collection",
+            subtitle: "STEP 2",
             description:
-                "A great collection of beautiful website templates for your need. Choose the best suitable template.",
+                "Creating a collection on our platform is simple and straightforward. You only need to determine the purpose and royalty rate of your collection and add your NFT's.",
             images: [
                 {
                     src: "/images/icons/shape-1.png",
@@ -46,10 +48,10 @@ const data = {
         {
             id: 3,
             title: "Add your NFT's",
-            path: "/create-nft",
-            subtitle: "Step-03",
+            path: "/tutorials/add_your_nfts",
+            subtitle: "STEP 3",
             description:
-                "We've made the template fully responsive, so it looks great on all devices: desktop, tablets and.",
+                "To add an NFT, you'll need a crypto wallet to generate and mint your NFT. This provides an unchangeable record of legitimacy and ownership.",
             images: [
                 {
                     src: "/images/icons/shape-5.png",
@@ -59,10 +61,10 @@ const data = {
         {
             id: 4,
             title: "Sell Your NFT's",
-            path: "/",
-            subtitle: "Step-04",
+            path: "/tutorials/sell_your_nfts",
+            subtitle: "STEP 4",
             description:
-                "I throw myself down among the tall grass by the stream as I lie close to the earth NFT's.",
+                "Selling an NFT on our platform is quick and straightforward. Anyone who has an NFT, whether the inventor or the person who most recently collected it, can sell it for sale.",
             images: [
                 {
                     src: "/images/icons/shape-6.png",
@@ -76,15 +78,14 @@ const heroData = {
     headings: [
         {
             id: 1,
-            content:
-                "Discover Digital Art, Collect and Sell Your Specific NFTs.",
+            content: "Explore Your Dedicated Dreams.",
         },
     ],
     texts: [
         {
             id: 1,
             content:
-                "Partner with one of the world's largest retailers to showcase your brand and products.",
+                "Your imagination is what makes you unique. Use our AI technology to share with the world your dreams and artistic vision. Digitize your way of living!",
         },
     ],
     buttons: [
@@ -112,7 +113,9 @@ const Home = () => (
         <div id="main-content">
             <HeroArea data={{ ...heroData }} />
             <ServiceArea data={data} />
+            <LiveExploreArea />
             <NewestItmesArea />
+            <ExploreProductArea />
             <TopSellerArea />
             <CollectionArea
                 data={{

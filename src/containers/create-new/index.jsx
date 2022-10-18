@@ -19,6 +19,7 @@ const CreateNewArea = ({ className, space }) => {
     const [attributesSet, setAttributesSet] = useState([
         { field: "", value: "" },
     ]);
+    const [nftType, setNftType] = useState("");
     const [uploadShow, setUploadShow] = useState(false);
     const [hasImageError, setHasImageError] = useState(false);
     const [hasMetadataError, setHasMetadataError] = useState(false);
@@ -111,15 +112,18 @@ const CreateNewArea = ({ className, space }) => {
         setHasImageError(!selectedImage);
         // building NFT data
         // building attributes data
-        const attributes = {};
+        const attributes = [];
         attributesSet.forEach((attributeItem) => {
             const { field, value } = attributeItem;
+            let _attribute = {};
             if (field && value) {
-                attributes[field] = value;
+                _attribute["trait_type"] = field;
+                _attribute["value"] = value;
             }
+            attributes.push(_attribute);
         });
         const metadata = {};
-        if (Object.keys(attributes).length) {
+        if (attributes.length) {
             metadata.attributes = attributes;
         }
         metadataSet.forEach((metadataItem) => {
@@ -164,6 +168,7 @@ const CreateNewArea = ({ className, space }) => {
                             token_id: data.token_id,
                             owner: connectedWallet.address,
                             token_uri,
+                            content_type: nftType,
                             extension: {
                                 minter: connectedWallet.address,
                                 image_url,
@@ -172,7 +177,7 @@ const CreateNewArea = ({ className, space }) => {
                     };
                     try {
                         await runExecute(data.collection, msg);
-                        toast.success("Successfuly Minted!");
+                        toast.success("Uploaded Successfuly!");
                         reset();
                         setSelectedImage();
                     } catch (err) {
@@ -307,7 +312,9 @@ const CreateNewArea = ({ className, space }) => {
     //         ) : null;
     //     });
     // };
-
+    const handleChangeCheckbox = (e) => {
+        setNftType(e.target.name);
+    };
     return (
         <>
             <div
@@ -446,7 +453,75 @@ const CreateNewArea = ({ className, space }) => {
                                                 )}
                                             </div>
                                         </div>
-
+                                        <div className="col-md-12">
+                                            <div className="input-box pb--20">
+                                                <div className="form-label">
+                                                    NFT Type
+                                                </div>
+                                                <div>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={
+                                                            nftType === "ai_nft"
+                                                        }
+                                                        className="rn-check-box-input"
+                                                        onChange={
+                                                            handleChangeCheckbox
+                                                        }
+                                                        id="ai-nft"
+                                                        name="ai_nft"
+                                                    />
+                                                    <label
+                                                        className="rn-check-box-label"
+                                                        htmlFor="ai-nft"
+                                                    >
+                                                        AI NFT
+                                                    </label>
+                                                </div>
+                                                <div>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={
+                                                            nftType ===
+                                                            "language_processing"
+                                                        }
+                                                        className="rn-check-box-input"
+                                                        onChange={
+                                                            handleChangeCheckbox
+                                                        }
+                                                        id="language-processing"
+                                                        name="language_processing"
+                                                    />
+                                                    <label
+                                                        className="rn-check-box-label"
+                                                        htmlFor="language-processing"
+                                                    >
+                                                        Language Processing
+                                                    </label>
+                                                </div>
+                                                <div>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={
+                                                            nftType ===
+                                                            "syntetic_media"
+                                                        }
+                                                        className="rn-check-box-input"
+                                                        onChange={
+                                                            handleChangeCheckbox
+                                                        }
+                                                        id="syntetic-media"
+                                                        name="syntetic_media"
+                                                    />
+                                                    <label
+                                                        className="rn-check-box-label"
+                                                        htmlFor="syntetic-media"
+                                                    >
+                                                        Syntetic media
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div className="col-md-12">
                                             <div className="input-box pb--20">
                                                 <label

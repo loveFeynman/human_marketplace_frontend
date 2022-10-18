@@ -86,7 +86,7 @@ const PurchaseModal = ({
                                     onChange={handleChangeAmount}
                                 />
                                 {/* <span>{amountOptions?.denom || "uheart"}</span> */}
-                                <span>HEART</span>
+                                <span>$HEART</span>
                             </div>
                         </div>
 
@@ -98,12 +98,12 @@ const PurchaseModal = ({
                             </div>
                             <div className="bid-content-right">
                                 <span>
-                                    {`${balance.amount || ""} HEART`}
+                                    {`${balance.amount || ""} $HEART`}
                                     {/* {`${balance.amount || ""} ${
                                         balance.denom || ""
                                     }`} */}
                                 </span>
-                                <span>10 HEART</span>
+                                <span>10 $HEART</span>
                                 <span />
                             </div>
                         </div>

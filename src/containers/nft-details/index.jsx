@@ -1,13 +1,14 @@
 /* eslint-disable react/prop-types */
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { useWalletManager } from "@noahsaso/cosmodal";
 import Sticky from "@ui/sticky";
 import Button from "@ui/button";
 import CountdownTimer from "@ui/countdown/layout-01";
-import { useContract } from "@hooks";
+import { useContract, useAxios } from "@hooks";
 import ProductTitle from "@components/product-details/title";
+import TopSellerArea from "@components/top-seller/layout-01";
 import PurchaseModal from "@components/modals/purchase-modal";
 // import ProductCategory from "@components/product-details/category";
 // import ProductCollection from "@components/product-details/collection";
@@ -16,13 +17,49 @@ import PlaceBet from "@components/product-details/place-bet";
 // import { NftType } from "@utils/types";
 import { ChainConfig } from "@constant";
 import { UseHistory } from "./hooks";
+import { getImageFromHash } from "@utils/ipfs";
+import { getReducedAddress } from "@utils/index";
 // Demo Image
 
-const ProductDetailsArea = ({ space, className, product, bids }) => {
+const ProductDetailsArea = ({
+    space,
+    className,
+    product,
+    bids,
+    refreshData,
+}) => {
     const [showBidModal, setShowBidModal] = useState(false);
+    const [ownerInfo, setOwnerInfo] = useState({});
+    const [creatorInfo, setCreatorInfo] = useState({});
+    const [collectionInfo, setCollectionInfo] = useState({});
     const history = UseHistory(product.token_id);
+    const { fetchUserInfo } = useAxios();
     const { connectedWallet } = useWalletManager();
-    const { sellNft, withdrawNft, buyNft, setBid, acceptBid } = useContract();
+    const {
+        sellNft,
+        withdrawNft,
+        buyNft,
+        setBid,
+        acceptBid,
+        getCollectionInfo,
+    } = useContract();
+    useEffect(() => {
+        (async () => {
+            const userInfo = await fetchUserInfo(
+                product.seller || product.owner
+            );
+            const creatorInfo = await fetchUserInfo(product.creator);
+            const _collectionInfo = await getCollectionInfo(
+                product.token_address
+            );
+            setCollectionInfo({
+                title: _collectionInfo?.collection_info?.title,
+                image: _collectionInfo?.collection_info?.background_url,
+            });
+            setCreatorInfo(creatorInfo);
+            setOwnerInfo(userInfo);
+        })();
+    }, [product.owner, product.creator]);
     const nftInfo = useMemo(() => {
         const { price } = product;
         const image = product.image_url;
@@ -69,7 +106,6 @@ const ProductDetailsArea = ({ space, className, product, bids }) => {
     const handleBidModal = () => {
         setShowBidModal((prev) => !prev);
     };
-
     const handleNft = async (amount, extraOption, callback) => {
         if (!nftInfo.price) {
             try {
@@ -92,6 +128,7 @@ const ProductDetailsArea = ({ space, className, product, bids }) => {
             } catch (e) {
             } finally {
                 callback();
+                refreshData();
             }
         } else if (product.sale_type === "auction") {
             try {
@@ -104,6 +141,7 @@ const ProductDetailsArea = ({ space, className, product, bids }) => {
             } catch (e) {
             } finally {
                 callback();
+                refreshData();
             }
         } else {
             try {
@@ -153,16 +191,52 @@ const ProductDetailsArea = ({ space, className, product, bids }) => {
                                     <span className="bid">
                                         Listed Price{" "}
                                         <span className="price">
-                                            {product.price.amount / 1e6} Heart
+                                            {product.price.amount / 1e6} $Heart
                                         </span>
                                     </span>
                                 )}
                                 <h6 className="title-name">
-                                    {product.seller || ""}
+                                    {product.seller || product.owner}
                                 </h6>
+                                <div className="catagory-collection">
+                                    <div className="catagory">
+                                        <span>Owned by</span>
+                                        <TopSellerArea
+                                            name={
+                                                ownerInfo.first_name ||
+                                                getReducedAddress(
+                                                    ownerInfo.wallet
+                                                )
+                                            }
+                                            // total_sale={ownerInfo.total_sale}
+                                            slug={`/profile/${ownerInfo.wallet}`}
+                                            image={{
+                                                src: getImageFromHash(
+                                                    ownerInfo.logo
+                                                ),
+                                                width: "44px",
+                                                height: "44px",
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="catagory">
+                                        <span>Collection</span>
+                                        <TopSellerArea
+                                            name={collectionInfo.title}
+                                            // total_sale={ownerInfo.total_sale}
+                                            slug={`/marketplace?nftAddress=${product.token_address}`}
+                                            image={{
+                                                src: collectionInfo.image,
+                                                width: "44px",
+                                                height: "44px",
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+
                                 {!(
                                     nftInfo.buttonString === "Sell" &&
-                                    connectedWallet?.address !== product.seller
+                                    connectedWallet?.address !== product.owner
                                 ) && (
                                     <Button
                                         color="primary-alta"
@@ -188,10 +262,13 @@ const ProductDetailsArea = ({ space, className, product, bids }) => {
                                     )}
                                     <BidTab
                                         bids={bids}
-                                        owner={product.owner}
                                         properties={product?.properties}
                                         tags={product?.tags}
                                         history={history}
+                                        token_uri={product?.token_url}
+                                        ownerInfo={ownerInfo}
+                                        creatorInfo={creatorInfo}
+                                        created_at={product?.created_at}
                                     />
                                 </div>
                             </div>

@@ -25,6 +25,7 @@ const MintItem = ({
     // authors,
     // bitCount,
     // likeCount,
+    total_supply,
     className,
     contractAddress,
     filter,
@@ -165,18 +166,21 @@ const MintItem = ({
                                 </div> */}
                                 <div className="last-bid">
                                     {"Private Price: "}
-                                    {Number(price.private.amount) / 1e6} HEART
+                                    {Number(price.private.amount) / 1e6} $HEART
                                     &nbsp;
                                 </div>
                                 <div className="last-bid">
                                     {"Public Price: "}
-                                    {Number(price.public.amount) / 1e6} HEART
+                                    {Number(price.public.amount) / 1e6} $HEART
                                 </div>
                             </div>
                             {/* <Anchor path={`/product/${slug}`}>
                                 <h6 className="title">{title}</h6>
                             </Anchor> */}
-                            <h6 className="title">{title}</h6>
+                            <h6 className="title">
+                                {title}
+                                {`(${total_supply})`}
+                            </h6>
                             {mintInfo.startMintTime && (
                                 <CountdownTimer
                                     date={mintInfo.startMintTime.toString()}

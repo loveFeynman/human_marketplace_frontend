@@ -39,7 +39,6 @@ const NftItem = ({ overlay, item }) => {
                 : null;
         return { price, buttonString, image, expiresAt, expired, bids };
     }, [connectedWallet, item]);
-    console.log("nftinfo: ", item);
     return (
         <>
             <div

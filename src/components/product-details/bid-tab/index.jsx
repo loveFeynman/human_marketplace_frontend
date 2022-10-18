@@ -5,10 +5,18 @@ import TabContent from "react-bootstrap/TabContent";
 import TabPane from "react-bootstrap/TabPane";
 import Nav from "react-bootstrap/Nav";
 import BidsTabContent from "./bids-tab-content";
-// import DetailsTabContent from "./details-tab-content";
+import DetailsTabContent from "./details-tab-content";
 import HistoryTabContent from "./history-tab-content";
 
-const BidTab = ({ className, bids, history }) => (
+const BidTab = ({
+    className,
+    bids,
+    history,
+    token_uri,
+    ownerInfo,
+    creatorInfo,
+    created_at,
+}) => (
     <TabContainer defaultActiveKey="nav-home">
         <div className={clsx("tab-wrapper-one", className)}>
             <nav className="tab-button-one">
@@ -29,14 +37,16 @@ const BidTab = ({ className, bids, history }) => (
                     <BidsTabContent bids={bids} />
                 </TabPane>
                 <TabPane eventKey="nav-profile">
-                    {/* <DetailsTabContent
-                        owner={owner}
-                        properties={properties}
-                        tags={tags}
-                    /> */}
+                    <DetailsTabContent
+                        token_uri={token_uri}
+                        ownerInfo={ownerInfo}
+                    />
                 </TabPane>
                 <TabPane eventKey="nav-contact">
-                    <HistoryTabContent history={history} />
+                    <HistoryTabContent
+                        history={history}
+                        creatorInfo={{ ...creatorInfo, time: created_at }}
+                    />
                 </TabPane>
             </TabContent>
         </div>

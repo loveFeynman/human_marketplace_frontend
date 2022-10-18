@@ -277,9 +277,10 @@ a {
         background: transparent;
         min-width: 200px;
         border-radius: 5px;
+        max-height: 300px;
         margin-top: 4px;
         opacity: 0;
-        overflow: hidden;
+        overflow: auto;
         padding: 0;
         pointer-events: none;
         position: absolute;

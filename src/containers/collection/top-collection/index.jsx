@@ -48,9 +48,9 @@ const TopCollectionArea = ({ className, id, space, data }) => {
                     <div className="col-lg-6 col-md-6 col-sm-6 col-12 mt_mobile--15">
                         <div
                             className="view-more-btn text-start text-sm-end"
-                            data-sal-delay="150"
-                            data-sal="slide-up"
-                            data-sal-duration="800"
+                            // data-sal-delay="150"
+                            // data-sal="slide-up"
+                            // data-sal-duration="800"
                         >
                             <Anchor
                                 className="btn-transparent"
@@ -62,9 +62,11 @@ const TopCollectionArea = ({ className, id, space, data }) => {
                         </div>
                     </div>
                 </div>
-                {data?.collections && (
-                    <div className="row g-5">
-                        {collections.map((collection) => (
+                <div className="row g-5">
+                    {collections
+                        .filter((collection) => totalNfts[collection.id] > 0)
+                        .slice(0, 4)
+                        .map((collection) => (
                             <div
                                 key={collection.id}
                                 className="col-lg-4 col-xl-3 col-md-6 col-sm-6 col-12"
@@ -79,8 +81,7 @@ const TopCollectionArea = ({ className, id, space, data }) => {
                                 />
                             </div>
                         ))}
-                    </div>
-                )}
+                </div>
             </div>
         </div>
     );
