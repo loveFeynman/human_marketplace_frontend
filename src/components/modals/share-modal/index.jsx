@@ -89,7 +89,7 @@ const ShareModal = ({ show, handleModal }) => (
                 </ul>
             </Modal.Body>
             <Modal.Footer>
-                <div class="mx-auto" ref={ref} id="messageDiv"></div>
+                <div class="mx-auto text-break" ref={ref} id="messageDiv"></div>
             </Modal.Footer>
         </Modal>
     )
