@@ -10,6 +10,8 @@ import ErrorText from "@ui/error-text";
 import { uploadFileToIpfs } from "@utils/ipfs";
 import { useContract } from "@hooks";
 import { CollectionCreatorContract } from "@constant";
+import { getContractAddressFromResponse } from "@utils/index";
+import { useRouter } from "next/router";
 
 const CreateNewArea = ({ className, space, isAdminPage }) => {
     const [selectedBackgroundImage, setSelectedBackgroundImage] = useState();
@@ -23,6 +25,7 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
 
     const { connectedWallet } = useWalletManager();
     const { runExecute } = useContract();
+    const router = useRouter();
 
     const {
         register,
@@ -138,9 +141,14 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                     };
                 }
                 try {
-                    await runExecute(CollectionCreatorContract, msg);
+                    const response = await runExecute(CollectionCreatorContract, msg);
                     toast.success("Successfully Created!");
-                    reset();
+                    const createdAddress = getContractAddressFromResponse(response, "nft_address")
+                    if (createdAddress) {
+                        router.push(`/marketplace?nftAddress=${createdAddress}`)
+                    } else {
+                        reset();
+                    }
                 } catch (err) {
                     // eslint-disable-next-line no-console
                     console.error(err);

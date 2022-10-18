@@ -1,5 +1,6 @@
 export const getReducedAddress = (address) =>
     `${address?.slice(0, 5)}...${address?.slice(-5)}`;
+
 export const getStandardTime = (time) => {
     const interval = Date.now() / 1000 - Number(time);
     if (interval < 3600) return `${(interval / 60).toFixed(0)} mins`;
@@ -8,6 +9,7 @@ export const getStandardTime = (time) => {
     }
     return `${(interval / 3600 / 24).toFixed(0)} days`;
 };
+
 export const getCorrectTime = (utcTime) => {
     if (!utcTime) return;
     const full_date = utcTime.split("T");
@@ -22,4 +24,11 @@ export const getCorrectTime = (utcTime) => {
         timeArray[4]
     ).getTime();
     return getStandardTime(timestamp / 1000);
+};
+
+export const getContractAddressFromResponse = (response, key) => {
+    const attributes = response?.logs?.[0]?.events?.filter(
+        (event) => event.type === "wasm"
+    )[0]?.attributes;
+    return attributes?.filter((attribute) => attribute.key === key)[0]?.value;
 };

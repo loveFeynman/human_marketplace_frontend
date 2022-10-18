@@ -27,7 +27,7 @@ const ProductArea = ({ space, className, data }) => (
             <div className="row g-5">
                 {data?.products?.map((prod) => (
                     <div
-                        key={prod.id}
+                        key={prod.id || prod.token_id}
                         data-sal="slide-up"
                         data-sal-delay="150"
                         data-sal-duration="800"

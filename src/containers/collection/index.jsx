@@ -8,7 +8,7 @@ import { useAppSelector } from "@app/hooks";
 
 const POSTS_PER_PAGE = 8;
 
-const CollectionArea = ({ className, space, id, data }) => {
+const CollectionArea = ({ className, space, id, data, showAll }) => {
     const [collections, setCollections] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const marketplaceNfts = useAppSelector((state) => state.marketplaceNfts);
@@ -56,7 +56,7 @@ const CollectionArea = ({ className, space, id, data }) => {
             <div className="container">
                 <div className="row g-5">
                     {collections
-                        .filter((collection) => totalNfts[collection.id] > 0)
+                        .filter((collection) => showAll || totalNfts[collection.id] > 0)
                         .map((collection) => (
                             <div
                                 key={collection.id}
@@ -105,6 +105,7 @@ CollectionArea.propTypes = {
     data: PropTypes.shape({
         collections: PropTypes.arrayOf(CollectionType),
     }),
+    showAll: PropTypes.bool
 };
 CollectionArea.defaultProps = {
     space: 1,

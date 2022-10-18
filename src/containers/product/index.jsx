@@ -56,7 +56,7 @@ const ProductArea = ({ className, space, data }) => (
                             >
                                 {data?.products?.map((prod) => (
                                     <MintItem
-                                        key={prod.id}
+                                        key={prod.id || prod.token_id}
                                         title={prod.title}
                                         // slug={prod.slug}
                                         // latestBid={prod.latestBid}

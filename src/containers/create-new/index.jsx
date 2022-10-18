@@ -11,6 +11,7 @@ import { useAppSelector } from "@app/hooks";
 import { useWalletManager } from "@noahsaso/cosmodal";
 import { useContract } from "@hooks";
 import NiceSelect from "@ui/nice-select";
+import { useRouter } from "next/router";
 
 const CreateNewArea = ({ className, space }) => {
     const [showProductModal, setShowProductModal] = useState(false);
@@ -28,6 +29,7 @@ const CreateNewArea = ({ className, space }) => {
     const collectionInfo = useAppSelector((state) => state.collections);
     const { connectedWallet } = useWalletManager();
     const { runExecute } = useContract();
+    const router = useRouter()
 
     const {
         register,
@@ -177,9 +179,10 @@ const CreateNewArea = ({ className, space }) => {
                     };
                     try {
                         await runExecute(data.collection, msg);
-                        toast.success("Uploaded Successfuly!");
+                        toast.success("Uploaded Successfully!");
                         reset();
                         setSelectedImage();
+                        router.push(`/nft-detail?token_id=${data.token_id}&collection=${data.collection}`)
                     } catch (err) {
                         // eslint-disable-next-line no-console
                         console.error(err);
