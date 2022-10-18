@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { useMemo } from "react";
 import { Range } from "react-range";
 import PropTypes from "prop-types";
 import Button from "@ui/button";
@@ -9,10 +10,14 @@ const STEP = 1;
 const MIN = 0;
 const MAX = 100;
 
-const InputRange = ({ values, onChange, hideButton }) => {
+const InputRange = ({ values, onChange, hideButton, max }) => {
     const renderTrack = (props) => (
         <SliderTrack {...props} min={MIN} max={MAX} values={values} />
     );
+
+    const priceRange = useMemo(() => {
+        return [(max || 1) * (values[0] || 0)/ 100, (max || 1) * (values[1] || 100) / 100]
+    }, [values, max])
     return (
         <div className="input-range">
             <Range
@@ -29,8 +34,8 @@ const InputRange = ({ values, onChange, hideButton }) => {
                     <div className="price--output">
                         <span>Price :</span>
                         <span className="output-label">
-                            {values[0] || 0 / 100} Heart -{" "}
-                            {values[1] || 0 / 100} Heart
+                            {priceRange[0]} $Heart -{" "}
+                            {priceRange[1]} $Heart
                         </span>
                     </div>
                     {hideButton === false && (
@@ -50,6 +55,7 @@ InputRange.propTypes = {
     values: PropTypes.arrayOf(PropTypes.number),
     onChange: PropTypes.func,
     hideButton: PropTypes.bool,
+    max: PropTypes.number
 };
 
 InputRange.defaultProps = {

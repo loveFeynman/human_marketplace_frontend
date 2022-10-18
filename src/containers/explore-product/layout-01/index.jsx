@@ -40,8 +40,19 @@ const ExploreProductArea = ({ className, space, data, hiddenExpired }) => {
         slideToggle(filterRef.current);
     };
 
+    const getNftPrice = (priceAmount) => Number(priceAmount) / 1e6
+
+    const priceRange = useMemo(() => {
+        let maxPrice = 0;
+        state.products?.nft.forEach((nft) => {
+            const nftPrice = getNftPrice(nft.price?.amount || 0)
+            maxPrice = nftPrice > maxPrice? nftPrice : maxPrice
+        })
+        return maxPrice
+    })
+
     const displayNfts = useMemo(() => {
-        // const { price, sale_type } = state.inputs || {};
+        const { price, sale_type } = state.inputs || {};
         const filteredNfts = [];
         state.products?.nft.forEach((nft) => {
             let filtered = true;
@@ -50,17 +61,17 @@ const ExploreProductArea = ({ className, space, data, hiddenExpired }) => {
                 const expired = Date.now() - Number(expiresAt) > 0;
                 filtered = filtered && (!expiresAt || !expired);
             }
-            // let nftPrice = Number(nft.price?.amount);
+            let nftPrice = getNftPrice(nft.price?.amount || 0);
             // nftPrice = Number.isNaN(nftPrice) ? 0 : nftPrice / 1e6;
-            // filtered = filtered && nftPrice >= price[0] && nftPrice <= price[1];
+            filtered = filtered && nftPrice >= price[0] * priceRange / 100 && nftPrice <= price[1] * priceRange / 100;
             // console.log("filtered1: ", filtered, nftPrice);
-            // if (sale_type === "fixed-price") {
-            //     filtered = filtered && nft.sale_type === "fixed_price";
-            //     console.log("filtered2: ", filtered);
-            // } else if (sale_type === "auction") {
-            //     filtered = filtered && nft.sale_type === "auction";
-            //     console.log("filtered3: ", filtered);
-            // }
+            if (sale_type === "fixed-price") {
+                filtered = filtered && nft.sale_type === "fixed_price";
+                // console.log("filtered2: ", filtered);
+            } else if (sale_type === "auction") {
+                filtered = filtered && nft.sale_type === "auction";
+                // console.log("filtered3: ", filtered);
+            }
             // console.log("filtered4: ", filtered);
             if (filtered) {
                 filteredNfts.push(nft);
@@ -132,7 +143,7 @@ const ExploreProductArea = ({ className, space, data, hiddenExpired }) => {
                     selectHandler={selectHandler}
                     // sortHandler={sortHandler}
                     priceHandler={priceHandler}
-                    inputs={state.inputs}
+                    inputs={{...state.inputs, maxPrice: priceRange}}
                 />
                 <div className="row g-5">
                     {displayNfts?.length > 0 ? (
