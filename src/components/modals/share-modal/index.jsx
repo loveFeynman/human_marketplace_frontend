@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import Modal from "react-bootstrap/Modal";
-import { useState } from "react";
 import { useRouter } from "next/router";
 import React from "react";
 import ReactDOM from "react-dom";
