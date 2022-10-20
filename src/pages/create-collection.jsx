@@ -12,10 +12,10 @@ export async function getStaticProps() {
 
 const Home = () => (
     <Wrapper>
-        <SEO pageTitle="Create New NFT" />
+        <SEO pageTitle="Create New Collection" />
         <Header />
         <main id="main-content">
-            <Breadcrumb pageTitle="Create New NFT" />
+            <Breadcrumb pageTitle="Create New Collection" />
             <CreateNewArea />
         </main>
         <Footer />
