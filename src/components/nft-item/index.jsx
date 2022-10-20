@@ -20,7 +20,7 @@ const NftItem = ({ overlay, item }) => {
     const [showBidModal, setShowBidModal] = useState(false);
     const { sellNft, withdrawNft, buyNft, setBid, acceptBid } = useContract();
     const { connectedWallet } = useWalletManager();
-    const isOwner = item.owner === connectedWallet?.address;
+    const isOwner = item.owner && item.owner === connectedWallet?.address;
     // const { connectedWallet } = useContext(CustomWalletContext);
     const nftInfo = useMemo(() => {
         const { price } = item;

@@ -22,6 +22,7 @@ const Product = () => {
     const marketplaceNfts = useAppSelector(
         (state) => state.marketplaceNfts[nftAddress]
     );
+    const myNfts = useAppSelector((state) => state.myNfts[nftAddress]);
     const collectionInfo = useAppSelector((state) => state.collections[nftAddress]);
 
     const productData = useMemo(
@@ -33,7 +34,7 @@ const Product = () => {
             // }));
             ({
                 id: nftAddress || "nft marketplace",
-                nft: marketplaceNfts || [],
+                nft: collectionInfo.userDefined? (marketplaceNfts || []).concat(myNfts || []) : marketplaceNfts || [],
             }),
         [marketplaceNfts, nftAddress]
     );

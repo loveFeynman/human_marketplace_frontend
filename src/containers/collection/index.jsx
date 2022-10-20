@@ -12,6 +12,8 @@ const CollectionArea = ({ className, space, id, data, showAll }) => {
     const [collections, setCollections] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const marketplaceNfts = useAppSelector((state) => state.marketplaceNfts);
+    const collectionsInfo = useAppSelector((state) => state.collections);
+    const myNfts = useAppSelector((state) => state.myNfts);
     const numberOfPages = Math.ceil(data.collections.length / POSTS_PER_PAGE);
     const paginationHandler = (page) => {
         setCurrentPage(page);
@@ -27,10 +29,11 @@ const CollectionArea = ({ className, space, id, data, showAll }) => {
         creatorHandler();
     }, [currentPage, creatorHandler]);
 
-    const totalNfts = useMemo(() => {
-        const result = {};
+    const {totalNfts, last3Nfts} = useMemo(() => {
+        const totalNftsResult = {}, last3NftsResult = {};
         Object.keys(marketplaceNfts).forEach((key) => {
-            const crrNfts = marketplaceNfts[key] || [];
+            const crrCollectionInfo = collectionsInfo[key] || {};
+            const crrNfts = showAll && crrCollectionInfo.userDefined? (marketplaceNfts[key] || []).concat(myNfts[key] || []) : marketplaceNfts[key] || [];
             let count = 0;
             crrNfts.forEach((nft) => {
                 const expiresAt = nft.expires_at
@@ -40,9 +43,10 @@ const CollectionArea = ({ className, space, id, data, showAll }) => {
                     expiresAt && Number(new Date()) - Number(expiresAt) > 0;
                 if (!expiresAt || !expired) count += 1;
             });
-            result[key] = count;
+            totalNftsResult[key] = count;
+            last3NftsResult[key] = Array.from({length: 3}).map((item, index) => ({src: crrNfts[index]?.image_url || '/images/collection/collection-sm-01.jpg'}));
         });
-        return result;
+        return {totalNfts: totalNftsResult, last3Nfts: last3NftsResult};
     }, [marketplaceNfts]);
     return (
         <div
@@ -71,7 +75,8 @@ const CollectionArea = ({ className, space, id, data, showAll }) => {
                                     total_item={totalNfts[collection.id] || 0}
                                     path={collection.slug}
                                     image={collection.image}
-                                    thumbnails={collection.thumbnails}
+                                    // thumbnails={collection.thumbnails}
+                                    thumbnails={last3Nfts[collection.id]}
                                     profile_image={collection.profile_image}
                                 />
                             </div>
