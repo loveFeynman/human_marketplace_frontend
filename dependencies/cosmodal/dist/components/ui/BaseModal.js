@@ -100,12 +100,12 @@ const ModalContent = styled_components_1.default.div`
   transform: translateX(-50%);
   padding-top: 2.5rem;
   padding-bottom: 3rem;
-  padding-left: 2rem;
-  padding-right: 2rem;
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
   border-radius: 1rem;
   display: flex;
   flex-direction: column;
-  background: rgb(242, 243, 244);
+  background: white;
   width: 100%;
   max-width: ${(props) => props.maxWidth};
   outline: none;

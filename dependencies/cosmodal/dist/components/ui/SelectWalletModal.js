@@ -90,14 +90,15 @@ const WalletList = styled_components_1.default.div`
 `;
 const WalletRow = styled_components_1.default.div`
   border-radius: 1rem;
-  padding: 1.25rem;
+  padding: 2rem;
   width:50%;
   display: flex;
   flex-direction:column;
   align-items: center;
-  background-color: white;
+  background-color: rgb(229, 231, 233);
   &:hover {
     cursor: pointer;
+    background-color: rgb(215, 219, 221);
   }
 `;
 const WalletIconImg = styled_components_1.default.img`
