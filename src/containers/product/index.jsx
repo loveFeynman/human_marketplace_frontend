@@ -44,9 +44,9 @@ const ProductArea = ({ className, space, data }) => (
                                 {/* <Nav.Link as="button" eventKey="nav-scheduled">
                                     Scheduled
                                 </Nav.Link> */}
-                                <Nav.Link as="button" eventKey="nav-sold-out">
+                                {/* <Nav.Link as="button" eventKey="nav-sold-out">
                                     Sold Out
-                                </Nav.Link>
+                                </Nav.Link> */}
                             </div>
                         </Nav>
                         <TabContent>
