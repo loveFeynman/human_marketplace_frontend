@@ -43,7 +43,7 @@ const CreateNewArea = ({ className, space }) => {
     const collectionSelectOptions = useMemo(() => {
         const addresses = collectionInfo.addresses?.userDefined || [];
 
-        return [{ value: "", text: "" }].concat(
+        return [{value: "add new", text: "+ Create a New Collection"}].concat(
             addresses
                 .filter(
                     (_address) => _address.creator === connectedWallet?.address
@@ -97,7 +97,11 @@ const CreateNewArea = ({ className, space }) => {
     };
 
     const handleChangeCollection = (item, name) => {
-        setValue(name, item.value);
+        if (item.value === "add new") {
+            router.push('/create-collection')
+        } else {
+            setValue(name, item.value);
+        }
     };
 
     const reset = () => {
@@ -434,7 +438,7 @@ const CreateNewArea = ({ className, space }) => {
                                                 <NiceSelect
                                                     id="collection"
                                                     className="form-select form-select-lg"
-                                                    placeholder="Default select example"
+                                                    placeholder="Select a collection"
                                                     {...register("collection", {
                                                         required:
                                                             "Collection is required",
