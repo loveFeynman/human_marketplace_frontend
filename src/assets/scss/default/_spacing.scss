@@ -26,6 +26,18 @@
     }
 }
 
+.rn-section-large-gap {
+    padding: 200px 0;
+
+    @media #{$md-layout} {
+        padding: 160px 0;
+    }
+
+    @media #{$sm-layout} {
+        padding: 160px 0;
+    }
+}
+
 .rn-section-gapBottom {
     padding-bottom: 100px;
 
