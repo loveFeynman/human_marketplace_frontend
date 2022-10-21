@@ -3,6 +3,9 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 
 const Pagination = ({ className, currentPage, numberOfPages, onClick }) => {
+    if (numberOfPages === 1) {
+        return null;
+    }
     const isFirst = currentPage === 1;
     const isLast = currentPage === numberOfPages;
     const previousPage = currentPage - 1 === 1 ? currentPage : currentPage - 1;
