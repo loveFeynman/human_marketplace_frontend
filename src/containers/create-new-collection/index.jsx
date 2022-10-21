@@ -395,7 +395,7 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                                             )}
                                         </div>
                                     </div>
-                                    <div className="col-md-12">
+                                    {isAdminPage && (<div className="col-md-12">
                                         <div className="input-box pb--20">
                                             <div className="form-label">
                                                 NFT Type
@@ -463,7 +463,7 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                                                 </label>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>)}
                                     {isAdminPage && (
                                         <div className="col-md-12">
                                             <div className="input-box pb--20">
