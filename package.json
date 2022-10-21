@@ -21,7 +21,7 @@
         "@cosmjs/launchpad": "^0.27.1",
         "@cosmjs/proto-signing": "^0.28.11",
         "@cosmjs/stargate": "^0.28.11",
-        "@noahsaso/cosmodal": "^0.6.0",
+        "@noahsaso/cosmodal": "file:dependencies/cosmodal",
         "@reduxjs/toolkit": "^1.8.3",
         "axios": "^0.27.2",
         "bootstrap": "5.1.3",
