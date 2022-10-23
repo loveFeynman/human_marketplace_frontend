@@ -29,7 +29,7 @@ const facebookSharer = "https://www.facebook.com/sharer/sharer.php?u=";
 const twitterSharer = "https://twitter.com/intent/tweet?url=";
 const linkedinSharer = "https://www.linkedin.com/sharing/share-offsite/?url=";
 
-const ShareModal = ({ show, handleModal }) => (
+const ShareModal = ({ show, handleModal, isNft }) => (
     (link = getPath()),
     (ref = useRef(null)),
     (
@@ -51,7 +51,7 @@ const ShareModal = ({ show, handleModal }) => (
         )}
 
         <Modal.Header className="share-area">
-            <h5 className="modal-title">Share this NFT</h5>
+            <h5 className="modal-title">{`Share this ${isNft? "NFT" : "Profile"}`}</h5>
         </Modal.Header>
         <Modal.Body>
             <ul className="social-share-default">
@@ -99,5 +99,6 @@ const ShareModal = ({ show, handleModal }) => (
 ShareModal.propTypes = {
     show: PropTypes.bool.isRequired,
     handleModal: PropTypes.func.isRequired,
+    isNft: PropTypes.bool,
 };
 export default ShareModal;
