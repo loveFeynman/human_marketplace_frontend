@@ -14,20 +14,6 @@ const CollectionArea = ({ className, space, id, data, showAll }) => {
     const marketplaceNfts = useAppSelector((state) => state.marketplaceNfts);
     const collectionsInfo = useAppSelector((state) => state.collections);
     const myNfts = useAppSelector((state) => state.myNfts);
-    const numberOfPages = Math.ceil(data.collections.length / POSTS_PER_PAGE);
-    const paginationHandler = (page) => {
-        setCurrentPage(page);
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    };
-
-    const creatorHandler = useCallback(() => {
-        const start = (currentPage - 1) * POSTS_PER_PAGE;
-        setCollections(data.collections.slice(start, start + POSTS_PER_PAGE));
-    }, [currentPage, data.collections]);
-
-    useEffect(() => {
-        creatorHandler();
-    }, [currentPage, creatorHandler]);
 
     const {totalNfts, last3Nfts} = useMemo(() => {
         const totalNftsResult = {}, last3NftsResult = {};
@@ -48,6 +34,22 @@ const CollectionArea = ({ className, space, id, data, showAll }) => {
         });
         return {totalNfts: totalNftsResult, last3Nfts: last3NftsResult};
     }, [marketplaceNfts]);
+    
+    const displayCollections = (data.collections || []).filter((collection) => showAll || totalNfts[collection.id] > 0)
+    const numberOfPages = Math.ceil(displayCollections.length / POSTS_PER_PAGE);
+    const paginationHandler = (page) => {
+        setCurrentPage(page);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    const creatorHandler = useCallback(() => {
+        const start = (currentPage - 1) * POSTS_PER_PAGE;
+        setCollections(displayCollections.slice(start, start + POSTS_PER_PAGE));
+    }, [currentPage, displayCollections]);
+
+    useEffect(() => {
+        creatorHandler();
+    }, [currentPage, creatorHandler]);
     return (
         <div
             className={clsx(
@@ -59,28 +61,26 @@ const CollectionArea = ({ className, space, id, data, showAll }) => {
         >
             <div className="container">
                 <div className="row g-5">
-                    {collections
-                        .filter((collection) => showAll || totalNfts[collection.id] > 0)
-                        .map((collection) => (
-                            <div
-                                key={collection.id}
-                                className="col-lg-6 col-xl-3 col-md-6 col-sm-6 col-12"
-                            >
-                                <Collection
-                                    id={collection.id}
-                                    title={collection.title}
-                                    // total_item={
-                                    //     marketplaceNfts[collection.id]?.length || 0
-                                    // }
-                                    total_item={totalNfts[collection.id] || 0}
-                                    path={collection.slug}
-                                    image={collection.image}
-                                    // thumbnails={collection.thumbnails}
-                                    thumbnails={last3Nfts[collection.id]}
-                                    profile_image={collection.profile_image}
-                                />
-                            </div>
-                        ))}
+                    {collections.map((collection) => (
+                        <div
+                            key={collection.id}
+                            className="col-lg-6 col-xl-3 col-md-6 col-sm-6 col-12"
+                        >
+                            <Collection
+                                id={collection.id}
+                                title={collection.title}
+                                // total_item={
+                                //     marketplaceNfts[collection.id]?.length || 0
+                                // }
+                                total_item={totalNfts[collection.id] || 0}
+                                path={collection.slug}
+                                image={collection.image}
+                                // thumbnails={collection.thumbnails}
+                                thumbnails={last3Nfts[collection.id]}
+                                profile_image={collection.profile_image}
+                            />
+                        </div>
+                    ))}
                 </div>
                 {numberOfPages > 1 && (
                     <div className="row">
