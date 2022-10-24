@@ -188,7 +188,7 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                                             Upload Background Image
                                         </h6>
                                         <p className="formate">
-                                            Drag or choose your file to upload
+                                            Choose your file to upload
                                         </p>
                                     </div>
 
@@ -255,7 +255,7 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                                             Upload Logo Image
                                         </h6>
                                         <p className="formate">
-                                            Drag or choose your file to upload
+                                            Choose your file to upload
                                         </p>
                                     </div>
 

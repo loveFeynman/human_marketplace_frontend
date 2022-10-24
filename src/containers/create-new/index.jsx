@@ -351,7 +351,7 @@ const CreateNewArea = ({ className, space }) => {
                                     <div className="upload-formate mb--30">
                                         <h6 className="title">Upload file</h6>
                                         <p className="formate">
-                                            Drag or choose your file to upload
+                                            Choose your file to upload
                                         </p>
                                     </div>
 
