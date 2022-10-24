@@ -81,9 +81,10 @@ const AuthorProfileArea = ({ className }) => {
                     if (nft.seller !== connectedWallet?.address) return;
                     if (userDefinedAddresses.includes(nft.token_address)) {
                         myCreated.push(nft);
-                    } else {
-                        myOwned.push(nft);
-                    }
+                    } 
+                    // else {
+                    //     myOwned.push(nft);
+                    // }
                     myOnSale.push(nft);
                 });
             });

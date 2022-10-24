@@ -10,7 +10,6 @@ import { useAppSelector } from "@app/hooks";
 
 const TopCollectionArea = ({ className, id, space, data }) => {
     const collections = GetTopCollections();
-    console.log('collections', collections)
     const marketplaceNfts = useAppSelector((state) => state.marketplaceNfts);
     const {totalNfts, last3Nfts} = useMemo(() => {
         const totalNftsResult = {}, last3NftsResult = {};
