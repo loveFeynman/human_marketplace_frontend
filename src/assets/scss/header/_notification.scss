@@ -245,6 +245,14 @@
                 }
             }
 
+            .following-user-info {
+                span,
+                a h6 {
+                    width: 100%;
+                    word-break: break-word;
+                }
+            }
+
             a {
                 &.btn {
                     padding: 7px 10px;

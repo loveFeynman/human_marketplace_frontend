@@ -1,4 +1,5 @@
 import ShareModal from "@components/modals/share-modal";
+import FollowingModal from "@components/modals/following-modal";
 import ShareDropdown from "@components/share-dropdown";
 import { useWalletManager } from "@noahsaso/cosmodal";
 import Anchor from "@ui/anchor";
@@ -11,9 +12,12 @@ import { getImageFromHash } from "@utils/ipfs";
 import { useAxios } from "src/hooks";
 
 const AuthorIntroArea = ({ className, space }) => {
+    const [isFollowing, setIsFollowing] = useState(false);
+    const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
     const [isShareModalOpen, setIsShareModalOpen] = useState(false);
     const { connectedWallet } = useWalletManager();
     const shareModalHandler = () => setIsShareModalOpen((prev) => !prev);
+    const handleFollowingModal = () => setIsFollowingModalOpen((prev) => !prev);
     const userInfo = useAppSelector((state) => state.user.userInfo);
     const [follow, setFollow] = useState({});
     const { fetchFollowInfo } = useAxios();
@@ -53,6 +57,13 @@ const AuthorIntroArea = ({ className, space }) => {
             <ShareModal
                 show={isShareModalOpen}
                 handleModal={shareModalHandler}
+            />
+            <FollowingModal
+                show={isFollowingModalOpen}
+                handleModal={handleFollowingModal}
+                isFollowing={isFollowing}
+                fetchFollow={fetchFollow}
+                follow={follow}
             />
             <div className="rn-author-bg-area position-relative ptb--150">
                 <Image
@@ -107,28 +118,40 @@ const AuthorIntroArea = ({ className, space }) => {
                                             </span>
                                         </a> */}
                                         <div className="follow-area">
-                                            <div className="follow followers">
+                                           <div 
+                                                className="follow followers" 
+                                                onClick={() => {
+                                                    setIsFollowing(false);
+                                                    handleFollowingModal();
+                                                }}
+                                            >
                                                 <span>
                                                     {follow.to &&
                                                         follow.to.length}{" "}
                                                     <a
-                                                        href="https://twitter.com"
-                                                        target="_blank"
-                                                        rel="noreferrer"
+                                                        // href="https://twitter.com"
+                                                        // target="_blank"
+                                                        // rel="noreferrer"
                                                         className="color-body"
                                                     >
                                                         followers
                                                     </a>
                                                 </span>
                                             </div>
-                                            <div className="follow following">
+                                            <div 
+                                                className="follow following"
+                                                onClick={() => {
+                                                    setIsFollowing(true);
+                                                    handleFollowingModal();
+                                                }}
+                                            >
                                                 <span>
                                                     {follow.from &&
                                                         follow.from.length}{" "}
                                                     <a
-                                                        href="https://twitter.com"
-                                                        target="_blank"
-                                                        rel="noreferrer"
+                                                        // href="https://twitter.com"
+                                                        // target="_blank"
+                                                        // rel="noreferrer"
                                                         className="color-body"
                                                     >
                                                         following

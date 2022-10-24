@@ -56,6 +56,7 @@
                 display: flex;
                 justify-content: center;
                 .follow {
+                    cursor: pointer;
                     &.followers {
                         margin-right: 15px;
                     }
