@@ -50,8 +50,9 @@ const Product = () => {
                 {collectionInfo?.userDefined && collectionInfo?.minter === connectedWallet?.address && 
                     <div className="ptb--30 container">
                         <Button>
-                            <Anchor path="/create-nft">
-                                Create an Nft
+                            <Anchor path={`/create-nft?nftAddress=${collectionInfo.nftAddress}`}>
+                                {/* Create an Nft */}
+                                Add a new Nft to this Collection
                             </Anchor>
                         </Button>
                     </div>

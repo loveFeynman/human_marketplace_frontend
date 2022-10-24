@@ -34,7 +34,8 @@ const MyCollections = () => {
                 result.push({
                     id: key,
                     title: collection.collection_info?.title || "",
-                    slug: `/marketplace?nftAddress=${key}`,
+                    // slug: `/marketplace?nftAddress=${key}`,
+                    slug: `/explore/collections/${key}`,
                     total_item: totalItem,
                     image: {
                         src:

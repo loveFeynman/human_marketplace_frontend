@@ -145,7 +145,8 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                     toast.success("Successfully Created!");
                     const createdAddress = getContractAddressFromResponse(response, "nft_address")
                     if (createdAddress) {
-                        router.push(`/marketplace?nftAddress=${createdAddress}`)
+                        // router.push(`/marketplace?nftAddress=${createdAddress}`)
+                        router.push(`/explore/collections/${createdAddress}`)
                     } else {
                         reset();
                     }

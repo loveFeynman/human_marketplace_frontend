@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { useForm } from "react-hook-form";
@@ -30,6 +30,7 @@ const CreateNewArea = ({ className, space }) => {
     const { connectedWallet } = useWalletManager();
     const { runExecute } = useContract();
     const router = useRouter()
+    const { nftAddress } = router.query;
 
     const {
         register,
@@ -40,6 +41,7 @@ const CreateNewArea = ({ className, space }) => {
     } = useForm({
         mode: "onSubmit",
     });
+
     const collectionSelectOptions = useMemo(() => {
         const addresses = collectionInfo.addresses?.userDefined || [];
 
@@ -58,6 +60,15 @@ const CreateNewArea = ({ className, space }) => {
                 })
         );
     }, [collectionInfo, connectedWallet]);
+
+    useEffect(() => {
+        if ( nftAddress ) {
+            const selectOptionValues = (collectionSelectOptions || []).map((option) => option.value);
+            if (selectOptionValues.includes(nftAddress)) {
+                setValue("collection", nftAddress)
+            }
+        }
+    }, [collectionSelectOptions, nftAddress])
 
     const handleProductModal = () => {
         setShowProductModal(false);
@@ -186,7 +197,8 @@ const CreateNewArea = ({ className, space }) => {
                         toast.success("Uploaded Successfully!");
                         // reset();
                         // setSelectedImage();
-                        router.push(`/explore/${data.token_id}?collection=${data.collection}`)
+                        // router.push(`/explore/${data.token_id}?collection=${data.collection}`)
+                        router.push(`/explore/collections/${data.collection}`)
                     } catch (err) {
                         // eslint-disable-next-line no-console
                         console.error(err);
@@ -449,6 +461,7 @@ const CreateNewArea = ({ className, space }) => {
                                                     options={
                                                         collectionSelectOptions
                                                     }
+                                                    defaultCurrent={nftAddress}
                                                 />
                                                 {errors.collection && (
                                                     <ErrorText>

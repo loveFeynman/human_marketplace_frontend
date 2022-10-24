@@ -226,7 +226,8 @@ const ProductDetailsArea = ({
                                         <TopSellerArea
                                             name={collectionInfo.title}
                                             // total_sale={ownerInfo.total_sale}
-                                            slug={`/marketplace?nftAddress=${product.token_address}`}
+                                            // slug={`/marketplace?nftAddress=${product.token_address}`}
+                                            slug={`/explore/collections/${product.token_address}`}
                                             image={{
                                                 src: collectionInfo.image,
                                                 width: "44px",
