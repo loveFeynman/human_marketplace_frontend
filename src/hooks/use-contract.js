@@ -12,6 +12,7 @@ import { ChainConfig, MarketplaceContract } from "@constant";
 import { toMicroAmount } from "@utils/coins";
 import { useAppSelector } from "@app/hooks";
 import useAxios from "./use-axios";
+import useRefresh from "./use-refresh";
 // import { CustomWalletContext } from "@context";
 
 const getQueryClient = async (config) => {
@@ -25,6 +26,7 @@ function useContract() {
     const { offlineSigner, signingCosmWasmClient, address } = useWallet(
         ChainConfig.chainId
     );
+    const { refresh } = useRefresh();
     // const { connectedWallet, offlineSigner, signingClient } =
     //     useContext(CustomWalletContext);
     const collections = useAppSelector((state) => state.collections);
@@ -295,6 +297,7 @@ function useContract() {
                     collection: item.token_address,
                 };
                 saveSaleHistory(saveData);
+                refresh();
                 toast.success("Success!");
             } catch (err) {
                 const errMsg = err.message;
