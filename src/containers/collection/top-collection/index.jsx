@@ -10,9 +10,10 @@ import { useAppSelector } from "@app/hooks";
 
 const TopCollectionArea = ({ className, id, space, data }) => {
     const collections = GetTopCollections();
+    console.log('collections', collections)
     const marketplaceNfts = useAppSelector((state) => state.marketplaceNfts);
-    const totalNfts = useMemo(() => {
-        const result = {};
+    const {totalNfts, last3Nfts} = useMemo(() => {
+        const totalNftsResult = {}, last3NftsResult = {};
         Object.keys(marketplaceNfts).forEach((key) => {
             const crrNfts = marketplaceNfts[key] || [];
             let count = 0;
@@ -24,9 +25,10 @@ const TopCollectionArea = ({ className, id, space, data }) => {
                     expiresAt && Number(new Date()) - Number(expiresAt) > 0;
                 if (!expiresAt || !expired) count += 1;
             });
-            result[key] = count;
+            totalNftsResult[key] = count;
+            last3NftsResult[key] = Array.from({length: 3}).map((item, index) => ({src: crrNfts[index]?.image_url || '/images/collection/collection-sm-01.jpg'}));
         });
-        return result;
+        return {totalNfts: totalNftsResult, last3Nfts: last3NftsResult};
     }, [marketplaceNfts]);
     return (
         <div
@@ -76,7 +78,8 @@ const TopCollectionArea = ({ className, id, space, data }) => {
                                     total_item={totalNfts[collection.id] || 0}
                                     path={collection.slug}
                                     image={collection.image}
-                                    thumbnails={collection.thumbnails}
+                                    // thumbnails={collection.thumbnails}
+                                    thumbnails={last3Nfts[collection.id]}
                                     profile_image={collection.profile_image}
                                 />
                             </div>
