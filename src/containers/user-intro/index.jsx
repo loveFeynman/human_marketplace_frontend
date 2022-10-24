@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import ShareModal from "@components/modals/share-modal";
+import ReportModal from "@components/modals/report-modal";
 import ShareDropdown from "@components/share-dropdown";
 import { useWalletManager } from "@noahsaso/cosmodal";
 import Anchor from "@ui/anchor";
@@ -13,6 +14,7 @@ import { useAxios } from "src/hooks";
 
 const UserIntroArea = ({ className, space }) => {
     const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+    const [showReportModal, setShowReportModal] = useState(false);
     const [userInfo, setUserInfo] = useState({});
     const [follow, setFollow] = useState({});
     const { fetchUserInfo, fetchFollowInfo, handleFollow } = useAxios();
@@ -35,6 +37,7 @@ const UserIntroArea = ({ className, space }) => {
     }, [userAddress]);
 
     const shareModalHandler = () => setIsShareModalOpen((prev) => !prev);
+    const handleReportModal = () => setShowReportModal((prev) => !prev);
     const handleFollowClick = async () => {
         await handleFollow(connectedWallet?.address, userAddress);
         await fetchFollow();
@@ -62,6 +65,10 @@ const UserIntroArea = ({ className, space }) => {
             <ShareModal
                 show={isShareModalOpen}
                 handleModal={shareModalHandler}
+            />
+            <ReportModal
+                show={showReportModal}
+                handleModal={handleReportModal}
             />
             <div className="rn-author-bg-area position-relative ptb--150">
                 <Image
@@ -168,9 +175,31 @@ const UserIntroArea = ({ className, space }) => {
                                                 <i className="feather-share-2" />
                                             </button>
 
-                                            <div className="count at-follw">
+                                            <button
+                                                type="button"
+                                                // className="btn-setting-text report-text"
+                                                className="btn at-follw"
+                                                onClick={handleReportModal}
+                                            >
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    width="24"
+                                                    height="24"
+                                                    viewBox="0 0 24 24"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    stroke-width="2"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    class="feather feather-flag"
+                                                >
+                                                    <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
+                                                    <line x1="4" y1="22" x2="4" y2="15"></line>
+                                                </svg>
+                                            </button>
+                                            {/* <div className="count at-follw">
                                                 <ShareDropdown />
-                                            </div>
+                                            </div> */}
                                             {/* <Anchor
                                                 path="/edit-profile"
                                                 className="btn at-follw follow-button edit-btn"
