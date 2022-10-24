@@ -206,7 +206,7 @@ const UserProfileArea = ({ className }) => {
                                     eth={`${Number(bid.price) / 1e6}`}
                                     onClick={() =>
                                         router.push(
-                                            `/nft-detail?token_id=${bid.token_id}`
+                                            `/explore/token_id=${bid.token_id}`
                                         )
                                     }
                                 />

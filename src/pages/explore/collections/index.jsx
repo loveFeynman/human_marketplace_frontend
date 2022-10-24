@@ -1,24 +1,25 @@
+import { useState, useEffect } from "react";
 import SEO from "@components/seo";
 import Wrapper from "@layout/wrapper";
 import Header from "@layout/header";
 import Footer from "@layout/footer";
 import Breadcrumb from "@components/breadcrumb";
+import FilterButtons from "@components/filter-buttons";
 import CollectionArea from "@containers/collection";
 import { useAppSelector } from "@app/hooks";
-import { useMemo } from "react";
-import { useWalletManager } from "@noahsaso/cosmodal";
-import Button from "@ui/button";
-import Anchor from "@ui/anchor";
-import withAuth from "@utils/auth";
+import { GetTopCollections } from "@containers/collection/hooks";
 
 export async function getStaticProps() {
     return { props: { className: "template-color-1" } };
 }
 
-const MyCollections = () => {
+const Collection = () => {
     const collections = useAppSelector((state) => state.collections);
-    const { connectedWallet } = useWalletManager();
-    const collectionsData = useMemo(() => {
+    const topCollections = GetTopCollections();
+    const filters = ["lowest", "highest"];
+    const [sortedData, setSortedData] = useState([]);
+    const [sortKey, setSortKey] = useState("highest");
+    useEffect(() => {
         const result = [];
         Object.keys(collections).forEach((key) => {
             const collection = collections[key];
@@ -27,15 +28,16 @@ const MyCollections = () => {
             )
                 ? 0
                 : Number(collection.mint_info?.total_supply);
-            if (
-                key !== "addresses" &&
-                collection.minter === connectedWallet?.address
-            ) {
+            const tradingVolume =
+                topCollections.find((_item) => _item.id === key)
+                    ?.tradingVolume || 0;
+            if (key !== "addresses") {
                 result.push({
                     id: key,
                     title: collection.collection_info?.title || "",
-                    slug: `/marketplace?nftAddress=${key}`,
+                    slug: `/explore/collections/${key}`,
                     total_item: totalItem,
+                    tradingVolume,
                     image: {
                         src:
                             collection.collection_info?.background_url ||
@@ -62,29 +64,42 @@ const MyCollections = () => {
                 });
             }
         });
-        return result;
-    }, [collections, connectedWallet]);
+        if (sortKey === "highest") {
+            setSortedData(
+                result.sort((a, b) => a.tradingVolume - b.tradingVolume)
+            );
+        } else {
+            setSortedData(
+                result.sort((a, b) => b.tradingVolume - a.tradingVolume)
+            );
+        }
+    }, [collections, sortKey]);
+
+    const filterHandler = async (filterKey) => {
+        setSortKey(filterKey);
+    };
     return (
         <Wrapper>
-            <SEO pageTitle="Collections" />
+            <SEO pageTitle="Explore Collections" />
             <Header />
             <main id="main-content">
                 <Breadcrumb
-                    pageTitle="Our Collections"
-                    currentPage="Collections"
+                    pageTitle="Explore Collections"
+                    currentPage="Explore Collections"
                 />
-                <div className="ptb--30 container">
-                    <Button>
-                        <Anchor path="/create-collection">
-                            Create a Collection
-                        </Anchor>
-                    </Button>
+                <div className="container mt--20">
+                    <FilterButtons
+                        buttons={filters}
+                        filterHandler={filterHandler}
+                        allShow={false}
+                    />
                 </div>
-                <CollectionArea showAll data={{ collections: collectionsData }} />
+
+                <CollectionArea data={{ collections: sortedData }} />
             </main>
             <Footer />
         </Wrapper>
     );
 };
 
-export default withAuth(MyCollections);
+export default Collection;

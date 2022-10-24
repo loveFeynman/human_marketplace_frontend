@@ -74,12 +74,13 @@ const NftDetail = () => {
     const refreshData = async () => {
         await fetchBids();
     };
+    const nftTitle = selectedNft.token_id || "NFT Detail";
     return (
         <Wrapper>
-            <SEO pageTitle="NFT Detail" />
+            <SEO pageTitle={nftTitle} />
             <Header />
             <main id="main-content">
-                <Breadcrumb pageTitle="NFT Detail" currentPage="NFT Detail" />
+                <Breadcrumb pageTitle={nftTitle} currentPage={nftTitle} />
                 <ProductDetailsArea
                     product={selectedNft || {}}
                     bids={bids}

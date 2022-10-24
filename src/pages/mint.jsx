@@ -45,10 +45,10 @@ const RandomMint = () => {
     });
     return (
         <Wrapper>
-            <SEO pageTitle="Launchpad" />
+            <SEO pageTitle="Mint" />
             <Header />
             <main id="main-content">
-                <Breadcrumb pageTitle="Launchpad" currentPage="Launchpad" />
+                <Breadcrumb pageTitle="Mint" currentPage="Mint" />
                 <ProductArea
                     data={{
                         // section_title: {

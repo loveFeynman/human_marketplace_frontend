@@ -15,7 +15,7 @@ const Activity = ({ className, time, token_id, collection, author }) => {
                 <div className="read-content">
                     <div className="thumbnail">
                         <Anchor
-                            path={`/nft-detail?token_id=${token_id}&collection=${collection}`}
+                            path={`/explore/${token_id}?collection=${collection}`}
                         >
                             <Image
                                 src={selectedNft.image_url}
@@ -27,7 +27,7 @@ const Activity = ({ className, time, token_id, collection, author }) => {
                     </div>
                     <div className="content">
                         <Anchor
-                            path={`/nft-detail?token_id=${token_id}&collection=${collection}`}
+                            path={`/explore/${token_id}?collection=${collection}`}
                         >
                             <h6 className="title">{selectedNft.token_id}</h6>
                         </Anchor>

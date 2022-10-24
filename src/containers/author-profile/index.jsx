@@ -186,7 +186,7 @@ const AuthorProfileArea = ({ className }) => {
                                     eth={`${Number(bid.price) / 1e6}`}
                                     onClick={() =>
                                         router.push(
-                                            `/nft-detail?token_id=${bid.token_id}&collection=${bid.collection}`
+                                            `/explore/${bid.token_id}?collection=${bid.collection}`
                                         )
                                     }
                                 />

@@ -11,9 +11,9 @@ import { useWalletManager } from "@noahsaso/cosmodal";
 import Button from "@ui/button";
 import Anchor from "@ui/anchor";
 
-export async function getStaticProps() {
-    return { props: { className: "template-color-1" } };
-}
+// export async function getStaticProps() {
+//     return { props: { className: "template-color-1" } };
+// }
 
 const Product = () => {
     const router = useRouter();
@@ -34,17 +34,19 @@ const Product = () => {
             // }));
             ({
                 id: nftAddress || "nft marketplace",
-                nft: collectionInfo.userDefined? (marketplaceNfts || []).concat(myNfts || []) : marketplaceNfts || [],
+                nft: collectionInfo?.userDefined? (marketplaceNfts || []).concat(myNfts || []) : marketplaceNfts || [],
             }),
         [marketplaceNfts, nftAddress]
     );
 
+    const collectionTitle = collectionInfo?.collection_info?.title || "Collection";
+
     return (
         <Wrapper>
-            <SEO pageTitle="Marketplace" />
+            <SEO pageTitle={collectionTitle} />
             <Header />
             <main id="main-content">
-                <Breadcrumb pageTitle="Marketplace" currentPage="Marketplace" />
+                <Breadcrumb pageTitle={collectionTitle} currentPage={collectionTitle} />
                 {collectionInfo?.userDefined && collectionInfo?.minter === connectedWallet?.address && 
                     <div className="ptb--30 container">
                         <Button>

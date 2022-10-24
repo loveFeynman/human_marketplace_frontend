@@ -50,6 +50,7 @@ const CollectionArea = ({ className, space, id, data, showAll }) => {
     useEffect(() => {
         creatorHandler();
     }, [currentPage, creatorHandler]);
+
     return (
         <div
             className={clsx(
