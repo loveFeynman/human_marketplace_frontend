@@ -81,11 +81,11 @@ const FollowingModal = ({ show, handleModal, follow, isFollowing, fetchFollow })
                                                 {/* {new Intl.NumberFormat("en-US", {
                                                     currency: "USD",
                                                 }).format(total_sale)} */}
-                                                {(isFollowing && connectedWallet?.address)? getReducedAddress(user.wallet) : user.wallet}
+                                                {(connectedWallet?.address)? getReducedAddress(user.wallet) : user.wallet}
                                             </span>
                                         </div>
                                     </div>
-                                    {isFollowing && connectedWallet?.address && (
+                                    {connectedWallet?.address && (
                                         <Button 
                                             color="primary-alta" 
                                             size="small" 

@@ -50,7 +50,7 @@ const menuData = [
     {
         id: 3,
         text: "Explore",
-        path: "/collections",
+        path: "/explore/all-nfts",
         submenu: [
             {
                 id: 31,
