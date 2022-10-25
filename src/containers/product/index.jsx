@@ -44,9 +44,9 @@ const ProductArea = ({ className, space, data }) => (
                                 {/* <Nav.Link as="button" eventKey="nav-scheduled">
                                     Scheduled
                                 </Nav.Link> */}
-                                <Nav.Link as="button" eventKey="nav-sold-out">
+                                {/* <Nav.Link as="button" eventKey="nav-sold-out">
                                     Sold Out
-                                </Nav.Link>
+                                </Nav.Link> */}
                             </div>
                         </Nav>
                         <TabContent>
@@ -56,7 +56,7 @@ const ProductArea = ({ className, space, data }) => (
                             >
                                 {data?.products?.map((prod) => (
                                     <MintItem
-                                        key={prod.id}
+                                        key={prod.id || prod.token_id}
                                         title={prod.title}
                                         // slug={prod.slug}
                                         // latestBid={prod.latestBid}

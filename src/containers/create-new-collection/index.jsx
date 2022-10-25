@@ -10,6 +10,8 @@ import ErrorText from "@ui/error-text";
 import { uploadFileToIpfs } from "@utils/ipfs";
 import { useContract } from "@hooks";
 import { CollectionCreatorContract } from "@constant";
+import { getContractAddressFromResponse } from "@utils/index";
+import { useRouter } from "next/router";
 
 const CreateNewArea = ({ className, space, isAdminPage }) => {
     const [selectedBackgroundImage, setSelectedBackgroundImage] = useState();
@@ -23,6 +25,7 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
 
     const { connectedWallet } = useWalletManager();
     const { runExecute } = useContract();
+    const router = useRouter();
 
     const {
         register,
@@ -138,9 +141,15 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                     };
                 }
                 try {
-                    await runExecute(CollectionCreatorContract, msg);
+                    const response = await runExecute(CollectionCreatorContract, msg);
                     toast.success("Successfully Created!");
-                    reset();
+                    const createdAddress = getContractAddressFromResponse(response, "nft_address")
+                    if (createdAddress) {
+                        // router.push(`/marketplace?nftAddress=${createdAddress}`)
+                        router.push(`/explore/collections/${createdAddress}`)
+                    } else {
+                        reset();
+                    }
                 } catch (err) {
                     // eslint-disable-next-line no-console
                     console.error(err);
@@ -179,7 +188,7 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                                             Upload Background Image
                                         </h6>
                                         <p className="formate">
-                                            Drag or choose your file to upload
+                                            Choose your file to upload
                                         </p>
                                     </div>
 
@@ -246,7 +255,7 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                                             Upload Logo Image
                                         </h6>
                                         <p className="formate">
-                                            Drag or choose your file to upload
+                                            Choose your file to upload
                                         </p>
                                     </div>
 
@@ -387,7 +396,7 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                                             )}
                                         </div>
                                     </div>
-                                    <div className="col-md-12">
+                                    {isAdminPage && (<div className="col-md-12">
                                         <div className="input-box pb--20">
                                             <div className="form-label">
                                                 NFT Type
@@ -455,7 +464,7 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                                                 </label>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>)}
                                     {isAdminPage && (
                                         <div className="col-md-12">
                                             <div className="input-box pb--20">

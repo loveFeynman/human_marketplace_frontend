@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import Product from "@components/product/layout-01";
+import NftItem from "@components/nft-item";
 import { ProductType } from "@utils/types";
 
 const ProductArea = ({ space, className, data }) => (
@@ -16,9 +17,9 @@ const ProductArea = ({ space, className, data }) => (
                 <div className="col-12">
                     <h3
                         className="title mb--0"
-                        data-sal-delay="150"
-                        data-sal="slide-up"
-                        data-sal-duration="800"
+                        // data-sal-delay="150"
+                        // data-sal="slide-up"
+                        // data-sal-duration="800"
                     >
                         {data?.section_title.title}
                     </h3>
@@ -27,13 +28,13 @@ const ProductArea = ({ space, className, data }) => (
             <div className="row g-5">
                 {data?.products?.map((prod) => (
                     <div
-                        key={prod.id}
-                        data-sal="slide-up"
-                        data-sal-delay="150"
-                        data-sal-duration="800"
+                        key={prod.id || prod.token_id}
+                        // data-sal="slide-up"
+                        // data-sal-delay="150"
+                        // data-sal-duration="800"
                         className="col-5 col-lg-4 col-md-6 col-sm-6 col-12"
                     >
-                        <Product
+                        {/* <Product
                             title={prod.title}
                             slug={prod.slug}
                             latestBid={prod.latestBid}
@@ -43,7 +44,8 @@ const ProductArea = ({ space, className, data }) => (
                             image={prod.images?.[0]}
                             authors={prod.authors}
                             bitCount={prod.bitCount}
-                        />
+                        /> */}
+                        <NftItem overlay item={prod} />
                     </div>
                 ))}
             </div>

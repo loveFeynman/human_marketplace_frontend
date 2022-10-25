@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { useForm } from "react-hook-form";
@@ -11,6 +11,7 @@ import { useAppSelector } from "@app/hooks";
 import { useWalletManager } from "@noahsaso/cosmodal";
 import { useContract } from "@hooks";
 import NiceSelect from "@ui/nice-select";
+import { useRouter } from "next/router";
 
 const CreateNewArea = ({ className, space }) => {
     const [showProductModal, setShowProductModal] = useState(false);
@@ -28,6 +29,8 @@ const CreateNewArea = ({ className, space }) => {
     const collectionInfo = useAppSelector((state) => state.collections);
     const { connectedWallet } = useWalletManager();
     const { runExecute } = useContract();
+    const router = useRouter()
+    const { nftAddress } = router.query;
 
     const {
         register,
@@ -38,10 +41,11 @@ const CreateNewArea = ({ className, space }) => {
     } = useForm({
         mode: "onSubmit",
     });
+
     const collectionSelectOptions = useMemo(() => {
         const addresses = collectionInfo.addresses?.userDefined || [];
 
-        return [{ value: "", text: "" }].concat(
+        return [{value: "add new", text: "+ Create a New Collection"}].concat(
             addresses
                 .filter(
                     (_address) => _address.creator === connectedWallet?.address
@@ -56,6 +60,15 @@ const CreateNewArea = ({ className, space }) => {
                 })
         );
     }, [collectionInfo, connectedWallet]);
+
+    useEffect(() => {
+        if ( nftAddress ) {
+            const selectOptionValues = (collectionSelectOptions || []).map((option) => option.value);
+            if (selectOptionValues.includes(nftAddress)) {
+                setValue("collection", nftAddress)
+            }
+        }
+    }, [collectionSelectOptions, nftAddress])
 
     const handleProductModal = () => {
         setShowProductModal(false);
@@ -95,7 +108,11 @@ const CreateNewArea = ({ className, space }) => {
     };
 
     const handleChangeCollection = (item, name) => {
-        setValue(name, item.value);
+        if (item.value === "add new") {
+            router.push('/create-collection')
+        } else {
+            setValue(name, item.value);
+        }
     };
 
     const reset = () => {
@@ -177,9 +194,11 @@ const CreateNewArea = ({ className, space }) => {
                     };
                     try {
                         await runExecute(data.collection, msg);
-                        toast.success("Uploaded Successfuly!");
-                        reset();
-                        setSelectedImage();
+                        toast.success("Uploaded Successfully!");
+                        // reset();
+                        // setSelectedImage();
+                        // router.push(`/explore/${data.token_id}?collection=${data.collection}`)
+                        router.push(`/explore/collections/${data.collection}`)
                     } catch (err) {
                         // eslint-disable-next-line no-console
                         console.error(err);
@@ -332,7 +351,7 @@ const CreateNewArea = ({ className, space }) => {
                                     <div className="upload-formate mb--30">
                                         <h6 className="title">Upload file</h6>
                                         <p className="formate">
-                                            Drag or choose your file to upload
+                                            Choose your file to upload
                                         </p>
                                     </div>
 
@@ -431,7 +450,7 @@ const CreateNewArea = ({ className, space }) => {
                                                 <NiceSelect
                                                     id="collection"
                                                     className="form-select form-select-lg"
-                                                    placeholder="Default select example"
+                                                    placeholder="Select a collection"
                                                     {...register("collection", {
                                                         required:
                                                             "Collection is required",
@@ -442,6 +461,7 @@ const CreateNewArea = ({ className, space }) => {
                                                     options={
                                                         collectionSelectOptions
                                                     }
+                                                    defaultCurrent={nftAddress}
                                                 />
                                                 {errors.collection && (
                                                     <ErrorText>

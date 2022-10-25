@@ -3,23 +3,25 @@ import Wrapper from "@layout/wrapper";
 import Header from "@layout/header";
 import Footer from "@layout/footer";
 import Breadcrumb from "@components/breadcrumb";
-import CreateNewArea from "@containers/create-new-collection";
-import withAuth from "@utils/auth";
+import PrivacyPolicyArea from "@containers/privacy-policy";
 
 export async function getStaticProps() {
     return { props: { className: "template-color-1" } };
 }
 
-const Home = () => (
+const PrivacyPolicy = () => (
     <Wrapper>
-        <SEO pageTitle="Create New Collection" />
+        <SEO pageTitle="Terms of use" />
         <Header />
         <main id="main-content">
-            <Breadcrumb pageTitle="Create New Collection" />
-            <CreateNewArea />
+            <Breadcrumb
+                pageTitle="Terms of use"
+                currentPage="Terms of use"
+            />
+            {/* <PrivacyPolicyArea /> */}
         </main>
         <Footer />
     </Wrapper>
 );
 
-export default withAuth(Home);
+export default PrivacyPolicy;

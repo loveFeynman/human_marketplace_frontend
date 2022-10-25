@@ -64,7 +64,7 @@ const footerData = {
             {
                 id: 1,
                 text: "Terms",
-                path: "/privacy-policy",
+                path: "/terms-of-use",
             },
             {
                 id: 2,

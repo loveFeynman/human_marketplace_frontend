@@ -20,7 +20,7 @@ const NftItem = ({ overlay, item }) => {
     const [showBidModal, setShowBidModal] = useState(false);
     const { sellNft, withdrawNft, buyNft, setBid, acceptBid } = useContract();
     const { connectedWallet } = useWalletManager();
-    const isOwner = item.owner === connectedWallet?.address;
+    const isOwner = item.owner && item.owner === connectedWallet?.address;
     // const { connectedWallet } = useContext(CustomWalletContext);
     const nftInfo = useMemo(() => {
         const { price } = item;
@@ -115,9 +115,9 @@ const NftItem = ({ overlay, item }) => {
                 <div className="card-thumbnail">
                     {nftInfo.image && (
                         <Anchor
-                            path={`/nft-detail?token_id=${item.token_id}&collection=${item.token_address}`}
+                            path={`/explore/${item.token_id}?collection=${item.token_address}`}
                         >
-                            <img
+                            <Image
                                 src={nftInfo.image}
                                 alt=""
                                 width={533}
@@ -134,7 +134,10 @@ const NftItem = ({ overlay, item }) => {
                     {isOwner &&
                         (!nftInfo.expired ||
                             nftInfo.buttonString === "Withdraw") && (
-                            <Button onClick={handleBidModal} size="small">
+                            <Button 
+                                onClick={handleBidModal} 
+                                size="small"
+                            >
                                 {nftInfo.buttonString}
                             </Button>
                         )}
@@ -168,7 +171,10 @@ const NftItem = ({ overlay, item }) => {
                     )}
                     {/* {!disableShareDropdown && <ShareDropdown />} */}
                 </div>
-                <Anchor path={`/product/${item.tokenId}`}>
+                {/* <Anchor path={`/product/${item.tokenId}`}> */}
+                <Anchor
+                    path={`/explore/${item.token_id}?collection=${item.token_address}`}
+                >
                     <span className="product-name">{item.token_id}</span>
                 </Anchor>
                 <div className="latest-bid">{item.collection}</div>

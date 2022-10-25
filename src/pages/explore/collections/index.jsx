@@ -35,7 +35,7 @@ const Collection = () => {
                 result.push({
                     id: key,
                     title: collection.collection_info?.title || "",
-                    slug: `/marketplace?nftAddress=${key}`,
+                    slug: `/explore/collections/${key}`,
                     total_item: totalItem,
                     tradingVolume,
                     image: {
@@ -80,12 +80,12 @@ const Collection = () => {
     };
     return (
         <Wrapper>
-            <SEO pageTitle="Collections" />
+            <SEO pageTitle="Explore Collections" />
             <Header />
             <main id="main-content">
                 <Breadcrumb
-                    pageTitle="Explore Products"
-                    currentPage="Collections"
+                    pageTitle="Explore Collections"
+                    currentPage="Explore Collections"
                 />
                 <div className="container mt--20">
                     <FilterButtons

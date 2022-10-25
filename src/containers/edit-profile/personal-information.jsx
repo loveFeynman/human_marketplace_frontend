@@ -89,6 +89,37 @@ const PersonalInformation = () => {
                         onChange={handleChangePersonalInfo}
                     />
                 </div>
+                <div className="input-two-wrapper mt--15">
+                    <div className="half-wid">
+                        <label htmlFor="instagram" className="form-label">
+                            Instagram
+                        </label>
+                        <input
+                            name="instagram"
+                            id="instagram"
+                            type="text"
+                            placeholder=""
+                            value={personalInformation.instagram || ""}
+                            onChange={handleChangePersonalInfo}
+                        />
+                    </div>
+                    <div className="half-wid">
+                        <label
+                            htmlFor="twitter"
+                            className="form-label"
+                        >
+                            Twitter
+                        </label>
+                        <input
+                            name="twitter"
+                            id="twitter"
+                            type="text"
+                            placeholder=""
+                            value={personalInformation.twitter || ""}
+                            onChange={handleChangePersonalInfo}
+                        />
+                    </div>
+                </div>
             </div>
             <div className="edit-bio-area mt--30">
                 <label htmlFor="Discription" className="form-label">

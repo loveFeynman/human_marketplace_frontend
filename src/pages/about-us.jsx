@@ -12,7 +12,7 @@ import CTAArea from "@containers/cta";
 const aboutData = {
     section: "about-section",
     section_title: {
-        title: "About Us",
+        title: "About us",
     },
     image: {
         src: "/images/bg/bg-image-22.jpg",
@@ -68,7 +68,7 @@ const funfactData = {
 
 const About = () => (
     <Wrapper>
-        <SEO pageTitle="About" />
+        <SEO pageTitle="About us" />
         <Header />
         <main id="main-content">
             <AboutArea data={aboutData} />

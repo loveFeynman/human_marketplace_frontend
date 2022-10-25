@@ -112,7 +112,7 @@ const ProductArea = ({ space, className }) => {
                     <div className="row g-5">
                         {displayNfts.map((prod) => (
                             <div
-                                key={prod.id}
+                                key={prod.id || prod.token_id}
                                 // data-sal="slide-up"
                                 // data-sal-delay="150"
                                 // data-sal-duration="800"

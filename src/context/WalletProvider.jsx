@@ -117,6 +117,16 @@ const WalletProvider = ({ children }) => (
                 chainName: ChainConfig.chainName,
             },
         ]}
+        classNames={{
+            modalContent: "cosmodal-content",
+            modalHeader: "cosmodal-header",
+            walletList: "cosmodal-wallet-list",
+            wallet: "cosmodal-wallet-item",
+            walletImage: "cosmodal-wallet-image",
+            walletInfo: "cosmodal-wallet-info",
+            walletName: "cosmodal-wallet-name",
+            walletDescription: "cosmodal-wallet-description"
+        }}
     >
         {children}
     </WalletManagerProvider>

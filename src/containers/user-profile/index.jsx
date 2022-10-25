@@ -105,9 +105,10 @@ const UserProfileArea = ({ className }) => {
                     if (nft.seller !== userAddress) return;
                     if (userDefinedAddresses.includes(nft.token_address)) {
                         myCreated.push(nft);
-                    } else {
-                        myOwned.push(nft);
-                    }
+                    } 
+                    // else {
+                    //     myOwned.push(nft);
+                    // }
                     myOnSale.push(nft);
                     // myOnSale = [...myOnSale, ...crrNfts];
                 });
@@ -206,7 +207,7 @@ const UserProfileArea = ({ className }) => {
                                     eth={`${Number(bid.price) / 1e6}`}
                                     onClick={() =>
                                         router.push(
-                                            `/nft-detail?token_id=${bid.token_id}`
+                                            `/explore/token_id=${bid.token_id}`
                                         )
                                     }
                                 />

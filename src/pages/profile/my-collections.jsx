@@ -34,7 +34,8 @@ const MyCollections = () => {
                 result.push({
                     id: key,
                     title: collection.collection_info?.title || "",
-                    slug: `/marketplace?nftAddress=${key}`,
+                    // slug: `/marketplace?nftAddress=${key}`,
+                    slug: `/explore/collections/${key}`,
                     total_item: totalItem,
                     image: {
                         src:
@@ -66,12 +67,12 @@ const MyCollections = () => {
     }, [collections, connectedWallet]);
     return (
         <Wrapper>
-            <SEO pageTitle="Collections" />
+            <SEO pageTitle="My Collections" />
             <Header />
             <main id="main-content">
                 <Breadcrumb
-                    pageTitle="Our Collections"
-                    currentPage="Collections"
+                    pageTitle="My Collections"
+                    currentPage="My Collections"
                 />
                 <div className="ptb--30 container">
                     <Button>
@@ -80,7 +81,7 @@ const MyCollections = () => {
                         </Anchor>
                     </Button>
                 </div>
-                <CollectionArea data={{ collections: collectionsData }} />
+                <CollectionArea showAll data={{ collections: collectionsData }} />
             </main>
             <Footer />
         </Wrapper>

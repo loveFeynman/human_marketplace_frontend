@@ -92,7 +92,7 @@ const HeroArea = ({ data }) => {
                             {displayNfts.slice(0, 2).map((prod) => (
                                 <div
                                     className="col-lg-6 col-md-6"
-                                    key={prod.id}
+                                    key={prod.id || prod.token_id}
                                 >
                                     <NftItem overlay item={prod} />
                                 </div>

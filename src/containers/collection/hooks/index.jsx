@@ -33,7 +33,8 @@ export const GetTopCollections = () => {
                                 title:
                                     collectionState.collection_info.title || "",
                                 id: _data.collection,
-                                slug: `/marketplace?nftAddress=${_data.collection}`,
+                                // slug: `/marketplace?nftAddress=${_data.collection}`,
+                                slug: `/explore/collections/${_data.collection}`,
                                 total_item: totalItem,
                                 tradingVolume: _data["SUM(amount)"],
                                 image: {
@@ -66,7 +67,8 @@ export const GetTopCollections = () => {
                             return {
                                 title: "",
                                 id: _data.collection,
-                                slug: `/marketplace?nftAddress=${_data.collection}`,
+                                // slug: `/marketplace?nftAddress=${_data.collection}`,
+                                slug: `/explore/collections/${_data.collection}`,
                                 total_item: 0,
                                 image: {
                                     src: "https://secretsteampunks.mypinata.cloud/ipfs/QmZH3FPdSeJo17MNX7poDN8aTuNcKCC4qfaADhRJLCS1aj/SteamPunk_Robot_301.png",

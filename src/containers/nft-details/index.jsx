@@ -19,6 +19,7 @@ import { ChainConfig } from "@constant";
 import { UseHistory } from "./hooks";
 import { getImageFromHash } from "@utils/ipfs";
 import { getReducedAddress } from "@utils/index";
+import { useRouter } from "next/router";
 // Demo Image
 
 const ProductDetailsArea = ({
@@ -35,6 +36,7 @@ const ProductDetailsArea = ({
     const history = UseHistory(product.token_id);
     const { fetchUserInfo } = useAxios();
     const { connectedWallet } = useWalletManager();
+    const router = useRouter();
     const {
         sellNft,
         withdrawNft,
@@ -43,6 +45,7 @@ const ProductDetailsArea = ({
         acceptBid,
         getCollectionInfo,
     } = useContract();
+
     useEffect(() => {
         (async () => {
             const userInfo = await fetchUserInfo(
@@ -60,6 +63,7 @@ const ProductDetailsArea = ({
             setOwnerInfo(userInfo);
         })();
     }, [product.owner, product.creator]);
+
     const nftInfo = useMemo(() => {
         const { price } = product;
         const image = product.image_url;
@@ -84,6 +88,7 @@ const ProductDetailsArea = ({
             image,
             expiresAt,
             expired,
+            isOwner: product.owner === connectedWallet?.address
         };
     }, [connectedWallet?.address, product]);
 
@@ -120,6 +125,7 @@ const ProductDetailsArea = ({
             try {
                 if (product.sale_type === "auction") {
                     await acceptBid(product);
+                    router.back();
                 } else {
                     await withdrawNft(product);
                 }
@@ -186,6 +192,8 @@ const ProductDetailsArea = ({
                                 <ProductTitle
                                     title={product.token_id}
                                     likeCount={product.likeCount}
+                                    isOwner={nftInfo.isOwner}
+                                    isNft
                                 />
                                 {product.price && (
                                     <span className="bid">
@@ -224,7 +232,8 @@ const ProductDetailsArea = ({
                                         <TopSellerArea
                                             name={collectionInfo.title}
                                             // total_sale={ownerInfo.total_sale}
-                                            slug={`/marketplace?nftAddress=${product.token_address}`}
+                                            // slug={`/marketplace?nftAddress=${product.token_address}`}
+                                            slug={`/explore/collections/${product.token_address}`}
                                             image={{
                                                 src: collectionInfo.image,
                                                 width: "44px",

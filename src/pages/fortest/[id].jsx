@@ -16,6 +16,16 @@ import { getReducedAddress } from "@utils/index";
 import NiceSelect from "@ui/nice-select";
 import Button from "@ui/button";
 // demo data
+// william
+import { ChainConfig } from "@constant";
+import {
+    CosmWasmClient,
+    SigningCosmWasmClient,
+} from "@cosmjs/cosmwasm-stargate";
+import { GasPrice } from "@cosmjs/stargate";
+import { useWallet } from "@noahsaso/cosmodal";
+import { coins } from "@cosmjs/proto-signing";
+import axios from "axios";
 
 const LIMIT_BIDS = 20;
 
@@ -31,6 +41,10 @@ const NftDetail = () => {
     const [bids, setBids] = useState([]);
     const { fetchUserInfo } = useAxios();
     const [option, setOption] = useState("Execute1");
+
+    const { offlineSigner, signingCosmWasmClient, address } = useWallet(
+        ChainConfig.chainId
+    );
     useEffect(() => {
         setBids([]);
         const fetchBids = async (startBidder) => {
@@ -84,31 +98,95 @@ const NftDetail = () => {
         // setValue(name, item.value);
         setOption(item.value);
     };
+
     const handleSubmit = async () => {
         try {
             setLoading(true);
-            const result = await runExecute(
-                "human15fxl9g5pfjdhfqtmspmhpwtlxhfkwh9l2yk2uj926qqvg3gsfkuqwct4x8",
+
+            const cwClient = await SigningCosmWasmClient.connectWithSigner(
+                ChainConfig.rpcEndpoint,
+                offlineSigner,
                 {
-                    execute_algorithm: {
-                        msg: {
-                            provider_id: "2",
-                            nft_addr:
-                                "human1e8z2wjelypwxw5sey62jvwjyup88w55q3h6m0x8jtwjf6sx5c7ystheysl",
-                            token_id: "nft1",
-                        },
-                    },
-                },
-                {
-                    funds: "1",
-                    denom: "uheart",
+                    gasPrice: GasPrice.fromString(
+                        `${ChainConfig.gasPrice}${ChainConfig.microDenom}`
+                    ),
                 }
             );
+
+
+            console.log("address: ", address)
+            const result = await cwClient.execute(
+                address,
+                "human1rshdhvvhra8gl3ywhpgtd29aythlt9tjzdv648nq3hl922499cgqx5zjzk",
+                { 
+                    execute_algorithm: {
+                        msg: {
+                            provider_id: "0",
+                            nft_addr: 'human1e8z2wjelypwxw5sey62jvwjyup88w55q3h6m0x8jtwjf6sx5c7ystheysl',
+                            token_id: "ai_nft",
+                        }
+                    }
+                },
+                "auto",
+                "",
+                coins("1000000", "uheart")
+            );
+
             const wasmData = result.logs[0].events[5].attributes;
             const endpoint = wasmData[2].value;
             const workload_id = wasmData[1].value;
-            setShowData({ endpoint, workload_id });
-            // await axios.post("http://44.211.12.215:443/set", postData);
+
+            const signature = await window.keplr.signArbitrary(
+                ChainConfig.chainId,
+                address,
+                workload_id //Buffer.from(JSON.stringify(execute_msg)).toString("base64")
+                );
+
+            console.log("signature: ", signature)
+
+            // Create the document for signing.
+            // const signDoc = {
+            //     chain_id: "",
+            //     account_number: "0",
+            //     sequence: "0",
+            //     fee: {
+            //         gas: "0",
+            //         amount: [],
+            //     },
+            //     msgs: [
+            //         {
+            //             type: "sign/MsgSignData",
+            //             value: {
+            //                 signer: address,
+            //                 data: Buffer.from(JSON.stringify(execute_msg)).toString("base64"),
+            //             },
+            //         },
+            //     ],
+            //     memo: "",
+            // };
+
+            // const res = await window.keplr.signAmino(
+            //     ChainConfig.chainId,
+            //     address,
+            //     signDoc,
+            //     );
+            
+            console.log("workload: ", workload_id, signature.signature, signature.pub_key.value)
+
+            const postData = {
+                workload_id,
+                signature: signature.signature,
+                pubkey: signature.pub_key.value
+            };
+            try {
+                console.log("post data: ", postData)
+                const resData = await axios.post("http://18.220.100.80:443/set-state", postData);
+                console.log('resData: ', postData, resData);
+                setShowData({endpoint: resData.data, workload_id});
+            } catch (err) {
+                console.log('err: ', err)
+            }
+
             setSuccess(true);
             setLoading(false);
         } catch (err) {
@@ -117,6 +195,7 @@ const NftDetail = () => {
             console.log("err: ", err);
         }
     };
+
     return (
         <Wrapper>
             <SEO pageTitle="NFT Detail" />
@@ -178,7 +257,7 @@ const NftDetail = () => {
                     <>
                         <div>Workload Id: {showData.workload_id}</div>
                         <iframe
-                            src={showData.endpoint}
+                            src={`http://18.220.100.80:443${showData.endpoint}`}
                             style={{ height: "600px" }}
                         ></iframe>
                     </>

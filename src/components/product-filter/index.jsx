@@ -79,6 +79,7 @@ const ProductFilter = forwardRef(
                             <InputRange
                                 values={inputs.price}
                                 onChange={priceHandler}
+                                max={inputs.maxPrice}
                             />
                         </form>
                     </div>
@@ -96,6 +97,7 @@ ProductFilter.propTypes = {
     priceHandler: PropTypes.func,
     inputs: PropTypes.shape({
         price: PropTypes.arrayOf(PropTypes.number),
+        maxPrice: PropTypes.number
     }),
 };
 

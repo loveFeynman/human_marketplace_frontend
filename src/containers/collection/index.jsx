@@ -8,29 +8,18 @@ import { useAppSelector } from "@app/hooks";
 
 const POSTS_PER_PAGE = 8;
 
-const CollectionArea = ({ className, space, id, data }) => {
-    const [collections, setCollections] = useState([]);
+const CollectionArea = ({ className, space, id, data, showAll }) => {
+    // const [collections, setCollections] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const marketplaceNfts = useAppSelector((state) => state.marketplaceNfts);
-    const numberOfPages = Math.ceil(data.collections.length / POSTS_PER_PAGE);
-    const paginationHandler = (page) => {
-        setCurrentPage(page);
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    };
+    const collectionsInfo = useAppSelector((state) => state.collections);
+    const myNfts = useAppSelector((state) => state.myNfts);
 
-    const creatorHandler = useCallback(() => {
-        const start = (currentPage - 1) * POSTS_PER_PAGE;
-        setCollections(data.collections.slice(start, start + POSTS_PER_PAGE));
-    }, [currentPage, data.collections]);
-
-    useEffect(() => {
-        creatorHandler();
-    }, [currentPage, creatorHandler]);
-
-    const totalNfts = useMemo(() => {
-        const result = {};
+    const {totalNfts, last3Nfts} = useMemo(() => {
+        const totalNftsResult = {}, last3NftsResult = {};
         Object.keys(marketplaceNfts).forEach((key) => {
-            const crrNfts = marketplaceNfts[key] || [];
+            const crrCollectionInfo = collectionsInfo[key] || {};
+            const crrNfts = showAll && crrCollectionInfo.userDefined? (marketplaceNfts[key] || []).concat(myNfts[key] || []) : marketplaceNfts[key] || [];
             let count = 0;
             crrNfts.forEach((nft) => {
                 const expiresAt = nft.expires_at
@@ -40,10 +29,28 @@ const CollectionArea = ({ className, space, id, data }) => {
                     expiresAt && Number(new Date()) - Number(expiresAt) > 0;
                 if (!expiresAt || !expired) count += 1;
             });
-            result[key] = count;
+            totalNftsResult[key] = count;
+            last3NftsResult[key] = Array.from({length: 3}).map((item, index) => ({src: crrNfts[index]?.image_url || '/images/collection/collection-sm-01.jpg'}));
         });
-        return result;
+        return {totalNfts: totalNftsResult, last3Nfts: last3NftsResult};
     }, [marketplaceNfts]);
+    
+    const displayCollections = (data.collections || []).filter((collection) => showAll || totalNfts[collection.id] > 0)
+    const numberOfPages = Math.ceil(displayCollections.length / POSTS_PER_PAGE);
+    const paginationHandler = (page) => {
+        setCurrentPage(page);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    const start = (currentPage - 1) * POSTS_PER_PAGE;
+    // const creatorHandler = useCallback(() => {
+    //     setCollections(displayCollections.slice(start, start + POSTS_PER_PAGE));
+    // }, [currentPage, displayCollections]);
+
+    // useEffect(() => {
+    //     creatorHandler();
+    // }, [currentPage, creatorHandler]);
+
     return (
         <div
             className={clsx(
@@ -55,35 +62,34 @@ const CollectionArea = ({ className, space, id, data }) => {
         >
             <div className="container">
                 <div className="row g-5">
-                    {collections
-                        .filter((collection) => totalNfts[collection.id] > 0)
-                        .map((collection) => (
-                            <div
-                                key={collection.id}
-                                className="col-lg-6 col-xl-3 col-md-6 col-sm-6 col-12"
-                            >
-                                <Collection
-                                    id={collection.id}
-                                    title={collection.title}
-                                    // total_item={
-                                    //     marketplaceNfts[collection.id]?.length || 0
-                                    // }
-                                    total_item={totalNfts[collection.id] || 0}
-                                    path={collection.slug}
-                                    image={collection.image}
-                                    thumbnails={collection.thumbnails}
-                                    profile_image={collection.profile_image}
-                                />
-                            </div>
-                        ))}
+                    {displayCollections.slice(start, start + POSTS_PER_PAGE).map((collection) => (
+                        <div
+                            key={collection.id}
+                            className="col-lg-6 col-xl-3 col-md-6 col-sm-6 col-12"
+                        >
+                            <Collection
+                                id={collection.id}
+                                title={collection.title}
+                                // total_item={
+                                //     marketplaceNfts[collection.id]?.length || 0
+                                // }
+                                total_item={totalNfts[collection.id] || 0}
+                                path={collection.slug}
+                                image={collection.image}
+                                // thumbnails={collection.thumbnails}
+                                thumbnails={last3Nfts[collection.id]}
+                                profile_image={collection.profile_image}
+                            />
+                        </div>
+                    ))}
                 </div>
                 {numberOfPages > 1 && (
                     <div className="row">
                         <div
                             className="col-lg-12"
-                            data-sal="slide-up"
-                            data-sal-delay="950"
-                            data-sal-duration="800"
+                            // data-sal="slide-up"
+                            // data-sal-delay="950"
+                            // data-sal-duration="800"
                         >
                             <Pagination
                                 currentPage={currentPage}
@@ -105,6 +111,7 @@ CollectionArea.propTypes = {
     data: PropTypes.shape({
         collections: PropTypes.arrayOf(CollectionType),
     }),
+    showAll: PropTypes.bool
 };
 CollectionArea.defaultProps = {
     space: 1,

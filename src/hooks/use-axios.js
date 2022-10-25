@@ -8,6 +8,16 @@ function useAxios() {
             .post(`${backendBaseUrl}/api/sale_history/put_sale_history`, data)
             .catch((err) => false);
     };
+    const fetchAllUsers = useCallback(async () => {
+        try {
+            const users = await axios.get(
+                `${backendBaseUrl}/api/get_all_users`
+            );
+            return users.data;
+        } catch (err) {
+            return [];
+        }
+    });
     const fetchUserInfo = useCallback(async (address) => {
         try {
             const userInfo = await axios.get(
@@ -82,6 +92,7 @@ function useAxios() {
     });
     return {
         saveSaleHistory,
+        fetchAllUsers,
         fetchUserInfo,
         saveMintHistory,
         getNewestItem,

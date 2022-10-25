@@ -81,9 +81,10 @@ const AuthorProfileArea = ({ className }) => {
                     if (nft.seller !== connectedWallet?.address) return;
                     if (userDefinedAddresses.includes(nft.token_address)) {
                         myCreated.push(nft);
-                    } else {
-                        myOwned.push(nft);
-                    }
+                    } 
+                    // else {
+                    //     myOwned.push(nft);
+                    // }
                     myOnSale.push(nft);
                 });
             });
@@ -186,7 +187,7 @@ const AuthorProfileArea = ({ className }) => {
                                     eth={`${Number(bid.price) / 1e6}`}
                                     onClick={() =>
                                         router.push(
-                                            `/nft-detail?token_id=${bid.token_id}&collection=${bid.collection}`
+                                            `/explore/${bid.token_id}?collection=${bid.collection}`
                                         )
                                     }
                                 />

@@ -22,7 +22,7 @@ const data = {
         {
             id: 1,
             title: "Set up your wallet",
-            path: "/tutorials/set_up_your_wallet",
+            path: "/tutorials/set-up-your-wallet",
             subtitle: "STEP 1",
             description:
                 "The procedure for setting up your wallet differs based on the wallet, however for this example, we'll go through the steps of creating a Keplr wallet.",
@@ -35,7 +35,7 @@ const data = {
         {
             id: 2,
             title: "Create your collection",
-            path: "/tutorials/create_your_collection",
+            path: "/tutorials/create-your-collection",
             subtitle: "STEP 2",
             description:
                 "Creating a collection on our platform is simple and straightforward. You only need to determine the purpose and royalty rate of your collection and add your NFT's.",
@@ -47,8 +47,8 @@ const data = {
         },
         {
             id: 3,
-            title: "Add your NFT's",
-            path: "/tutorials/add_your_nfts",
+            title: "Add your NFTs",
+            path: "/tutorials/add-your-nfts",
             subtitle: "STEP 3",
             description:
                 "To add an NFT, you'll need a crypto wallet to generate and mint your NFT. This provides an unchangeable record of legitimacy and ownership.",
@@ -60,8 +60,8 @@ const data = {
         },
         {
             id: 4,
-            title: "Sell Your NFT's",
-            path: "/tutorials/sell_your_nfts",
+            title: "Sell Your NFTs",
+            path: "/tutorials/sell-your-nfts",
             subtitle: "STEP 4",
             description:
                 "Selling an NFT on our platform is quick and straightforward. Anyone who has an NFT, whether the inventor or the person who most recently collected it, can sell it for sale.",
@@ -108,7 +108,7 @@ export async function getStaticProps() {
 
 const Home = () => (
     <Wrapper>
-        <SEO pageTitle="Home Default" />
+        <SEO pageTitle="Home" />
         <Header />
         <div id="main-content">
             <HeroArea data={{ ...heroData }} />
