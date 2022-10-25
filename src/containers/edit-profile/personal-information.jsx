@@ -89,6 +89,38 @@ const PersonalInformation = () => {
                         onChange={handleChangePersonalInfo}
                     />
                 </div>
+                <div className="last-name half-wid mt--15">
+                        <label
+                            htmlFor="twitter"
+                            className="form-label"
+                        >
+                            Twitter
+                        </label>
+                        <input
+                            name="twitter"
+                            id="twitter"
+                            type="text"
+                            placeholder="e.g. humansdotai"
+                            value={personalInformation.twitter || ""}
+                            onChange={handleChangePersonalInfo}
+                        />
+                </div>
+                <div className="last-name half-wid mt--15">
+                        <label
+                            htmlFor="instagram"
+                            className="form-label"
+                        >
+                            Instagram
+                        </label>
+                        <input
+                            name="instagram"
+                            id="instagram"
+                            type="text"
+                            placeholder="e.g. humansdotai"
+                            value={personalInformation.instagram || ""}
+                            onChange={handleChangePersonalInfo}
+                        />
+                    </div>
             </div>
             <div className="edit-bio-area mt--30">
                 <label htmlFor="Discription" className="form-label">
@@ -125,8 +157,8 @@ const PersonalInformation = () => {
                         ]}
                         placeholder="Select Your Gender"
                         className="profile-edit-select"
-                        defaultCurrent={personalInformation.gendor}
-                        onChange={(e) => handleChangeSelect("gendor", e)}
+                        defaultCurrent={personalInformation.gender}
+                        onChange={(e) => handleChangeSelect("gender", e)}
                     />
                 </div>
                 <div className="half-wid currency">
