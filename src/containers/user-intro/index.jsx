@@ -29,7 +29,7 @@ const UserIntroArea = ({ className, space }) => {
                     href={twitterLink}
                     target="_blank"
                     rel="noreferrer"
-                    className="social-follow"
+                    className="social-follw"
                 >
                     <i className="feather-twitter" />
                     <span className="user-name"> {userData.twitter}</span>
@@ -46,7 +46,7 @@ const UserIntroArea = ({ className, space }) => {
                     href={instagramLink}
                     target="_blank"
                     rel="noreferrer"
-                    className="social-follow"
+                    className="social-follw"
                 >
                     <i className="feather-instagram" />
                     <span className="user-name"> {userData.instagram}</span>
@@ -153,7 +153,7 @@ const UserIntroArea = ({ className, space }) => {
                                                 {userData.twitter}
                                             </span>
                                         </a> */}
-                                        <div className="mb-2 d-flex justify-content-center gap-4">
+                                        <div className="mb-1 d-flex justify-content-center gap-5">
                                             {userData.twitter? insertTwitter() : ''}
                                             {userData.instagram? insertInstagram() : ''}
                                         </div>
