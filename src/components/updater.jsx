@@ -207,7 +207,7 @@ const Updater = () => {
             const randomMints = [];
             const userDefinedMints = [];
             queryResults.forEach((result) => {
-                result.forEach((collection) => {
+                result?.forEach((collection) => {
                     if (collection.is_rand) {
                         randomMints.push(collection);
                     } else {
@@ -282,13 +282,15 @@ const Updater = () => {
         fetchMarketplaceNfts();
         fetchCollectionInfo();
         fetchBalance();
+        fetchMyNfts();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [normal]);
 
     useEffect(() => {
+        dispatch(clearMyNfs());
         fetchMyNfts();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [normal, address]);
+    }, [address]);
 
     return null;
 };

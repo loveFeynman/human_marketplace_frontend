@@ -105,9 +105,10 @@ const UserProfileArea = ({ className }) => {
                     if (nft.seller !== userAddress) return;
                     if (userDefinedAddresses.includes(nft.token_address)) {
                         myCreated.push(nft);
-                    } else {
-                        myOwned.push(nft);
-                    }
+                    } 
+                    // else {
+                    //     myOwned.push(nft);
+                    // }
                     myOnSale.push(nft);
                     // myOnSale = [...myOnSale, ...crrNfts];
                 });
