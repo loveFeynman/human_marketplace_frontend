@@ -30,8 +30,8 @@ const DetailsTabContent = ({ token_uri, ownerInfo }) => {
                 <div className="rn-pd-sm-property-wrapper">
                     <h6 className="pd-property-title">Tags</h6>
                     <div className="catagory-wrapper">
-                        {tags.map((tag) => (
-                            <div key={tag.id} className="pd-property-inner">
+                        {tags.map((tag, index) => (
+                            <div key={`${tag.id}-${index}`} className="pd-property-inner">
                                 <span className="color-body type">
                                     {tag.trait_type}
                                 </span>

@@ -297,8 +297,6 @@ function useContract() {
                     collection: item.token_address,
                 };
                 saveSaleHistory(saveData);
-                // console.log("refresh here");
-                refresh();
                 toast.success("Success!");
             } catch (err) {
                 const errMsg = err.message;

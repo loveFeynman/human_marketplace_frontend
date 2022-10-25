@@ -279,7 +279,6 @@ const Updater = () => {
     }, [address, dispatch, signingCosmWasmClient]);
 
     useEffect(() => {
-        // console.log('update')
         fetchMarketplaceNfts();
         fetchCollectionInfo();
         fetchBalance();
