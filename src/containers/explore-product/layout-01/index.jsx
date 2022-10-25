@@ -170,9 +170,9 @@ const ExploreProductArea = ({ className, space, data, hiddenExpired }) => {
                 <div className="row">
                     <div
                         className="col-lg-12"
-                        data-sal="slide-up"
-                        data-sal-delay="950"
-                        data-sal-duration="800"
+                        // data-sal="slide-up"
+                        // data-sal-delay="950"
+                        // data-sal-duration="800"
                     >
                         <Pagination
                             currentPage={currentPage}

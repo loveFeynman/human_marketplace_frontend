@@ -9,7 +9,7 @@ import { useAppSelector } from "@app/hooks";
 const POSTS_PER_PAGE = 8;
 
 const CollectionArea = ({ className, space, id, data, showAll }) => {
-    const [collections, setCollections] = useState([]);
+    // const [collections, setCollections] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const marketplaceNfts = useAppSelector((state) => state.marketplaceNfts);
     const collectionsInfo = useAppSelector((state) => state.collections);
@@ -42,14 +42,14 @@ const CollectionArea = ({ className, space, id, data, showAll }) => {
         window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
-    const creatorHandler = useCallback(() => {
-        const start = (currentPage - 1) * POSTS_PER_PAGE;
-        setCollections(displayCollections.slice(start, start + POSTS_PER_PAGE));
-    }, [currentPage, displayCollections]);
+    const start = (currentPage - 1) * POSTS_PER_PAGE;
+    // const creatorHandler = useCallback(() => {
+    //     setCollections(displayCollections.slice(start, start + POSTS_PER_PAGE));
+    // }, [currentPage, displayCollections]);
 
-    useEffect(() => {
-        creatorHandler();
-    }, [currentPage, creatorHandler]);
+    // useEffect(() => {
+    //     creatorHandler();
+    // }, [currentPage, creatorHandler]);
 
     return (
         <div
@@ -62,7 +62,7 @@ const CollectionArea = ({ className, space, id, data, showAll }) => {
         >
             <div className="container">
                 <div className="row g-5">
-                    {collections.map((collection) => (
+                    {displayCollections.slice(start, start + POSTS_PER_PAGE).map((collection) => (
                         <div
                             key={collection.id}
                             className="col-lg-6 col-xl-3 col-md-6 col-sm-6 col-12"
@@ -87,9 +87,9 @@ const CollectionArea = ({ className, space, id, data, showAll }) => {
                     <div className="row">
                         <div
                             className="col-lg-12"
-                            data-sal="slide-up"
-                            data-sal-delay="950"
-                            data-sal-duration="800"
+                            // data-sal="slide-up"
+                            // data-sal-delay="950"
+                            // data-sal-duration="800"
                         >
                             <Pagination
                                 currentPage={currentPage}
