@@ -5,7 +5,7 @@ import ShareModal from "@components/modals/share-modal";
 import ReportModal from "@components/modals/report-modal";
 // import ShareDropdown from "../share-dropdown";
 
-const ProductTitle = ({ className, title, isOwner }) => {
+const ProductTitle = ({ className, title, isOwner, isNft }) => {
     const [isShareModalOpen, setIsShareModalOpen] = useState(false);
     const [showReportModal, setShowReportModal] = useState(false);
 
@@ -16,6 +16,7 @@ const ProductTitle = ({ className, title, isOwner }) => {
             <ShareModal
                 show={isShareModalOpen}
                 handleModal={shareModalHandler}
+                isNft={isNft}
             />
             <ReportModal
                 show={showReportModal}

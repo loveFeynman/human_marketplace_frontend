@@ -188,6 +188,7 @@ const ProductDetailsArea = ({
                                     title={product.token_id}
                                     likeCount={product.likeCount}
                                     isOwner={nftInfo.isOwner}
+                                    isNft
                                 />
                                 {product.price && (
                                     <span className="bid">
