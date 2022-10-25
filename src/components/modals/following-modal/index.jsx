@@ -12,17 +12,31 @@ import { useWalletManager } from "@noahsaso/cosmodal";
 
 const FollowingModal = ({ show, handleModal, follow, isFollowing, fetchFollow }) => {
     const [users, setUsers] = useState([]);
-    const { fetchAllUsers, handleFollow } = useAxios();
+    const [myFollow, setMyFollow] = useState({});
+    const { fetchAllUsers, handleFollow, fetchFollowInfo } = useAxios();
+    const { connectedWallet } = useWalletManager();
+
+    const fetchMyFollow = async () => {
+        if (connectedWallet?.address) {
+            const followInfo = await fetchFollowInfo(connectedWallet?.address);
+            setMyFollow({
+                from: followInfo?.from.map((_data) => _data.to_address),
+                to: followInfo?.to.map((_data) => _data.from_address),
+            });
+        }
+    };
+
     useEffect(() => {
         (async () => {
+            fetchMyFollow();
             const users = await fetchAllUsers();
             setUsers(users || []);
         })()
     }, [])
-    const { connectedWallet } = useWalletManager();
 
     const handleFollowClick = async ( userAddress ) => {
         await handleFollow(connectedWallet?.address, userAddress);
+        fetchMyFollow();
         await fetchFollow();
     };
 
@@ -57,10 +71,11 @@ const FollowingModal = ({ show, handleModal, follow, isFollowing, fetchFollow })
                         const logoUrl = user.cover
                             ? getImageFromHash(user.cover)
                             : "/images/bg/bg-image-9.png";
-                        if (connectedWallet?.address === user.wallet) return null;
-                        if (isFollowing || (follow?.to || []).includes(user.wallet)) {
+                        // if (connectedWallet?.address === user.wallet) return null;
+                        // if (isFollowing || (follow?.to || []).includes(user.wallet)) {
+                        if ((follow?.[isFollowing? "from" : "to"] || []).includes(user.wallet)) {
                             if (!connectedWallet?.address && !(follow?.from || []).includes(user.wallet)) return null;
-                            const isFollowingCrrUser = (follow?.from || []).includes(user.wallet);
+                            const isFollowingCrrUser = (myFollow?.from || []).includes(user.wallet);
                             return (
                                 <div className={clsx("top-seller-inner-one")} key={user.hash || index}>
                                     <div className="top-seller-wrapper">
@@ -85,7 +100,7 @@ const FollowingModal = ({ show, handleModal, follow, isFollowing, fetchFollow })
                                             </span>
                                         </div>
                                     </div>
-                                    {connectedWallet?.address && (
+                                    {connectedWallet?.address && connectedWallet?.address !== user.wallet && (
                                         <Button 
                                             color="primary-alta" 
                                             size="small" 
