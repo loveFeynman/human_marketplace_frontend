@@ -405,7 +405,7 @@ const CreateNewArea = ({ className, space }) => {
                                             multiple
                                             onChange={imageChange}
                                         />
-                                        {selectedImage && !!file?.type?.match("image.*") && (
+                                        {selectedImage && !!selectedImage?.type?.match("image.*") && (
                                             // eslint-disable-next-line @next/next/no-img-element
                                             <img
                                                 id="createfileImage"
@@ -416,7 +416,7 @@ const CreateNewArea = ({ className, space }) => {
                                             />
                                         )}
 
-                                        {selectedImage && !!file?.type?.match("video.*") && (
+                                        {selectedImage && !!selectedImage?.type?.match("video.*") && (
                                             <video
                                                 id="createfileImage"
                                                 src={URL.createObjectURL(
