@@ -12,8 +12,9 @@ import { useWalletManager } from "@noahsaso/cosmodal";
 import { useContract } from "@hooks";
 import NiceSelect from "@ui/nice-select";
 import { useRouter } from "next/router";
-import { checkFileType } from "@utils/index";
+import { validationFile } from "@utils/index";
 import Video from "@components/video";
+import { fileSizeLimit } from "@constant";
 
 const CreateNewArea = ({ className, space }) => {
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -80,7 +81,7 @@ const CreateNewArea = ({ className, space }) => {
     // This function will be triggered when the file field change
     const imageChange = (e) => {
         if (e.target.files && e.target.files.length > 0) {
-            if (!checkFileType(e.target.files[0])) return;
+            if (!validationFile(e.target.files[0])) return;
             setSelectedImage(e.target.files[0]);
         }
     };
@@ -244,7 +245,7 @@ const CreateNewArea = ({ className, space }) => {
         e.stopPropagation();
         const files = [...e.dataTransfer.files]
         if (files.length && files[0]) {
-            if (!checkFileType(files[0])) return;
+            if (!validationFile(files[0])) return;
             setSelectedImage(files[0]);
         }
     }
@@ -446,7 +447,7 @@ const CreateNewArea = ({ className, space }) => {
                                                         Choose a File
                                                     </span>
                                                     <p className="text-center mt--10">
-                                                        JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, or GLTF. <br /> Max 100 MB.
+                                                        JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, or GLTF. <br /> {`Max ${fileSizeLimit} MB`}.
                                                     </p>
                                                 </>
                                             )}

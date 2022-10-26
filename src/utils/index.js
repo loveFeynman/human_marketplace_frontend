@@ -1,3 +1,5 @@
+import { fileSizeLimit } from "@constant";
+
 export const getReducedAddress = (address) =>
     `${address?.slice(0, 5)}...${address?.slice(-5)}`;
 
@@ -33,10 +35,18 @@ export const getContractAddressFromResponse = (response, key) => {
     return attributes?.filter((attribute) => attribute.key === key)[0]?.value;
 };
 
+export const checkFileSize = (file) => {
+    return (file?.size || 0) < fileSizeLimit * 1024 * 1024; // 100MB
+};
+
 export const checkFileType = (file) => {
     return (
         !!file?.type?.match("image.*") ||
         !!file?.type?.match("video.*") ||
         !!file?.type?.match("audio.*")
     );
+};
+
+export const validationFile = (file) => {
+    return checkFileSize(file) && checkFileType(file);
 };

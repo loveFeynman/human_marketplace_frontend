@@ -9,8 +9,8 @@ import Button from "@ui/button";
 import ErrorText from "@ui/error-text";
 import { uploadFileToIpfs } from "@utils/ipfs";
 import { useContract } from "@hooks";
-import { CollectionCreatorContract } from "@constant";
-import { checkFileType, getContractAddressFromResponse } from "@utils/index";
+import { CollectionCreatorContract, fileSizeLimit } from "@constant";
+import { validationFile, getContractAddressFromResponse } from "@utils/index";
 import { useRouter } from "next/router";
 
 const CreateNewArea = ({ className, space, isAdminPage }) => {
@@ -39,7 +39,7 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
     // This function will be triggered when the file field change
     const imageChange = (e) => {
         if (e.target.files && e.target.files.length > 0) {
-            if (!checkFileType(e.target.files[0])) return;
+            if (!validationFile(e.target.files[0])) return;
             if (e.target.name === "logo-image") {
                 setSelectedLogoImage(e.target.files[0]);
             } else {
@@ -190,7 +190,7 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
         e.stopPropagation();
         const files = [...e.dataTransfer.files]
         if (files.length && files[0]) {
-            if (!checkFileType(files[0])) return;
+            if (!validationFile(files[0])) return;
             if (name === "logo-image") {
                 setSelectedLogoImage(files[0]);
             } else {
@@ -268,7 +268,7 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                                                         Choose a File
                                                     </span>
                                                     <p className="text-center mt--10">
-                                                        JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, or GLTF. <br /> Max 100 MB.
+                                                        JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, or GLTF. <br /> {`Max ${fileSizeLimit} MB`}.
                                                     </p>
                                                 </>
                                             )}
@@ -339,7 +339,7 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                                                         Choose a File
                                                     </span>
                                                     <p className="text-center mt--10">
-                                                        JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, or GLTF. <br /> Max 100 MB.
+                                                        JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, or GLTF. <br /> {`Max ${fileSizeLimit} MB`}.
                                                     </p>
                                                 </>
                                             )}
