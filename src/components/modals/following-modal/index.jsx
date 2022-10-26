@@ -110,7 +110,7 @@ const FollowingModal = ({ show, handleModal, follow, isFollowing, fetchFollow })
                                             }}
                                         >
                                             <span className="not-hovering-span">{isFollowingCrrUser? "Following" : "Follow"}</span>
-                                            <span className="hovering-span">{isFollowingCrrUser? "UnFollow" : "Follow"}</span>
+                                            <span className="hovering-span">{isFollowingCrrUser? "Unfollow" : "Follow"}</span>
                                         </Button>
                                     )}
                                 </div>
