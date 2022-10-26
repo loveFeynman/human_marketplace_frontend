@@ -264,3 +264,5 @@ export const countries = [
     "Zambia",
     "Zimbabwe",
 ];
+
+export const fileSizeLimit = 100; // 100MB

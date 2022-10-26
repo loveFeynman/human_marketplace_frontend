@@ -1,0 +1,17 @@
+.following-button {
+  .not-hovering-span {
+    display: block;
+  }
+  .hovering-span {
+    display: none;
+  }
+  &:hover {
+    .not-hovering-span {
+        display: none;
+      }
+    
+      .hovering-span {
+        display: block;
+      }
+  }
+}

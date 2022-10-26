@@ -14,10 +14,12 @@ import Button from "@ui/button";
 import { NftType } from "@utils/types";
 import { ChainConfig } from "@constant";
 import { useContract } from "@hooks";
+import Video from "@components/video";
 // import { CustomWalletContext } from "@context";
 
 const NftItem = ({ overlay, item }) => {
     const [showBidModal, setShowBidModal] = useState(false);
+    const [previewType, setPreviewType] = useState("image");
     const { sellNft, withdrawNft, buyNft, setBid, acceptBid } = useContract();
     const { connectedWallet } = useWalletManager();
     const isOwner = item.owner && item.owner === connectedWallet?.address;
@@ -104,6 +106,7 @@ const NftItem = ({ overlay, item }) => {
             }
         }
     };
+
     return (
         <>
             <div
@@ -117,12 +120,23 @@ const NftItem = ({ overlay, item }) => {
                         <Anchor
                             path={`/explore/${item.token_id}?collection=${item.token_address}`}
                         >
-                            <Image
-                                src={nftInfo.image}
-                                alt=""
-                                width={533}
-                                height={533}
-                            />
+                            {previewType === "image" && (
+                                <Image
+                                    src={nftInfo.image}
+                                    alt=""
+                                    width={533}
+                                    height={533}
+                                    onError={() => setPreviewType("video")}
+                                />
+                            )}
+                            {previewType === "video" && (
+                                <Video 
+                                    src={nftInfo.image}
+                                    autoplay
+                                    muted
+                                    loop
+                                />
+                            )}
                         </Anchor>
                     )}
                     {nftInfo.expiresAt && (

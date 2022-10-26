@@ -12,8 +12,12 @@ import { useWalletManager } from "@noahsaso/cosmodal";
 import { useContract } from "@hooks";
 import NiceSelect from "@ui/nice-select";
 import { useRouter } from "next/router";
+import { validationFile } from "@utils/index";
+import Video from "@components/video";
+import { fileSizeLimit } from "@constant";
 
 const CreateNewArea = ({ className, space }) => {
+    const [isSubmitting, setIsSubmitting] = useState(false)
     const [showProductModal, setShowProductModal] = useState(false);
     const [selectedImage, setSelectedImage] = useState();
     const [metadataSet, setMetadataSet] = useState([{ field: "", value: "" }]);
@@ -77,6 +81,7 @@ const CreateNewArea = ({ className, space }) => {
     // This function will be triggered when the file field change
     const imageChange = (e) => {
         if (e.target.files && e.target.files.length > 0) {
+            if (!validationFile(e.target.files[0])) return;
             setSelectedImage(e.target.files[0]);
         }
     };
@@ -122,6 +127,7 @@ const CreateNewArea = ({ className, space }) => {
     };
 
     const onSubmit = async (data, e) => {
+        if (isSubmitting) return;
         const { target } = e;
         const submitBtn =
             target.localName === "span" ? target.parentElement : target;
@@ -170,6 +176,7 @@ const CreateNewArea = ({ className, space }) => {
         }
 
         if (!isPreviewBtn) {
+            setIsSubmitting(true);
             const queries = [
                 uploadJSONToIpfs(data.token_id, metadata),
                 uploadFileToIpfs(selectedImage),
@@ -201,7 +208,7 @@ const CreateNewArea = ({ className, space }) => {
                         router.push(`/explore/collections/${data.collection}`)
                     } catch (err) {
                         // eslint-disable-next-line no-console
-                        console.error(err);
+                        throw new Error(err);
                         toast.error("Mint Failed!");
                     }
                 })
@@ -209,9 +216,39 @@ const CreateNewArea = ({ className, space }) => {
                     // eslint-disable-next-line no-console
                     console.error(err);
                     toast.error("Fail!");
+                })
+                .finally(() => {
+                    setIsSubmitting(false)
                 });
         }
     };
+
+    const handleChangeCheckbox = (e) => {
+        setNftType(e.target.name);
+    };
+
+    const handleDragEnter = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        e.dataTransfer.dropEffect = "copy";
+    }
+    const handleDragLeave = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    const handleDrop = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const files = [...e.dataTransfer.files]
+        if (files.length && files[0]) {
+            if (!validationFile(files[0])) return;
+            setSelectedImage(files[0]);
+        }
+    }
 
     // const renderMetaSetItem = (metadataItem, index, totalData) => {
     //     const isLastElement = index === totalData.length - 1;
@@ -331,9 +368,7 @@ const CreateNewArea = ({ className, space }) => {
     //         ) : null;
     //     });
     // };
-    const handleChangeCheckbox = (e) => {
-        setNftType(e.target.name);
-    };
+
     return (
         <>
             <div
@@ -364,6 +399,10 @@ const CreateNewArea = ({ className, space }) => {
                                         onMouseLeave={() => {
                                             setUploadShow(false);
                                         }}
+                                        onDragEnter={(e) => handleDragEnter(e)}
+                                        onDragOver={(e) => handleDragOver(e)}
+                                        onDragLeave={(e) => handleDragLeave(e)}
+                                        onDrop={(e) => handleDrop(e)}
                                     >
                                         <input
                                             name="file"
@@ -374,13 +413,25 @@ const CreateNewArea = ({ className, space }) => {
                                             multiple
                                             onChange={imageChange}
                                         />
-                                        {selectedImage && (
+                                        {selectedImage && !!selectedImage?.type?.match("image.*") && (
                                             // eslint-disable-next-line @next/next/no-img-element
                                             <img
                                                 id="createfileImage"
                                                 src={URL.createObjectURL(
                                                     selectedImage
                                                 )}
+                                                alt=""
+                                            />
+                                        )}
+
+                                        {selectedImage && !!selectedImage?.type?.match("video.*") && (
+                                            <Video
+                                                className="upload-video-preview"
+                                                src={URL.createObjectURL(
+                                                    selectedImage
+                                                )}
+                                                autoplay
+                                                loop
                                                 alt=""
                                             />
                                         )}
@@ -396,8 +447,7 @@ const CreateNewArea = ({ className, space }) => {
                                                         Choose a File
                                                     </span>
                                                     <p className="text-center mt--10">
-                                                        PNG, GIF, WEBP, MP4 or
-                                                        MP3. <br /> Max 1Gb.
+                                                        JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, or GLTF. <br /> {`Max ${fileSizeLimit} MB`}.
                                                     </p>
                                                 </>
                                             )}
@@ -778,7 +828,7 @@ const CreateNewArea = ({ className, space }) => {
                                         <div className="col-md-12 col-xl-8 mt_lg--15 mt_md--15 mt_sm--15">
                                             <div className="input-box">
                                                 <Button type="submit" fullwidth>
-                                                    Submit Item
+                                                    {`${isSubmitting? "Submitting" : "Submit"} Item`}
                                                 </Button>
                                             </div>
                                         </div>

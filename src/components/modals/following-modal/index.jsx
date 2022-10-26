@@ -102,13 +102,15 @@ const FollowingModal = ({ show, handleModal, follow, isFollowing, fetchFollow })
                                     </div>
                                     {connectedWallet?.address && connectedWallet?.address !== user.wallet && (
                                         <Button 
+                                            className="following-button"
                                             color="primary-alta" 
                                             size="small" 
                                             onClick={() => {
                                                 handleFollowClick(user.wallet)
                                             }}
                                         >
-                                            {isFollowingCrrUser? "UnFollowing" : "Following"}
+                                            <span className="not-hovering-span">{isFollowingCrrUser? "Following" : "Follow"}</span>
+                                            <span className="hovering-span">{isFollowingCrrUser? "Unfollow" : "Follow"}</span>
                                         </Button>
                                     )}
                                 </div>
