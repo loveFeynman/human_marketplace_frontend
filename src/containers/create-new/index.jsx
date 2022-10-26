@@ -13,8 +13,10 @@ import { useContract } from "@hooks";
 import NiceSelect from "@ui/nice-select";
 import { useRouter } from "next/router";
 import { checkFileType } from "@utils/index";
+import Video from "@components/video";
 
 const CreateNewArea = ({ className, space }) => {
+    const [isSubmitting, setIsSubmitting] = useState(false)
     const [showProductModal, setShowProductModal] = useState(false);
     const [selectedImage, setSelectedImage] = useState();
     const [metadataSet, setMetadataSet] = useState([{ field: "", value: "" }]);
@@ -124,6 +126,7 @@ const CreateNewArea = ({ className, space }) => {
     };
 
     const onSubmit = async (data, e) => {
+        if (isSubmitting) return;
         const { target } = e;
         const submitBtn =
             target.localName === "span" ? target.parentElement : target;
@@ -172,6 +175,7 @@ const CreateNewArea = ({ className, space }) => {
         }
 
         if (!isPreviewBtn) {
+            setIsSubmitting(true);
             const queries = [
                 uploadJSONToIpfs(data.token_id, metadata),
                 uploadFileToIpfs(selectedImage),
@@ -203,7 +207,7 @@ const CreateNewArea = ({ className, space }) => {
                         router.push(`/explore/collections/${data.collection}`)
                     } catch (err) {
                         // eslint-disable-next-line no-console
-                        console.error(err);
+                        throw new Error(err);
                         toast.error("Mint Failed!");
                     }
                 })
@@ -211,6 +215,9 @@ const CreateNewArea = ({ className, space }) => {
                     // eslint-disable-next-line no-console
                     console.error(err);
                     toast.error("Fail!");
+                })
+                .finally(() => {
+                    setIsSubmitting(false)
                 });
         }
     };
@@ -417,8 +424,8 @@ const CreateNewArea = ({ className, space }) => {
                                         )}
 
                                         {selectedImage && !!selectedImage?.type?.match("video.*") && (
-                                            <video
-                                                id="createfileImage"
+                                            <Video
+                                                className="upload-video-preview"
                                                 src={URL.createObjectURL(
                                                     selectedImage
                                                 )}
@@ -820,7 +827,7 @@ const CreateNewArea = ({ className, space }) => {
                                         <div className="col-md-12 col-xl-8 mt_lg--15 mt_md--15 mt_sm--15">
                                             <div className="input-box">
                                                 <Button type="submit" fullwidth>
-                                                    Submit Item
+                                                    {`${isSubmitting? "Submitting" : "Submit"} Item`}
                                                 </Button>
                                             </div>
                                         </div>

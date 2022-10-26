@@ -245,6 +245,16 @@ button {
             z-index: 10;
             transition: var(--transition);
         }
+        video {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            z-index: 9;
+            cursor: pointer;
+            border-radius: 5px;
+            object-fit: cover;
+            transition: 0.5s all;
+        }
         &:hover {
             label {
                 opacity: 0.85;

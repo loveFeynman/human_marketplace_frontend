@@ -20,6 +20,7 @@ import { UseHistory } from "./hooks";
 import { getImageFromHash } from "@utils/ipfs";
 import { getReducedAddress } from "@utils/index";
 import { useRouter } from "next/router";
+import Video from "@components/video";
 // Demo Image
 
 const ProductDetailsArea = ({
@@ -29,6 +30,7 @@ const ProductDetailsArea = ({
     bids,
     refreshData,
 }) => {
+    const [previewType, setPreviewType] = useState("image");
     const [showBidModal, setShowBidModal] = useState(false);
     const [ownerInfo, setOwnerInfo] = useState({});
     const [creatorInfo, setCreatorInfo] = useState({});
@@ -172,13 +174,25 @@ const ProductDetailsArea = ({
                 <div className="container">
                     <div className="row g-5">
                         <div className="col-lg-7 col-md-12 col-sm-12">
-                            <Sticky style={{ width: "max-content" }}>
-                                <img
-                                    src={product.image_url}
-                                    alt=""
-                                    width={533}
-                                    height={533}
-                                />
+                            <Sticky style={{ width: "max-content", maxWidth: "100%" }}>
+                                {previewType === "image" && (
+                                    <img
+                                        src={product.image_url}
+                                        alt=""
+                                        width={533}
+                                        height={533}
+                                        onError={() => setPreviewType('video')}
+                                    />
+                                )}
+                                {previewType === "video" && (
+                                    <Video 
+                                        src={product.image_url}
+                                        controls
+                                        loop
+                                        autoplay
+                                        muted
+                                    />
+                                )}
                                 {nftInfo.expiresAt && (
                                     <CountdownTimer
                                         date={nftInfo.expiresAt.toString()}
