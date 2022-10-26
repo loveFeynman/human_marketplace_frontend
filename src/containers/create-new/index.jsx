@@ -12,6 +12,7 @@ import { useWalletManager } from "@noahsaso/cosmodal";
 import { useContract } from "@hooks";
 import NiceSelect from "@ui/nice-select";
 import { useRouter } from "next/router";
+import { checkFileType } from "@utils/index";
 
 const CreateNewArea = ({ className, space }) => {
     const [showProductModal, setShowProductModal] = useState(false);
@@ -77,6 +78,7 @@ const CreateNewArea = ({ className, space }) => {
     // This function will be triggered when the file field change
     const imageChange = (e) => {
         if (e.target.files && e.target.files.length > 0) {
+            if (!checkFileType(e.target.files[0])) return;
             setSelectedImage(e.target.files[0]);
         }
     };
@@ -213,6 +215,33 @@ const CreateNewArea = ({ className, space }) => {
         }
     };
 
+    const handleChangeCheckbox = (e) => {
+        setNftType(e.target.name);
+    };
+
+    const handleDragEnter = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        e.dataTransfer.dropEffect = "copy";
+    }
+    const handleDragLeave = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    const handleDrop = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const files = [...e.dataTransfer.files]
+        if (files.length && files[0]) {
+            if (!checkFileType(files[0])) return;
+            setSelectedImage(files[0]);
+        }
+    }
+
     // const renderMetaSetItem = (metadataItem, index, totalData) => {
     //     const isLastElement = index === totalData.length - 1;
     //     return (
@@ -331,9 +360,7 @@ const CreateNewArea = ({ className, space }) => {
     //         ) : null;
     //     });
     // };
-    const handleChangeCheckbox = (e) => {
-        setNftType(e.target.name);
-    };
+
     return (
         <>
             <div
@@ -364,6 +391,10 @@ const CreateNewArea = ({ className, space }) => {
                                         onMouseLeave={() => {
                                             setUploadShow(false);
                                         }}
+                                        onDragEnter={(e) => handleDragEnter(e)}
+                                        onDragOver={(e) => handleDragOver(e)}
+                                        onDragLeave={(e) => handleDragLeave(e)}
+                                        onDrop={(e) => handleDrop(e)}
                                     >
                                         <input
                                             name="file"
@@ -396,8 +427,7 @@ const CreateNewArea = ({ className, space }) => {
                                                         Choose a File
                                                     </span>
                                                     <p className="text-center mt--10">
-                                                        PNG, GIF, WEBP, MP4 or
-                                                        MP3. <br /> Max 1Gb.
+                                                        JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, or GLTF. <br /> Max 100 MB.
                                                     </p>
                                                 </>
                                             )}

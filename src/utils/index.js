@@ -32,3 +32,11 @@ export const getContractAddressFromResponse = (response, key) => {
     )[0]?.attributes;
     return attributes?.filter((attribute) => attribute.key === key)[0]?.value;
 };
+
+export const checkFileType = (file) => {
+    return (
+        !!file?.type?.match("image.*") ||
+        !!file?.type?.match("video.*") ||
+        !!file?.type?.match("audio.*")
+    );
+};

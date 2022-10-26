@@ -10,7 +10,7 @@ import ErrorText from "@ui/error-text";
 import { uploadFileToIpfs } from "@utils/ipfs";
 import { useContract } from "@hooks";
 import { CollectionCreatorContract } from "@constant";
-import { getContractAddressFromResponse } from "@utils/index";
+import { checkFileType, getContractAddressFromResponse } from "@utils/index";
 import { useRouter } from "next/router";
 
 const CreateNewArea = ({ className, space, isAdminPage }) => {
@@ -39,6 +39,7 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
     // This function will be triggered when the file field change
     const imageChange = (e) => {
         if (e.target.files && e.target.files.length > 0) {
+            if (!checkFileType(e.target.files[0])) return;
             if (e.target.name === "logo-image") {
                 setSelectedLogoImage(e.target.files[0]);
             } else {
@@ -166,9 +167,38 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
     const backgroundImageError =
         hasBackgroundImageError && !selectedBackgroundImage;
     const logoImageError = hasLogoImageError && !selectedLogoImage;
+
     const handleChangeCheckbox = (e) => {
         setNftType(e.target.name);
     };
+
+    const handleDragEnter = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        e.dataTransfer.dropEffect = "copy";
+    }
+    const handleDragLeave = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    const handleDrop = (e, name) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const files = [...e.dataTransfer.files]
+        if (files.length && files[0]) {
+            if (!checkFileType(files[0])) return;
+            if (name === "logo-image") {
+                setSelectedLogoImage(files[0]);
+            } else {
+                setSelectedBackgroundImage(files[0]);
+            }
+        }
+    }
+    
     return (
         <div
             className={clsx(
@@ -201,6 +231,10 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                                         onMouseLeave={() => {
                                             setBackgroundShow(false);
                                         }}
+                                        onDragEnter={(e) => handleDragEnter(e)}
+                                        onDragOver={(e) => handleDragOver(e)}
+                                        onDragLeave={(e) => handleDragLeave(e)}
+                                        onDrop={(e) => handleDrop(e, "background-image")}
                                     >
                                         <input
                                             name="background-image"
@@ -234,8 +268,7 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                                                         Choose a File
                                                     </span>
                                                     <p className="text-center mt--10">
-                                                        PNG, GIF, WEBP, MP4 or
-                                                        MP3. <br /> Max 1Gb.
+                                                        JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, or GLTF. <br /> Max 100 MB.
                                                     </p>
                                                 </>
                                             )}
@@ -268,6 +301,10 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                                         onMouseLeave={() => {
                                             setLogoShow(false);
                                         }}
+                                        onDragEnter={(e) => handleDragEnter(e)}
+                                        onDragOver={(e) => handleDragOver(e)}
+                                        onDragLeave={(e) => handleDragLeave(e)}
+                                        onDrop={(e) => handleDrop(e, "logo-image")}
                                     >
                                         <input
                                             name="logo-image"
@@ -302,8 +339,7 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                                                         Choose a File
                                                     </span>
                                                     <p className="text-center mt--10">
-                                                        PNG, GIF, WEBP, MP4 or
-                                                        MP3. <br /> Max 1Gb.
+                                                        JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, or GLTF. <br /> Max 100 MB.
                                                     </p>
                                                 </>
                                             )}
