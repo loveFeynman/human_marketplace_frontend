@@ -11,8 +11,9 @@ import { useAppSelector } from "@app/hooks";
 const TopCollectionArea = ({ className, id, space, data }) => {
     const collections = GetTopCollections();
     const marketplaceNfts = useAppSelector((state) => state.marketplaceNfts);
-    const {totalNfts, last3Nfts} = useMemo(() => {
-        const totalNftsResult = {}, last3NftsResult = {};
+    const { totalNfts, last3Nfts } = useMemo(() => {
+        const totalNftsResult = {},
+            last3NftsResult = {};
         Object.keys(marketplaceNfts).forEach((key) => {
             const crrNfts = marketplaceNfts[key] || [];
             let count = 0;
@@ -25,9 +26,15 @@ const TopCollectionArea = ({ className, id, space, data }) => {
                 if (!expiresAt || !expired) count += 1;
             });
             totalNftsResult[key] = count;
-            last3NftsResult[key] = Array.from({length: 3}).map((item, index) => ({src: crrNfts[index]?.image_url || '/images/collection/collection-sm-01.jpg'}));
+            last3NftsResult[key] = Array.from({ length: 3 }).map(
+                (item, index) => ({
+                    src:
+                        crrNfts[index]?.image_url ||
+                        "/images/collection/collection-sm-01.jpg",
+                })
+            );
         });
-        return {totalNfts: totalNftsResult, last3Nfts: last3NftsResult};
+        return { totalNfts: totalNftsResult, last3Nfts: last3NftsResult };
     }, [marketplaceNfts]);
     return (
         <div
