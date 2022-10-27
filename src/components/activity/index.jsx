@@ -3,12 +3,14 @@ import clsx from "clsx";
 import Image from "next/image";
 import Anchor from "@ui/anchor";
 import usePickNft from "src/hooks/use-pick-nft";
-import { getStandardTime } from "@utils/index";
+// import { getStandardTime } from "@utils/index";
 
 const Activity = ({ className, time, token_id, collection, author }) => {
     const selectedNft = usePickNft(token_id, collection) || {};
-    const date = time && time.split("T")[0];
-    const exactTime = time && time.split("T")[1].split(".")[0];
+    const standardDate = new Date(Number(time) * 1000).toISOString();
+    const date = standardDate && standardDate.split("T")[0];
+    const exactTime = standardDate && standardDate.split("T")[1].split(".")[0];
+    console.log("selectedNft: ", selectedNft);
     return (
         <div className={clsx("single-activity-wrapper", className)}>
             <div className="inner">
@@ -18,7 +20,10 @@ const Activity = ({ className, time, token_id, collection, author }) => {
                             path={`/explore/${token_id}?collection=${collection}`}
                         >
                             <Image
-                                src={selectedNft.image_url}
+                                src={
+                                    selectedNft.image_url ||
+                                    "/images/collection/collection-sm-01.jpg"
+                                }
                                 alt={"Nft_Profile"}
                                 width={500}
                                 height={500}

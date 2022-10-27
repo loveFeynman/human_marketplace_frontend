@@ -19,7 +19,7 @@ const ActivityArea = ({ space, className }) => {
             const data = await getHistoricalData();
             const avatars = await Promise.all(
                 data.map(async (element) => {
-                    return await fetchUserInfo(element.to_a);
+                    return await fetchUserInfo(element.buyer);
                 })
             );
             setHistory(
@@ -30,8 +30,8 @@ const ActivityArea = ({ space, className }) => {
                             : "/images/client/client-2.png",
                         name:
                             avatars[index].first_name ||
-                            getReducedAddress(_data.to_a),
-                        slug: `/profile/${_data.to_a}`,
+                            getReducedAddress(_data.buyer),
+                        slug: `/profile/${_data.buyer}`,
                     };
 
                     return _data;

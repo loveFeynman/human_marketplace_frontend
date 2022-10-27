@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { backendBaseUrl } from "@constant";
+import { backendBaseUrl, subQueryUrl } from "@constant";
 import { useContract } from "@hooks";
 
 export const GetTopCollections = () => {
@@ -10,18 +10,43 @@ export const GetTopCollections = () => {
     useEffect(() => {
         (async () => {
             try {
-                const { data } = await axios.get(
-                    `${backendBaseUrl}/api/sale_history/top_collection`
-                );
+                // const { data } = await axios.get(
+                //     `${backendBaseUrl}/api/sale_history/top_collection`
+                // );
+                // const query = JSON.stringify({
+                //     query: `query {
+                //         collectionEvents(orderBy: AMOUNT_DESC, first:4) {
+                //         nodes {
+                //             id
+                //             amount
+                //         }
+                //         }
+                //     }`,
+                //     variables: {},
+                // });
+                const query = `query {
+                            collectionEvents(orderBy: AMOUNT_DESC, first:4) {
+                            nodes {
+                                id
+                                amount
+                            }
+                            }
+                        }`;
+                const {
+                    data: {
+                        data: {
+                            collectionEvents: { nodes },
+                        },
+                    },
+                } = await axios.post(subQueryUrl, {
+                    query,
+                });
                 const _collections = await Promise.all(
-                    data.map(async (_data) => {
+                    nodes.map(async (_data) => {
                         try {
-                            const collectionState = await runQuery(
-                                _data.collection,
-                                {
-                                    get_collection_state: {},
-                                }
-                            );
+                            const collectionState = await runQuery(_data.id, {
+                                get_collection_state: {},
+                            });
                             const totalItem = Number.isNaN(
                                 Number(collectionState.mint_info?.total_supply)
                             )
@@ -32,11 +57,11 @@ export const GetTopCollections = () => {
                             return {
                                 title:
                                     collectionState.collection_info.title || "",
-                                id: _data.collection,
+                                id: _data.id,
                                 // slug: `/marketplace?nftAddress=${_data.collection}`,
                                 slug: `/explore/collections/${_data.collection}`,
                                 total_item: totalItem,
-                                tradingVolume: _data["SUM(amount)"],
+                                tradingVolume: _data.amount,
                                 image: {
                                     src:
                                         collectionState.collection_info

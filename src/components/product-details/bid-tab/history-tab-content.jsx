@@ -15,20 +15,20 @@ const HistoryTabContent = ({ history, creatorInfo }) => {
         }
         return `${(interval / 3600 / 24).toFixed(0)} days`;
     };
-    const getCorrectTime = (utcTime) => {
-        const full_date = utcTime.split("T");
-        const date = full_date[0].split("-");
-        const time = full_date[1].split(":");
-        const timeArray = [...date, ...time];
-        const timestamp = new Date(
-            timeArray[0],
-            timeArray[1] - 1,
-            timeArray[2],
-            timeArray[3],
-            timeArray[4]
-        ).getTime();
-        return getStandardTime(timestamp / 1000);
-    };
+    // const getCorrectTime = (utcTime) => {
+    //     const full_date = utcTime.split("T");
+    //     const date = full_date[0].split("-");
+    //     const time = full_date[1].split(":");
+    //     const timeArray = [...date, ...time];
+    //     const timestamp = new Date(
+    //         timeArray[0],
+    //         timeArray[1] - 1,
+    //         timeArray[2],
+    //         timeArray[3],
+    //         timeArray[4]
+    //     ).getTime();
+    //     return getStandardTime(timestamp / 1000);
+    // };
     return (
         <div>
             <div style={{ padding: "20px 0" }}>
@@ -71,7 +71,7 @@ const HistoryTabContent = ({ history, creatorInfo }) => {
                     name={item.name}
                     eth={(item.amount / 1000000).toString()}
                     path={item.slug}
-                    time={`${getCorrectTime(item.time)} ago`}
+                    time={`${getStandardTime(item.time)} ago`}
                     image={{ src: item.logo, width: 40, height: 40 }}
                 />
             ))}
