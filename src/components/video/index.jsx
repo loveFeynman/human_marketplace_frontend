@@ -1,3 +1,5 @@
+
+import PropTypes from "prop-types";
 import { memo, useEffect, useMemo, useRef } from "react";
 
 const Video = (props) => {
@@ -36,6 +38,10 @@ const Video = (props) => {
       {...props} 
     />
   )
+};
+
+Video.propTypes = {
+    fit: PropTypes.bool,
 };
 
 const areEqual = (prevProps, nextProps) => {
