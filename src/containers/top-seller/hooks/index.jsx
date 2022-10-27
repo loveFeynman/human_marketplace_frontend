@@ -33,7 +33,6 @@ export const getTopSellers = async (days) => {
                 },
             },
         } = await axios.post(subQueryUrl, { query });
-        console.log("topsellerData: ", groupedAggregates);
         const avatars = await Promise.all(
             groupedAggregates.map(async (element) => {
                 try {

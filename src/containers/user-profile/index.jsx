@@ -10,7 +10,7 @@ import Nav from "react-bootstrap/Nav";
 import { useAppSelector } from "@app/hooks";
 import { MarketplaceContract } from "@constant";
 import NftItem from "@components/nft-item";
-import { useContract } from "@hooks";
+import { useContract, useAxios } from "@hooks";
 import TopSeller from "@components/top-seller/layout-03";
 
 const LIMIT_BIDS = 10;
@@ -18,6 +18,8 @@ const LIMIT_BIDS = 10;
 const UserProfileArea = ({ className }) => {
     const [myBids, setMyBids] = useState([]);
     const [ownedNfts, setOwnedNfts] = useState({});
+    const [createdNfts, setCreatedNfts] = useState([]);
+    const { getCreatedNfts } = useAxios();
     const router = useRouter();
     const userAddress = router.asPath.split("/")[2];
     const { runQuery } = useContract();
@@ -56,6 +58,49 @@ const UserProfileArea = ({ className }) => {
         })();
     }, [userAddress]);
     useEffect(() => {
+        (async () => {
+            const createdNftsInSubquery = await getCreatedNfts(userAddress);
+            // const createdNftsInSubquery = await getCreatedNfts(
+            //     "human15g8ll4n3sksjnf8yvtzz84nv0stx7arawtukft"
+            // );
+
+            const createdNftsInContract = await Promise.all(
+                createdNftsInSubquery.map(async (nft) => {
+                    try {
+                        const nftData = await runQuery(nft.collection, {
+                            all_nft_info: {
+                                token_id: nft.tokenId,
+                            },
+                        });
+                        const marketplaceNft =
+                            marketplaceNfts[nft.collection]?.filter(
+                                (item) => item.token_id === nft.tokenId
+                            )[0] || {};
+                        return {
+                            ...marketplaceNft,
+                            image_url:
+                                nftData?.info.extension.image_url.startsWith(
+                                    "http"
+                                )
+                                    ? nftData?.info.extension.image_url
+                                    : "/images/bg/bg-image-9.png",
+                            token_address: nft.collection,
+                            token_id: nft.tokenId,
+                            token_url: nftData?.info.token_uri,
+                            collection:
+                                collections[nft.collection]?.collection_info
+                                    .title,
+                            owner: nftData?.access.owner,
+                        };
+                    } catch (err) {
+                        return {};
+                    }
+                })
+            );
+            setCreatedNfts(createdNftsInContract);
+        })();
+    }, [userAddress]);
+    useEffect(() => {
         setMyBids([]);
         if (!connectedWallet) {
             return;
@@ -83,18 +128,11 @@ const UserProfileArea = ({ className }) => {
     }, [connectedWallet, runQuery]);
 
     const myNfts = useMemo(() => {
-        const myCreated = [];
         const myOwned = [];
         let myOnSale = [];
-        const userDefinedAddresses = (
-            collectionAddresses?.userDefined || []
-        ).map((collection) => collection.address);
         Object.keys(ownedNfts || {}).forEach((key) => {
             const crrNfts = ownedNfts[key] || {};
             crrNfts.forEach((nft) => {
-                if (userDefinedAddresses.includes(nft.token_address)) {
-                    myCreated.push(nft);
-                }
                 myOwned.push(nft);
             });
         });
@@ -103,9 +141,6 @@ const UserProfileArea = ({ className }) => {
                 const crrNfts = marketplaceNfts[key] || [];
                 crrNfts.forEach((nft, index) => {
                     if (nft.seller !== userAddress) return;
-                    if (userDefinedAddresses.includes(nft.token_address)) {
-                        myCreated.push(nft);
-                    } 
                     // else {
                     //     myOwned.push(nft);
                     // }
@@ -114,7 +149,7 @@ const UserProfileArea = ({ className }) => {
                 });
             });
         }
-        return { onSale: myOnSale, created: myCreated, owned: myOwned };
+        return { onSale: myOnSale, owned: myOwned };
     }, [collectionAddresses, connectedWallet, marketplaceNfts, ownedNfts]);
     return (
         <div className={clsx("rn-authore-profile-area", className)}>
@@ -190,7 +225,7 @@ const UserProfileArea = ({ className }) => {
                             className="row g-5 d-flex"
                             eventKey="nav-created"
                         >
-                            {myNfts?.created?.map((prod, index) => (
+                            {createdNfts.map((prod, index) => (
                                 <div
                                     key={index}
                                     className="col-5 col-lg-4 col-md-6 col-sm-6 col-12"

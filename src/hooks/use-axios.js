@@ -40,25 +40,60 @@ function useAxios() {
     };
     const getNewestItem = useCallback(async () => {
         try {
-            const { data } = await axios.get(
-                `${backendBaseUrl}/api/nfts/get_new_nft`
-            );
-            return data;
+            // const { data } = await axios.get(
+            //     `${backendBaseUrl}/api/nfts/get_new_nft`
+            // );
+            const query = `query {
+                mintEvents(filter: {random: {equalTo: 0}} orderBy: TIME_DESC, first: 5) {
+                    nodes {
+                    minter
+                    owner
+                    time
+                    tokenId
+                    collection
+                    }
+                }
+            }
+            `;
+            const {
+                data: {
+                    data: {
+                        mintEvents: { nodes },
+                    },
+                },
+            } = await axios.post(subQueryUrl, { query });
+            return nodes;
         } catch (err) {
-            return {};
+            return [];
         }
     }, []);
+    const getCreatedNfts = useCallback(async (owner) => {
+        try {
+            const query = `query {
+                mintEvents(orderBy: TIME_DESC, filter: {owner: {equalTo: "${owner}"}}) {
+                nodes {
+                  minter
+                  owner
+                  time
+                  tokenId
+                  collection
+                  random
+                }
+              }
+            }`;
+
+            const {
+                data: {
+                    data: {
+                        mintEvents: { nodes },
+                    },
+                },
+            } = await axios.post(subQueryUrl, { query });
+            return nodes;
+        } catch (err) {}
+    });
     const getHistoricalData = useCallback(async (skip = 0, limit = 10) => {
         try {
-            // const { data } = await axios.get(
-            //     `${backendBaseUrl}/api/sale_history/get_historical_data`,
-            //     {
-            //         params: {
-            //             skip,
-            //             limit,
-            //         },
-            //     }
-            // );
             const query = `query {
                 executeSellingEvents(orderBy: BLOCK_HEIGHT_DESC, first: ${limit}, offset: ${skip} ) {
                   nodes {
@@ -121,6 +156,7 @@ function useAxios() {
         getHistoricalData,
         fetchFollowInfo,
         handleFollow,
+        getCreatedNfts,
     };
 }
 
