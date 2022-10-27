@@ -145,6 +145,7 @@ function useContract() {
             try {
                 await runExecute(item.token_address, message);
                 toast.success("Success!");
+                refresh();
             } catch (err) {
                 // eslint-disable-next-line no-console
                 console.error(err);
@@ -178,6 +179,7 @@ function useContract() {
             try {
                 await runExecute(MarketplaceContract, message);
                 toast.success("Success!");
+                refresh();
             } catch (err) {
                 // eslint-disable-next-line no-console
                 console.error("withdraw error", item, message, err);
@@ -223,6 +225,7 @@ function useContract() {
                 });
 
                 toast.success("Success!");
+                refresh();
             } catch (err) {
                 const errMsg = err.message;
                 // eslint-disable-next-line no-console

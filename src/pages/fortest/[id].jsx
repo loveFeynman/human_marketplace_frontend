@@ -37,7 +37,7 @@ const NftDetail = () => {
     const [success, setSuccess] = useState(false);
     const [showData, setShowData] = useState({ endpoint: "", workload_id: "" });
     const { collection } = router.query;
-    const selectedNft = usePickNft(token_id, collection) || {};
+    const { nftInfo: selectedNft } = usePickNft(token_id, collection) || {};
     const [bids, setBids] = useState([]);
     const { fetchUserInfo } = useAxios();
     const [option, setOption] = useState("Execute1");
