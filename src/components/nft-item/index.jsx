@@ -133,7 +133,7 @@ const NftItem = ({ overlay, item }) => {
                                 <>
                                     <Video
                                         src={nftInfo.image}
-                                        autoplay
+                                        autoPlay
                                         muted
                                         loop
                                         fit

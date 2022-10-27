@@ -29,6 +29,7 @@ const ProductDetailsArea = ({
     product,
     bids,
     refreshData,
+    fetchNftInfo
 }) => {
     const [previewType, setPreviewType] = useState("image");
     const [showBidModal, setShowBidModal] = useState(false);
@@ -133,7 +134,8 @@ const ProductDetailsArea = ({
             try {
                 if (product.sale_type === "auction") {
                     await acceptBid(product);
-                    router.back();
+                    // router.back();
+                    fetchNftInfo();
                 } else {
                     await withdrawNft(product);
                 }
@@ -168,6 +170,7 @@ const ProductDetailsArea = ({
             }
         }
     };
+
     return (
         <>
             <div
@@ -200,7 +203,7 @@ const ProductDetailsArea = ({
                                         src={product.image_url}
                                         controls
                                         loop
-                                        autoplay
+                                        autoPlay
                                         muted
                                     />
                                 )}

@@ -6,10 +6,11 @@ import usePickNft from "src/hooks/use-pick-nft";
 // import { getStandardTime } from "@utils/index";
 
 const Activity = ({ className, time, token_id, collection, author }) => {
-    const selectedNft = usePickNft(token_id, collection) || {};
+    const { nftInfo: selectedNft } = usePickNft(token_id, collection) || {};
     const standardDate = new Date(Number(time) * 1000).toISOString();
     const date = standardDate && standardDate.split("T")[0];
     const exactTime = standardDate && standardDate.split("T")[1].split(".")[0];
+
     return (
         <div className={clsx("single-activity-wrapper", className)}>
             <div className="inner">

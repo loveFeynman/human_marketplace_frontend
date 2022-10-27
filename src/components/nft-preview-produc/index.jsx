@@ -24,7 +24,7 @@ const NftPreviewProduct = ({ overlay, title, image, client, metadata }) => {
                     image?.src && previewType === "video" && (
                         <Video 
                             src={image.src}
-                            autoplay
+                            autoPlay
                             controls
                             loop
                         />

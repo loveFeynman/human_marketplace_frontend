@@ -1,5 +1,5 @@
 import { useAppSelector } from "@app/hooks";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import useContract from "./use-contract";
 
 function usePickNft(tokenId, collection) {
@@ -11,28 +11,31 @@ function usePickNft(tokenId, collection) {
         marketplaceNfts[collection]?.filter(
             (item) => item.token_id === tokenId
         )[0] || {};
-    useEffect(() => {
-        (async () => {
-            const nftData = await runQuery(collection, {
-                all_nft_info: {
-                    token_id: tokenId,
-                },
-            });
-            const selectedNftData = {
-                ...marketplaceNft,
-                image_url: nftData?.info.extension.image_url,
-                token_address: collection,
+
+    const fetchNftInfo = useCallback(async () => {
+        const nftData = await runQuery(collection, {
+            all_nft_info: {
                 token_id: tokenId,
-                token_url: nftData?.info.token_uri,
-                collection: collections[collection]?.collection_info.title,
-                owner: marketplaceNft?.seller || nftData?.access.owner,
-                creator: nftData?.info.extension.minter,
-                created_at: nftData?.info.created_time,
-            };
-            setSelectedNft(selectedNftData);
-        })();
+            },
+        });
+        const selectedNftData = {
+            ...marketplaceNft,
+            image_url: nftData?.info.extension.image_url,
+            token_address: collection,
+            token_id: tokenId,
+            token_url: nftData?.info.token_uri,
+            collection: collections[collection]?.collection_info?.title || "",
+            owner: marketplaceNft?.seller || nftData?.access.owner,
+            creator: nftData?.info.extension.minter,
+            created_at: nftData?.info.created_time,
+        };
+        setSelectedNft(selectedNftData);
     }, [tokenId, collection]);
-    return selectedNft;
+
+    useEffect(() => {
+        fetchNftInfo();
+    }, [fetchNftInfo]);
+    return { nftInfo: selectedNft, fetchNftInfo };
 }
 
 export default usePickNft;

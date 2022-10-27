@@ -20,7 +20,7 @@ const NftDetail = () => {
     const router = useRouter();
     const { token_id, collection } = router.query;
     const { runQuery } = useContract();
-    const selectedNft = usePickNft(token_id, collection) || {};
+    const { nftInfo: selectedNft, fetchNftInfo } = usePickNft(token_id, collection) || {};
     const relatedProducts = useAppSelector((state) => state.marketplaceNfts[collection])
     const [bids, setBids] = useState([]);
     const { fetchUserInfo } = useAxios();
@@ -85,6 +85,7 @@ const NftDetail = () => {
                     product={selectedNft || {}}
                     bids={bids}
                     refreshData={refreshData}
+                    fetchNftInfo={fetchNftInfo}
                 />
                 {/* <ProductArea
                     data={{
