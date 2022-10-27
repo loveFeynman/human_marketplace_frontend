@@ -33,7 +33,8 @@
         }
 
         .cosmodal-wallet-description {
-          white-space: nowrap;
+          // white-space: nowrap;
+          display: none;
         }
       }
     }
