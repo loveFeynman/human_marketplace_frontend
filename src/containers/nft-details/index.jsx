@@ -84,6 +84,7 @@ const ProductDetailsArea = ({
             image,
             expiresAt,
             expired,
+            isOwner: product.owner === connectedWallet?.address
         };
     }, [connectedWallet?.address, product]);
 
@@ -186,6 +187,7 @@ const ProductDetailsArea = ({
                                 <ProductTitle
                                     title={product.token_id}
                                     likeCount={product.likeCount}
+                                    isOwner={nftInfo.isOwner}
                                 />
                                 {product.price && (
                                     <span className="bid">

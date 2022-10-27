@@ -15,11 +15,11 @@ export async function getStaticProps() {
 
 const CreateYourApplication = ({}) => (
     <Wrapper>
-        <SEO pageTitle="Blog Details" />
+        <SEO pageTitle="Create your collection" />
         <Header />
         <main id="main-content">
             <Breadcrumb
-                pageTitle="Tutorials - Create Your Collection"
+                pageTitle="How to Create your collection"
                 currentPage="Tutorials"
             />
             <div className="rn-blog-area rn-blog-details-default rn-section-gapTop">

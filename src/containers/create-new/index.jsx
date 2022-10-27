@@ -186,7 +186,7 @@ const CreateNewArea = ({ className, space }) => {
                         toast.success("Uploaded Successfully!");
                         // reset();
                         // setSelectedImage();
-                        router.push(`/nft-detail?token_id=${data.token_id}&collection=${data.collection}`)
+                        router.push(`/explore/${data.token_id}?collection=${data.collection}`)
                     } catch (err) {
                         // eslint-disable-next-line no-console
                         console.error(err);

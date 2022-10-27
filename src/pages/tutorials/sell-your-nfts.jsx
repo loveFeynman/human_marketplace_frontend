@@ -15,11 +15,11 @@ export async function getStaticProps() {
 
 const SellYourNft = ({}) => (
     <Wrapper>
-        <SEO pageTitle="Blog Details" />
+        <SEO pageTitle="Sell your NFTs" />
         <Header />
         <main id="main-content">
             <Breadcrumb
-                pageTitle="Tutorials - Sell Your NFT's"
+                pageTitle="How to Sell your NFTs"
                 currentPage="Tutorials"
             />
             <div className="rn-blog-area rn-blog-details-default rn-section-gapTop">

@@ -3,7 +3,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import ShareModal from "@components/modals/share-modal";
 import ReportModal from "@components/modals/report-modal";
 
-const ShareDropdown = ({ isOwner = false }) => {
+const ShareDropdown = ({ isOwner = false, isNft = false }) => {
     const [showShareModal, setShowShareModal] = useState(false);
     const [showReportModal, setShowReportModal] = useState(false);
     const handleShareModal = () => {
@@ -34,7 +34,7 @@ const ShareDropdown = ({ isOwner = false }) => {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu className="share-btn-setting" align="end">
-                    {isOwner && (
+                    {/* {isOwner && ( */}
                         <button
                             type="button"
                             className="btn-setting-text share-text"
@@ -42,7 +42,7 @@ const ShareDropdown = ({ isOwner = false }) => {
                         >
                             Share
                         </button>
-                    )}
+                    {/* )} */}
                     {!isOwner && (
                         <button
                             type="button"
@@ -54,7 +54,7 @@ const ShareDropdown = ({ isOwner = false }) => {
                     )}
                 </Dropdown.Menu>
             </Dropdown>
-            <ShareModal show={showShareModal} handleModal={handleShareModal} />
+            <ShareModal isNft={isNft} show={showShareModal} handleModal={handleShareModal} />
             <ReportModal
                 show={showReportModal}
                 handleModal={handleReportModal}

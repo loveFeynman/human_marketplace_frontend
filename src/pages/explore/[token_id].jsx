@@ -6,11 +6,12 @@ import Header from "@layout/header";
 import Footer from "@layout/footer";
 import Breadcrumb from "@components/breadcrumb";
 import ProductDetailsArea from "@containers/nft-details";
-// import ProductArea from "@containers/nft-details-area";
+import ProductArea from "@containers/nft-details-area";
 import usePickNft from "src/hooks/use-pick-nft";
 import { useContract, useAxios } from "@hooks";
 import { MarketplaceContract } from "@constant";
 import { getReducedAddress } from "@utils/index";
+import { useAppSelector } from "@app/hooks";
 // demo data
 
 const LIMIT_BIDS = 20;
@@ -20,6 +21,7 @@ const NftDetail = () => {
     const { token_id, collection } = router.query;
     const { runQuery } = useContract();
     const selectedNft = usePickNft(token_id, collection) || {};
+    const relatedProducts = useAppSelector((state) => state.marketplaceNfts[collection])
     const [bids, setBids] = useState([]);
     const { fetchUserInfo } = useAxios();
     const fetchBids = async (startBidder) => {
@@ -72,12 +74,13 @@ const NftDetail = () => {
     const refreshData = async () => {
         await fetchBids();
     };
+    const nftTitle = selectedNft.token_id || "NFT Detail";
     return (
         <Wrapper>
-            <SEO pageTitle="NFT Detail" />
+            <SEO pageTitle={nftTitle} />
             <Header />
             <main id="main-content">
-                <Breadcrumb pageTitle="NFT Detail" currentPage="NFT Detail" />
+                <Breadcrumb pageTitle={nftTitle} currentPage={nftTitle} />
                 <ProductDetailsArea
                     product={selectedNft || {}}
                     bids={bids}
@@ -88,13 +91,13 @@ const NftDetail = () => {
                         section_title: { title: "Recent View" },
                         products: recentViewProducts,
                     }}
-                />
+                /> */}
                 <ProductArea
                     data={{
                         section_title: { title: "Related Item" },
-                        products: relatedProducts,
+                        products: (relatedProducts || []).slice(0, 5),
                     }}
-                /> */}
+                />
             </main>
             <Footer />
         </Wrapper>

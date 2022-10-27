@@ -29,74 +29,76 @@ const facebookSharer = "https://www.facebook.com/sharer/sharer.php?u=";
 const twitterSharer = "https://twitter.com/intent/tweet?url=";
 const linkedinSharer = "https://www.linkedin.com/sharing/share-offsite/?url=";
 
-const ShareModal = ({ show, handleModal }) => (
+const ShareModal = ({ show, handleModal, isNft }) => (
     (link = getPath()),
     (ref = useRef(null)),
     (
-        <Modal
-            className="rn-popup-modal share-modal-wrapper"
-            show={show}
-            onHide={handleModal}
-            centered
-        >
-            {show && (
-                <button
-                    type="button"
-                    className="btn-close"
-                    aria-label="Close"
-                    onClick={handleModal}
-                >
-                    <i className="feather-x" />
-                </button>
-            )}
-            <Modal.Header className="share-area">
-                <h5 className="modal-title">Share this NFT</h5>
-            </Modal.Header>
-            <Modal.Body>
-                <ul className="social-share-default">
-                    <li>
+    <Modal
+        className="rn-popup-modal share-modal-wrapper"
+        show={show}
+        onHide={handleModal}
+        centered
+    >
+        {show && (
+            <button
+                type="button"
+                className="btn-close"
+                aria-label="Close"
+                onClick={handleModal}
+            >
+                <i className="feather-x" />
+            </button>
+        )}
+
+        <Modal.Header className="share-area">
+            <h5 className="modal-title">{`Share this ${isNft? "NFT" : "Profile"}`}</h5>
+        </Modal.Header>
+        <Modal.Body>
+            <ul className="social-share-default">
+                <li>
                         <a href={facebookSharer + link} target="__blank">
-                            <span className="icon">
-                                <i className="feather-facebook" />
-                            </span>
-                            <span className="text">facebook</span>
-                        </a>
-                    </li>
-                    <li>
+                        <span className="icon">
+                            <i className="feather-facebook" />
+                        </span>
+                        <span className="text">facebook</span>
+                    </a>
+                </li>
+                <li>
                         <a href={twitterSharer + link} target="__blank">
-                            <span className="icon">
-                                <i className="feather-twitter" />
-                            </span>
-                            <span className="text">twitter</span>
-                        </a>
-                    </li>
-                    <li>
+                        <span className="icon">
+                            <i className="feather-twitter" />
+                        </span>
+                        <span className="text">twitter</span>
+                    </a>
+                </li>
+                <li>
                         <a href={linkedinSharer + link} target="__blank">
-                            <span className="icon">
-                                <i className="feather-linkedin" />
-                            </span>
-                            <span className="text">linkedin</span>
-                        </a>
-                    </li>
+                        <span className="icon">
+                            <i className="feather-linkedin" />
+                        </span>
+                        <span className="text">linkedin</span>
+                    </a>
+                </li>
                     <li onClick={() => copyLink(link)}>
                         <a target="__blank" role="button">
-                            <span className="icon">
+                        <span className="icon">
                                 <i className="feather-link" />
-                            </span>
+                        </span>
                             <span className="text">copy link</span>
-                        </a>
-                    </li>
-                </ul>
-            </Modal.Body>
+                    </a>
+                </li>
+            </ul>
+        </Modal.Body>
             <Modal.Footer>
                 <div class="mx-auto text-break" ref={ref} id="messageDiv"></div>
             </Modal.Footer>
-        </Modal>
+    </Modal>
     )
 );
 
 ShareModal.propTypes = {
     show: PropTypes.bool.isRequired,
     handleModal: PropTypes.func.isRequired,
+    isNft: PropTypes.bool,
 };
 export default ShareModal;

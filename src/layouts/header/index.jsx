@@ -45,17 +45,29 @@ const menuData = [
     {
         id: 2,
         text: "About",
-        path: "/about",
+        path: "/about-us",
     },
     {
         id: 3,
         text: "Explore",
         path: "/collections",
+        submenu: [
+            {
+                id: 31,
+                text: "All NFTs",
+                path: "/explore/all-nfts"
+            },
+            {
+                id: 32,
+                text: "Collections",
+                path: "/explore/collections"
+            }
+        ]
     },
     {
         id: 4,
         text: "Mint",
-        path: "/random-mint",
+        path: "/mint",
     },
     // {
     //     id: 5,

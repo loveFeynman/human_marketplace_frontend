@@ -115,7 +115,7 @@ const NftItem = ({ overlay, item }) => {
                 <div className="card-thumbnail">
                     {nftInfo.image && (
                         <Anchor
-                            path={`/nft-detail?token_id=${item.token_id}&collection=${item.token_address}`}
+                            path={`/explore/${item.token_id}?collection=${item.token_address}`}
                         >
                             <img
                                 src={nftInfo.image}
@@ -173,7 +173,7 @@ const NftItem = ({ overlay, item }) => {
                 </div>
                 {/* <Anchor path={`/product/${item.tokenId}`}> */}
                 <Anchor
-                    path={`/nft-detail?token_id=${item.token_id}&collection=${item.token_address}`}
+                    path={`/explore/${item.token_id}?collection=${item.token_address}`}
                 >
                     <span className="product-name">{item.token_id}</span>
                 </Anchor>
