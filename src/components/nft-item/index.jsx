@@ -130,12 +130,15 @@ const NftItem = ({ overlay, item }) => {
                                 />
                             )}
                             {previewType === "video" && (
-                                <Video 
-                                    src={nftInfo.image}
-                                    autoplay
-                                    muted
-                                    loop
-                                />
+                                <>
+                                    <Video 
+                                        src={nftInfo.image}
+                                        autoPlay
+                                        muted
+                                        loop
+                                        fit
+                                    />
+                                </>
                             )}
                         </Anchor>
                     )}

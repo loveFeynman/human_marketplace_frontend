@@ -14,9 +14,18 @@ const MainMenu = ({ menu }) => (
                     !!nav.megamenu && "with-megamenu"
                 )}
             >
-                <Anchor className="its_new" path={nav.path}>
-                    {nav.text}
-                </Anchor>
+                {nav.path? (
+                    <Anchor className="its_new" path={nav.path}>
+                        {nav.text}
+                    </Anchor>
+                )
+                :
+                (
+                    <a style={{cursor: "pointer"}} className="its_new">
+                        {nav.text}
+                    </a>
+                )
+                }
                 {nav?.submenu && <SubMenu menu={nav.submenu} />}
                 {nav?.megamenu && <MegaMenu menu={nav.megamenu} />}
             </li>

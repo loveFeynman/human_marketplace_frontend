@@ -2,6 +2,8 @@ export { default as ChainConfig } from "./ChainConfig";
 export * from "./contracts";
 export const arbitraryKey = "humans";
 export const backendBaseUrl = "https://humans-backend.herokuapp.com";
+export const subQueryUrl =
+    "https://api.subquery.network/sq/loveFeynman/human-marketplace";
 // export const backendBaseUrl = "http://localhost:4000";
 export const pinataUrl = "https://secretsteampunks.mypinata.cloud/ipfs";
 export const countries = [

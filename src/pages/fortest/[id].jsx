@@ -37,7 +37,7 @@ const NftDetail = () => {
     const [success, setSuccess] = useState(false);
     const [showData, setShowData] = useState({ endpoint: "", workload_id: "" });
     const { collection } = router.query;
-    const selectedNft = usePickNft(token_id, collection) || {};
+    const { nftInfo: selectedNft } = usePickNft(token_id, collection) || {};
     const [bids, setBids] = useState([]);
     const { fetchUserInfo } = useAxios();
     const [option, setOption] = useState("Execute1");
@@ -113,19 +113,19 @@ const NftDetail = () => {
                 }
             );
 
-
-            console.log("address: ", address)
+            console.log("address: ", address);
             const result = await cwClient.execute(
                 address,
                 "human1rshdhvvhra8gl3ywhpgtd29aythlt9tjzdv648nq3hl922499cgqx5zjzk",
-                { 
+                {
                     execute_algorithm: {
                         msg: {
                             provider_id: "0",
-                            nft_addr: 'human1e8z2wjelypwxw5sey62jvwjyup88w55q3h6m0x8jtwjf6sx5c7ystheysl',
+                            nft_addr:
+                                "human1e8z2wjelypwxw5sey62jvwjyup88w55q3h6m0x8jtwjf6sx5c7ystheysl",
                             token_id: "ai_nft",
-                        }
-                    }
+                        },
+                    },
                 },
                 "auto",
                 "",
@@ -140,9 +140,9 @@ const NftDetail = () => {
                 ChainConfig.chainId,
                 address,
                 workload_id //Buffer.from(JSON.stringify(execute_msg)).toString("base64")
-                );
+            );
 
-            console.log("signature: ", signature)
+            console.log("signature: ", signature);
 
             // Create the document for signing.
             // const signDoc = {
@@ -170,21 +170,29 @@ const NftDetail = () => {
             //     address,
             //     signDoc,
             //     );
-            
-            console.log("workload: ", workload_id, signature.signature, signature.pub_key.value)
+
+            console.log(
+                "workload: ",
+                workload_id,
+                signature.signature,
+                signature.pub_key.value
+            );
 
             const postData = {
                 workload_id,
                 signature: signature.signature,
-                pubkey: signature.pub_key.value
+                pubkey: signature.pub_key.value,
             };
             try {
-                console.log("post data: ", postData)
-                const resData = await axios.post("http://18.220.100.80:443/set-state", postData);
-                console.log('resData: ', postData, resData);
-                setShowData({endpoint: resData.data, workload_id});
+                console.log("post data: ", postData);
+                const resData = await axios.post(
+                    "http://18.220.100.80:443/set-state",
+                    postData
+                );
+                console.log("resData: ", postData, resData);
+                setShowData({ endpoint: resData.data, workload_id });
             } catch (err) {
-                console.log('err: ', err)
+                console.log("err: ", err);
             }
 
             setSuccess(true);

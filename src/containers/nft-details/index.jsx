@@ -29,13 +29,20 @@ const ProductDetailsArea = ({
     product,
     bids,
     refreshData,
+    fetchNftInfo
 }) => {
     const [previewType, setPreviewType] = useState("image");
     const [showBidModal, setShowBidModal] = useState(false);
     const [ownerInfo, setOwnerInfo] = useState({});
     const [creatorInfo, setCreatorInfo] = useState({});
     const [collectionInfo, setCollectionInfo] = useState({});
-    const history = UseHistory(product.token_id);
+    // const history = UseHistory(
+    //     "User.1",
+    //     "human1mg3e6tsa5k9aamqgyxddmd40ar9zxg9qyuw6pljk8pnk5ufjlj5qefc9z6"
+    // );
+    // console.log("history: ", history);
+    const history = UseHistory(product?.token_id, product?.token_address);
+
     const { fetchUserInfo } = useAxios();
     const { connectedWallet } = useWalletManager();
     const router = useRouter();
@@ -90,7 +97,7 @@ const ProductDetailsArea = ({
             image,
             expiresAt,
             expired,
-            isOwner: product.owner === connectedWallet?.address
+            isOwner: product.owner === connectedWallet?.address,
         };
     }, [connectedWallet?.address, product]);
 
@@ -127,7 +134,8 @@ const ProductDetailsArea = ({
             try {
                 if (product.sale_type === "auction") {
                     await acceptBid(product);
-                    router.back();
+                    // router.back();
+                    fetchNftInfo();
                 } else {
                     await withdrawNft(product);
                 }
@@ -162,6 +170,7 @@ const ProductDetailsArea = ({
             }
         }
     };
+
     return (
         <>
             <div
@@ -174,22 +183,27 @@ const ProductDetailsArea = ({
                 <div className="container">
                     <div className="row g-5">
                         <div className="col-lg-7 col-md-12 col-sm-12">
-                            <Sticky style={{ width: "max-content", maxWidth: "100%" }}>
+                            <Sticky
+                                style={{
+                                    width: "max-content",
+                                    maxWidth: "100%",
+                                }}
+                            >
                                 {previewType === "image" && (
                                     <img
                                         src={product.image_url}
                                         alt=""
                                         width={533}
                                         height={533}
-                                        onError={() => setPreviewType('video')}
+                                        onError={() => setPreviewType("video")}
                                     />
                                 )}
                                 {previewType === "video" && (
-                                    <Video 
+                                    <Video
                                         src={product.image_url}
                                         controls
                                         loop
-                                        autoplay
+                                        autoPlay
                                         muted
                                     />
                                 )}

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { backendBaseUrl } from "@constant";
+import { backendBaseUrl, subQueryUrl } from "@constant";
 import { useCallback } from "react";
 
 function useAxios() {
@@ -50,17 +50,39 @@ function useAxios() {
     }, []);
     const getHistoricalData = useCallback(async (skip = 0, limit = 10) => {
         try {
-            const { data } = await axios.get(
-                `${backendBaseUrl}/api/sale_history/get_historical_data`,
-                {
-                    params: {
-                        skip,
-                        limit,
-                    },
+            // const { data } = await axios.get(
+            //     `${backendBaseUrl}/api/sale_history/get_historical_data`,
+            //     {
+            //         params: {
+            //             skip,
+            //             limit,
+            //         },
+            //     }
+            // );
+            const query = `query {
+                executeSellingEvents(orderBy: BLOCK_HEIGHT_DESC, first: ${limit}, offset: ${skip} ) {
+                  nodes {
+                    action
+                    collection
+                    tokenId
+                    price
+                    time
+                    seller
+                    buyer
+                  }
                 }
-            );
-            return data;
+              }`;
+            const {
+                data: {
+                    data: {
+                        executeSellingEvents: { nodes },
+                    },
+                },
+            } = await axios.post(subQueryUrl, { query });
+
+            return nodes;
         } catch (err) {
+            console.log("axiosError: ", err);
             return [];
         }
     }, []);

@@ -122,17 +122,34 @@ const UserIntroArea = ({ className, space }) => {
                                         <h4 className="title">
                                             {userData.name}
                                         </h4>
-                                        {/* <a
-                                            href="https://twitter.com"
-                                            target="_blank"
-                                            rel="noreferrer"
-                                            className="social-follw"
-                                        >
-                                            <i className="feather-twitter" />
-                                            <span className="user-name">
-                                                {userData.twitter}
-                                            </span>
-                                        </a> */}
+                                        <div className="mb-1 d-flex justify-content-center gap-5">
+                                            {userInfo.twitter && (
+                                                <a
+                                                    href={`https://twitter.com/${userInfo.twitter}`}
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                    className="social-follw"
+                                                >
+                                                    <i className="feather-twitter" />
+                                                    <span className="user-name">
+                                                        {userInfo.twitter}
+                                                    </span>
+                                                </a>
+                                            )}
+                                            {userInfo.instagram && (
+                                                <a
+                                                    href={`https://instagram.com/${userInfo.instagram}`}
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                    className="social-follw"
+                                                >
+                                                    <i className="feather-instagram" />
+                                                    <span className="user-name">
+                                                        {userInfo.instagram}
+                                                    </span>
+                                                </a>
+                                            )}
+                                        </div>
                                         <div className="follow-area">
                                             <div 
                                                 className="follow followers" 
@@ -211,10 +228,10 @@ const UserIntroArea = ({ className, space }) => {
                                                     viewBox="0 0 24 24"
                                                     fill="none"
                                                     stroke="currentColor"
-                                                    stroke-width="2"
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    class="feather feather-flag"
+                                                    strokeWidth="2"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    className="feather feather-flag"
                                                 >
                                                     <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
                                                     <line x1="4" y1="22" x2="4" y2="15"></line>

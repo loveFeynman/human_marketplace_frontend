@@ -430,7 +430,7 @@ const CreateNewArea = ({ className, space }) => {
                                                 src={URL.createObjectURL(
                                                     selectedImage
                                                 )}
-                                                autoplay
+                                                autoPlay
                                                 loop
                                                 alt=""
                                             />
