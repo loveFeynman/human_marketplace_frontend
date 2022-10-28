@@ -22,24 +22,23 @@ export default async (req, res) => {
     <p><strong>Reported NFT:</strong> ${reportedNFT}</p>
     <p><strong>Report message:</strong> ${reportMessage}</p>`
   }
-/*
+  res.status(200).json(req.body);
+  console.log("email sent: ", req.body);
   try {
     const emailResponse = await transporter.sendMail(mailDetails)
     console.log("Report sent", emailResponse.messageId);
   } catch (error) {
     console.log(error);
   }
- */
 
 
-  transporter.sendMail(mailDetails, function (error, info) {
+
+  /*transporter.sendMail(mailDetails, function (error, info) {
     if (error) {
       console.log(error);
     }
     else {
       console.log('Email sent: ' + info.response);
     }
-  })
-  res.status(200).json(req.body);
-  console.log("email sent: ", req.body);
+  })*/
 }
