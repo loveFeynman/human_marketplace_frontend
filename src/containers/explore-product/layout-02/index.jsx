@@ -104,6 +104,7 @@ const ExploreProductArea = ({ className, space, data }) => {
                         limit: 20,
                     },
                 });
+                console.log('syntetic media', queryData)
 
                 let marketNfts = queryData.asks.map((item) => {
                     return getDataForShow(item);

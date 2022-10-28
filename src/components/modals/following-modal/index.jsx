@@ -20,8 +20,8 @@ const FollowingModal = ({ show, handleModal, follow, isFollowing, fetchFollow })
         if (connectedWallet?.address) {
             const followInfo = await fetchFollowInfo(connectedWallet?.address);
             setMyFollow({
-                from: followInfo?.from.map((_data) => _data.to_address),
-                to: followInfo?.to.map((_data) => _data.from_address),
+                from: followInfo?.from?.map((_data) => _data.to_address),
+                to: followInfo?.to?.map((_data) => _data.from_address),
             });
         }
     };

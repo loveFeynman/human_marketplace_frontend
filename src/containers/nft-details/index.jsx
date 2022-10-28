@@ -75,22 +75,25 @@ const ProductDetailsArea = ({
 
     const nftInfo = useMemo(() => {
         const { price } = product;
+        const expiresAt = product.expires_at
+            ? new Date(product.expires_at)
+            : null;
+        const expired = expiresAt && Number(new Date()) - Number(expiresAt) > 0;
         const image = product.image_url;
-        let buttonString = "Sell";
+        let buttonString = connectedWallet?.address === product.owner? "Sell" : "";
         if (price) {
             if (connectedWallet?.address === product.seller) {
-                buttonString =
-                    product.sale_type === "auction" ? "Accept Bid" : "Withdraw";
+                if (product.sale_type !== "auction") {
+                    buttonString = "Withdraw";
+                } else {
+                    buttonString = expired? "Withdraw" : ""
+                }
             } else if (product.sale_type === "auction") {
                 buttonString = "Set a Bid";
             } else {
                 buttonString = "Buy";
             }
         }
-        const expiresAt = product.expires_at
-            ? new Date(product.expires_at)
-            : null;
-        const expired = expiresAt && Number(new Date()) - Number(expiresAt) > 0;
         return {
             price,
             buttonString,
@@ -125,6 +128,7 @@ const ProductDetailsArea = ({
             try {
                 await sellNft(product, amount, extraOption);
                 setShowBidModal(false);
+                router.back();
                 // eslint-disable-next-line no-empty
             } catch (e) {
             } finally {
@@ -271,10 +275,7 @@ const ProductDetailsArea = ({
                                     </div>
                                 </div>
 
-                                {!(
-                                    nftInfo.buttonString === "Sell" &&
-                                    connectedWallet?.address !== product.owner
-                                ) && (
+                                {nftInfo.buttonString && (
                                     <Button
                                         color="primary-alta"
                                         onClick={handleBidModal}

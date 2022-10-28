@@ -27,26 +27,29 @@ const NftItem = ({ overlay, item }) => {
     // const { connectedWallet } = useContext(CustomWalletContext);
     const nftInfo = useMemo(() => {
         const { price } = item;
-        const image = item.image_url;
-        let buttonString = isOwner? "Sell" : "";
-        if (price) {
-            if (connectedWallet?.address === item.seller) {
-                buttonString =
-                    item.sale_type === "auction" ? "Accept Bid" : "Withdraw";
-            } else if (item.sale_type === "auction") {
-                buttonString = "Set a Bid";
-            } else {
-                buttonString = "Buy";
-            }
-        }
-        const expiresAt = item.expires_at ? new Date(item.expires_at) : null;
-        const expired = expiresAt && Number(new Date()) - Number(expiresAt) > 0;
         const bids =
             item.bids?.max_bid &&
             !Number.isNaN(item.bids.max_bid) &&
             Number(item.bids.max_bid) > 0
                 ? item.bids
                 : null;
+        const expiresAt = item.expires_at ? new Date(item.expires_at) : null;
+        const expired = expiresAt && Number(new Date()) - Number(expiresAt) > 0;
+        const image = item.image_url;
+        let buttonString = isOwner? "Sell" : "";
+        if (price) {
+            if (connectedWallet?.address === item.seller) {
+                if (item.sale_type !== "auction") {
+                    buttonString = "Withdraw";
+                } else {
+                    buttonString = expired? "Withdraw" : ""
+                }
+            } else if (item.sale_type === "auction") {
+                buttonString = "Set a Bid";
+            } else {
+                buttonString = "Buy";
+            }
+        }
         return { price, buttonString, image, expiresAt, expired, bids };
     }, [connectedWallet, item, isOwner]);
 
