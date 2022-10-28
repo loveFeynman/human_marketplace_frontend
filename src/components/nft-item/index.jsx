@@ -131,7 +131,7 @@ const NftItem = ({ overlay, item }) => {
                             )}
                             {previewType === "video" && (
                                 <>
-                                    <Video 
+                                    <Video
                                         src={nftInfo.image}
                                         autoPlay
                                         muted
@@ -151,10 +151,7 @@ const NftItem = ({ overlay, item }) => {
                     {isOwner &&
                         (!nftInfo.expired ||
                             nftInfo.buttonString === "Withdraw") && (
-                            <Button 
-                                onClick={handleBidModal} 
-                                size="small"
-                            >
+                            <Button onClick={handleBidModal} size="small">
                                 {nftInfo.buttonString}
                             </Button>
                         )}
