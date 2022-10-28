@@ -12,6 +12,7 @@ import { useContract, useAxios } from "@hooks";
 import { MarketplaceContract } from "@constant";
 import { getReducedAddress } from "@utils/index";
 import { useAppSelector } from "@app/hooks";
+import { useWalletManager } from "@noahsaso/cosmodal";
 // demo data
 
 const LIMIT_BIDS = 20;
@@ -21,9 +22,13 @@ const NftDetail = () => {
     const { token_id, collection } = router.query;
     const { runQuery } = useContract();
     const { nftInfo: selectedNft, fetchNftInfo } = usePickNft(token_id, collection) || {};
-    const relatedProducts = useAppSelector((state) => state.marketplaceNfts[collection])
+    const myNfts = useAppSelector((state) => state.myNfts)
+    const totalMarketplaceNfts = useAppSelector((state) => state.marketplaceNfts)
+    const relatedProducts = (totalMarketplaceNfts[collection] || []).concat(myNfts[collection] || []);
     const [bids, setBids] = useState([]);
-    const { fetchUserInfo } = useAxios();
+    const [recentView, setRecentView] = useState([])
+    const { fetchUserInfo, registerRecentView, fetchRecentView } = useAxios();
+    const { connectedWallet } = useWalletManager();
     const fetchBids = async (startBidder) => {
         const msg = {
             bids: {
@@ -68,9 +73,44 @@ const NftDetail = () => {
             fetchBids(fetchedBids[fetchedBids.length - 1].bidder);
         }
     };
+
+    useEffect(() => {
+        if (connectedWallet?.address) {
+            registerRecentView({tokenId: token_id, collection, address: connectedWallet.address});
+            (async () => {
+                const data = await fetchRecentView(connectedWallet.address);
+                const result = [];
+                (data || []).forEach(async (viewItem) => {
+                    const existingNftInfo = (totalMarketplaceNfts[viewItem.collection] || []).concat(myNfts[viewItem.collection] || []).filter((item) => item.token_id === viewItem.token_id);
+                    if (existingNftInfo.length) {
+                        result.push(existingNftInfo[0])
+                    } else {
+                        const nftData = await runQuery(viewItem.collection, {
+                            all_nft_info: {
+                                token_id: viewItem.token_id,
+                            },
+                        });
+                        result.push({
+                            image_url: nftData?.info.extension.image_url,
+                            token_address: collection,
+                            token_id: tokenId,
+                            token_url: nftData?.info.token_uri,
+                            collection: collections[collection]?.collection_info?.title || "",
+                            owner: marketplaceNft?.seller || nftData?.access.owner,
+                            creator: nftData?.info.extension.minter,
+                            created_at: nftData?.info.created_time,
+                        })
+                    }
+                })
+                setRecentView(result);
+            })()
+        }
+    }, [token_id, collection, connectedWallet?.address])
+
     useEffect(() => {
         fetchBids();
     }, [runQuery, selectedNft.token_address, selectedNft.token_id]);
+
     const refreshData = async () => {
         await fetchBids();
     };
@@ -97,6 +137,12 @@ const NftDetail = () => {
                     data={{
                         section_title: { title: "Related Item" },
                         products: (relatedProducts || []).slice(0, 5),
+                    }}
+                />
+                <ProductArea
+                    data={{
+                        section_title: { title: "Recent View" },
+                        products: recentView,
                     }}
                 />
             </main>

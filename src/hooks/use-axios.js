@@ -71,15 +71,15 @@ function useAxios() {
         try {
             const query = `query {
                 mintEvents(orderBy: TIME_DESC, filter: {owner: {equalTo: "${owner}"}}) {
-                nodes {
-                  minter
-                  owner
-                  time
-                  tokenId
-                  collection
-                  random
+                    nodes {
+                        minter
+                        owner
+                        time
+                        tokenId
+                        collection
+                        random
+                    }
                 }
-              }
             }`;
 
             const {
@@ -89,6 +89,7 @@ function useAxios() {
                     },
                 },
             } = await axios.post(subQueryUrl, { query });
+            console.log("nodes", nodes);
             return nodes;
         } catch (err) {}
     });
@@ -96,17 +97,17 @@ function useAxios() {
         try {
             const query = `query {
                 executeSellingEvents(orderBy: BLOCK_HEIGHT_DESC, first: ${limit}, offset: ${skip} ) {
-                  nodes {
-                    action
-                    collection
-                    tokenId
-                    price
-                    time
-                    seller
-                    buyer
-                  }
+                    nodes {
+                        action
+                        collection
+                        tokenId
+                        price
+                        time
+                        seller
+                        buyer
+                    }
                 }
-              }`;
+            }`;
             const {
                 data: {
                     data: {
@@ -147,6 +148,32 @@ function useAxios() {
             return false;
         }
     });
+    const registerRecentView = useCallback(
+        async ({ tokenId, collection, address }) => {
+            if (!tokenId || !collection || !address) return;
+            try {
+                await axios.post(`${backendBaseUrl}/api/recent/register`, {
+                    tokenId,
+                    collection,
+                    address,
+                });
+            } catch (err) {}
+        },
+        []
+    );
+    const fetchRecentView = useCallback(async (address) => {
+        if (!address) return;
+        try {
+            const { data } = await axios.get(`${backendBaseUrl}/api/recent`, {
+                params: {
+                    address,
+                },
+            });
+            return data;
+        } catch (err) {
+            return [];
+        }
+    }, []);
     return {
         saveSaleHistory,
         fetchAllUsers,
@@ -157,6 +184,8 @@ function useAxios() {
         fetchFollowInfo,
         handleFollow,
         getCreatedNfts,
+        registerRecentView,
+        fetchRecentView,
     };
 }
 
