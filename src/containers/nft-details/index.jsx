@@ -86,7 +86,7 @@ const ProductDetailsArea = ({
                 if (product.sale_type !== "auction") {
                     buttonString = "Withdraw";
                 } else {
-                    buttonString = expired? "Withdraw" : ""
+                    buttonString = expired? (bids?.length? "Accept Bid" : "Withdraw") : ""
                 }
             } else if (product.sale_type === "auction") {
                 buttonString = "Set a Bid";
