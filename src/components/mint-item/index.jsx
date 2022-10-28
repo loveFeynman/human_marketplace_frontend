@@ -30,7 +30,6 @@ const MintItem = ({
     contractAddress,
     filter,
 }) => {
-    const { saveMintHistory } = useAxios();
     const [showBidModal, setShowBidModal] = useState(false);
     const [stateInfo, setStateInfo] = useState({});
     const [show, setShow] = useState(false);
@@ -105,12 +104,7 @@ const MintItem = ({
                     mint: {},
                 });
             }
-            const reqData = {
-                token_id: result?.logs[0].events[5].attributes[8].value,
-                collection: result?.logs[0].events[5].attributes[4].value,
-                transaction_hash: result.transactionHash,
-            };
-            await saveMintHistory(reqData);
+
             toast.success("Success!");
             setShowBidModal(false);
         } catch (e) {
