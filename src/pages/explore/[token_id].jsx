@@ -22,6 +22,7 @@ const NftDetail = () => {
     const { token_id, collection } = router.query;
     const { runQuery } = useContract();
     const { nftInfo: selectedNft, fetchNftInfo } = usePickNft(token_id, collection) || {};
+    const collections = useAppSelector((state) => state.collections);
     const myNfts = useAppSelector((state) => state.myNfts)
     const totalMarketplaceNfts = useAppSelector((state) => state.marketplaceNfts)
     const relatedProducts = (totalMarketplaceNfts[collection] || []).concat(myNfts[collection] || []);
@@ -92,11 +93,11 @@ const NftDetail = () => {
                         });
                         result.push({
                             image_url: nftData?.info.extension.image_url,
-                            token_address: collection,
-                            token_id: tokenId,
+                            token_address: viewItem.collection,
+                            token_id: viewItem.token_id,
                             token_url: nftData?.info.token_uri,
-                            collection: collections[collection]?.collection_info?.title || "",
-                            owner: marketplaceNft?.seller || nftData?.access.owner,
+                            collection: collections[viewItem.collection]?.collection_info?.title || "",
+                            owner: nftData?.access.owner,
                             creator: nftData?.info.extension.minter,
                             created_at: nftData?.info.created_time,
                         })
@@ -139,12 +140,14 @@ const NftDetail = () => {
                         products: (relatedProducts || []).slice(0, 5),
                     }}
                 />
-                <ProductArea
-                    data={{
-                        section_title: { title: "Recent View" },
-                        products: recentView,
-                    }}
-                />
+                {connectedWallet?.address && (
+                    <ProductArea
+                        data={{
+                            section_title: { title: "Recent View" },
+                            products: recentView,
+                        }}
+                    />
+                )}
             </main>
             <Footer />
         </Wrapper>

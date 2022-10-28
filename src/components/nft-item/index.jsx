@@ -148,13 +148,12 @@ const NftItem = ({ overlay, item }) => {
                             completedString="Auction Expired!"
                         />
                     )}
-                    {isOwner &&
-                        (!nftInfo.expired ||
-                            nftInfo.buttonString === "Withdraw") && (
-                            <Button onClick={handleBidModal} size="small">
-                                {nftInfo.buttonString}
-                            </Button>
-                        )}
+                    {(!nftInfo.expired ||
+                        nftInfo.buttonString === "Withdraw") && (
+                        <Button onClick={handleBidModal} size="small">
+                            {nftInfo.buttonString}
+                        </Button>
+                    )}
                 </div>
                 <div className="product-share-wrapper">
                     {nftInfo.bids && (
