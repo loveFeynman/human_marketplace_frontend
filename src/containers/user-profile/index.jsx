@@ -65,7 +65,7 @@ const UserProfileArea = ({ className }) => {
             // );
 
             const createdNftsInContract = await Promise.all(
-                createdNftsInSubquery.map(async (nft) => {
+                createdNftsInSubquery?.map(async (nft) => {
                     try {
                         const nftData = await runQuery(nft.collection, {
                             all_nft_info: {
@@ -95,7 +95,7 @@ const UserProfileArea = ({ className }) => {
                     } catch (err) {
                         return {};
                     }
-                })
+                }) || []
             );
             setCreatedNfts(createdNftsInContract);
         })();
