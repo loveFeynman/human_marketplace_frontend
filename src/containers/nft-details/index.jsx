@@ -134,8 +134,8 @@ const ProductDetailsArea = ({
             try {
                 if (product.sale_type === "auction") {
                     await acceptBid(product);
-                    // router.back();
-                    fetchNftInfo();
+                    router.back();
+                    // fetchNftInfo();
                 } else {
                     await withdrawNft(product);
                 }
