@@ -28,7 +28,7 @@ const NftItem = ({ overlay, item }) => {
     const nftInfo = useMemo(() => {
         const { price } = item;
         const image = item.image_url;
-        let buttonString = "Sell";
+        let buttonString = isOwner? "Sell" : "";
         if (price) {
             if (connectedWallet?.address === item.seller) {
                 buttonString =
@@ -48,7 +48,7 @@ const NftItem = ({ overlay, item }) => {
                 ? item.bids
                 : null;
         return { price, buttonString, image, expiresAt, expired, bids };
-    }, [connectedWallet, item]);
+    }, [connectedWallet, item, isOwner]);
 
     const defaultAmount = useMemo(() => {
         if (nftInfo.bids) {
@@ -154,7 +154,7 @@ const NftItem = ({ overlay, item }) => {
                             completedString="Auction Expired!"
                         />
                     )}
-                    {(!nftInfo.expired ||
+                    {nftInfo.buttonString && (!nftInfo.expired ||
                         nftInfo.buttonString === "Withdraw") && (
                         <Button onClick={handleBidModal} size="small">
                             {nftInfo.buttonString}
