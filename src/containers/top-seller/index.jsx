@@ -16,6 +16,7 @@ const TopSellerArea = ({ className, space, id }) => {
 
     const filterHandler = useCallback(async () => {
         const data = await getTopSellers(current);
+        data.sort((a, b) => Number(b.sum.price) - Number(a.sum.price));
         setSellers(data);
         // setSellers(filterdSellers);
     }, [current]);

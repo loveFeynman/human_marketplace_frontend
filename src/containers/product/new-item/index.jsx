@@ -27,32 +27,28 @@ const ProductArea = ({ space, className }) => {
     useEffect(() => {
         (async () => {
             const newNfts = await getNewestItem();
-            // const nftData = await runQuery(
-            //     "human1xt4ahzz2x8hpkc0tk6ekte9x6crw4w6u0r67cyt3kz9syh24pd7sx2rhv4",
-            //     {
-            //         all_nft_info: {
-            //             token_id: "Human.119",
-            //         },
-            //     }
-            // );
-            // console.log("nftData: ", nftData);
             const newNftInfo = await Promise.all(
                 newNfts?.map(async (nft) => {
                     try {
                         const nftData = await runQuery(nft.collection, {
                             all_nft_info: {
-                                token_id: nft.token_id,
+                                token_id: nft.tokenId,
                             },
                         });
                         const marketplaceNft =
                             marketplaceNfts[nft.collection]?.filter(
-                                (item) => item.token_id === nft.token_id
+                                (item) => item.token_id === nft.tokenId
                             )[0] || {};
                         return {
                             ...marketplaceNft,
-                            image_url: nftData?.info.extension.image_url,
+                            image_url:
+                                nftData?.info.extension.image_url.startsWith(
+                                    "http"
+                                )
+                                    ? nftData?.info.extension.image_url
+                                    : "/images/bg/bg-image-9.png",
                             token_address: nft.collection,
-                            token_id: nft.token_id,
+                            token_id: nft.tokenId,
                             token_url: nftData?.info.token_uri,
                             collection:
                                 collections[nft.collection]?.collection_info

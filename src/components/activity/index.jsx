@@ -10,7 +10,7 @@ const Activity = ({ className, time, token_id, collection, author }) => {
     const standardDate = new Date(Number(time) * 1000).toISOString();
     const date = standardDate && standardDate.split("T")[0];
     const exactTime = standardDate && standardDate.split("T")[1].split(".")[0];
-    
+
     return (
         <div className={clsx("single-activity-wrapper", className)}>
             <div className="inner">

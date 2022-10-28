@@ -10,7 +10,7 @@ import Nav from "react-bootstrap/Nav";
 import { useAppSelector } from "@app/hooks";
 import { MarketplaceContract } from "@constant";
 import NftItem from "@components/nft-item";
-import { useContract } from "@hooks";
+import { useContract, useAxios } from "@hooks";
 import TopSeller from "@components/top-seller/layout-03";
 
 const LIMIT_BIDS = 10;
@@ -20,11 +20,11 @@ const AuthorProfileArea = ({ className }) => {
     const router = useRouter();
     const { runQuery } = useContract();
     const { connectedWallet } = useWalletManager();
+    const [createdNfts, setCreatedNfts] = useState([]);
+    const { getCreatedNfts } = useAxios();
     const marketplaceNfts = useAppSelector((state) => state.marketplaceNfts);
     const myNftsFromStorage = useAppSelector((state) => state.myNfts);
-    const collectionAddresses = useAppSelector(
-        (state) => state.collections.addresses
-    );
+    const collections = useAppSelector((state) => state.collections);
 
     // useEffect(() => {
     //     if (!connectedWallet) {
@@ -57,20 +57,60 @@ const AuthorProfileArea = ({ className }) => {
         };
         fetchBids();
     }, [connectedWallet, runQuery]);
+    useEffect(() => {
+        (async () => {
+            const createdNftsInSubquery = await getCreatedNfts(
+                connectedWallet?.address
+            );
+            // const createdNftsInSubquery = await getCreatedNfts(
+            //     "human15g8ll4n3sksjnf8yvtzz84nv0stx7arawtukft"
+            // );
 
+            const createdNftsInContract = await Promise.all(
+                createdNftsInSubquery.map(async (nft) => {
+                    try {
+                        const nftData = await runQuery(nft.collection, {
+                            all_nft_info: {
+                                token_id: nft.tokenId,
+                            },
+                        });
+
+                        const marketplaceNft =
+                            marketplaceNfts[nft.collection]?.filter(
+                                (item) => item.token_id === nft.tokenId
+                            )[0] || {};
+                        return {
+                            ...marketplaceNft,
+                            image_url:
+                                nftData?.info.extension.image_url.startsWith(
+                                    "http"
+                                )
+                                    ? nftData?.info.extension.image_url
+                                    : "/images/bg/bg-image-9.png",
+                            token_address: nft.collection,
+                            token_id: nft.tokenId,
+                            token_url: nftData?.info.token_uri,
+                            collection:
+                                collections[nft.collection]?.collection_info
+                                    .title,
+                            owner: nftData?.access.owner,
+                        };
+                    } catch (err) {
+                        console.log("createdNftsInContract: ", err);
+                        return {};
+                    }
+                })
+            );
+
+            setCreatedNfts(createdNftsInContract);
+        })();
+    }, [connectedWallet?.address]);
     const myNfts = useMemo(() => {
-        const myCreated = [];
         const myOwned = [];
         let myOnSale = [];
-        const userDefinedAddresses = (
-            collectionAddresses?.userDefined || []
-        ).map((collection) => collection.address);
         Object.keys(myNftsFromStorage || {}).forEach((key) => {
             const crrNfts = myNftsFromStorage[key];
             crrNfts.forEach((nft) => {
-                if (userDefinedAddresses.includes(nft.token_address)) {
-                    myCreated.push(nft);
-                }
                 myOwned.push(nft);
             });
         });
@@ -79,9 +119,7 @@ const AuthorProfileArea = ({ className }) => {
                 const crrNfts = marketplaceNfts[key];
                 crrNfts.forEach((nft) => {
                     if (nft.seller !== connectedWallet?.address) return;
-                    if (userDefinedAddresses.includes(nft.token_address)) {
-                        myCreated.push(nft);
-                    } 
+
                     // else {
                     //     myOwned.push(nft);
                     // }
@@ -89,13 +127,8 @@ const AuthorProfileArea = ({ className }) => {
                 });
             });
         }
-        return { onSale: myOnSale, created: myCreated, owned: myOwned };
-    }, [
-        collectionAddresses,
-        connectedWallet,
-        marketplaceNfts,
-        myNftsFromStorage,
-    ]);
+        return { onSale: myOnSale, owned: myOwned };
+    }, [connectedWallet, marketplaceNfts, myNftsFromStorage]);
     return (
         <div className={clsx("rn-authore-profile-area", className)}>
             <TabContainer defaultActiveKey="nav-owned">
@@ -170,7 +203,7 @@ const AuthorProfileArea = ({ className }) => {
                             className="row g-5 d-flex"
                             eventKey="nav-created"
                         >
-                            {myNfts.created?.map((prod) => (
+                            {createdNfts.map((prod) => (
                                 <div
                                     key={prod.token_id}
                                     className="col-5 col-lg-4 col-md-6 col-sm-6 col-12"
