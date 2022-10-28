@@ -22,7 +22,6 @@ const getQueryClient = async (config) => {
 };
 
 function useContract() {
-    const { saveSaleHistory } = useAxios();
     const { offlineSigner, signingCosmWasmClient, address } = useWallet(
         ChainConfig.chainId
     );
@@ -254,15 +253,7 @@ function useContract() {
                 //     denom: price.denom,
                 // });
                 await setBid(item, { ...price, amount: price.amount / 1e6 });
-                const saveData = {
-                    from: item.seller,
-                    to: address,
-                    denom: price.denom,
-                    amount: price.amount,
-                    token_id: item.token_id,
-                    collection: item.token_address,
-                };
-                saveSaleHistory(saveData);
+
                 // toast.success("Success!");
             } catch (err) {
                 const errMsg = err.message;
@@ -291,15 +282,6 @@ function useContract() {
             };
             try {
                 await runExecute(MarketplaceContract, message);
-                const saveData = {
-                    from: item.seller,
-                    to: address,
-                    denom: item.price.denom,
-                    amount: item.price.amount,
-                    token_id: item.token_id,
-                    collection: item.token_address,
-                };
-                saveSaleHistory(saveData);
                 toast.success("Success!");
             } catch (err) {
                 const errMsg = err.message;
