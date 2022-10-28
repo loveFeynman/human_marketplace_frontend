@@ -15,13 +15,14 @@ import { NftType } from "@utils/types";
 import { ChainConfig } from "@constant";
 import { useContract } from "@hooks";
 import Video from "@components/video";
+import { checkKeplr } from "src/context/WalletProvider";
 // import { CustomWalletContext } from "@context";
 
 const NftItem = ({ overlay, item }) => {
     const [showBidModal, setShowBidModal] = useState(false);
     const [previewType, setPreviewType] = useState("image");
     const { sellNft, withdrawNft, buyNft, setBid, acceptBid } = useContract();
-    const { connectedWallet } = useWalletManager();
+    const { connect, connectedWallet } = useWalletManager();
     const isOwner = item.owner && item.owner === connectedWallet?.address;
     // const { connectedWallet } = useContext(CustomWalletContext);
     const nftInfo = useMemo(() => {
@@ -59,8 +60,13 @@ const NftItem = ({ overlay, item }) => {
         return undefined;
     }, [nftInfo.bids, nftInfo.price]);
 
-    const handleBidModal = () => {
-        setShowBidModal((prev) => !prev);
+    const handleBidModal = async () => {
+        if (!connectedWallet) {
+            connect();
+            await checkKeplr();
+        } else {
+            setShowBidModal((prev) => !prev);
+        }
     };
 
     const handleNft = async (amount, extraOption, callback) => {

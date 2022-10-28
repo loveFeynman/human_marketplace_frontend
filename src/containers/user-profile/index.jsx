@@ -141,9 +141,9 @@ const UserProfileArea = ({ className }) => {
                 const crrNfts = marketplaceNfts[key] || [];
                 crrNfts.forEach((nft, index) => {
                     if (nft.seller !== userAddress) return;
-                    // else {
-                    //     myOwned.push(nft);
-                    // }
+                    else {
+                        myOwned.push(nft);
+                    }
                     myOnSale.push(nft);
                     // myOnSale = [...myOnSale, ...crrNfts];
                 });

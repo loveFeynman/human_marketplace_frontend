@@ -93,6 +93,7 @@ const Header = ({ className }) => {
     const { offcanvas, offcanvasHandler } = useOffcanvas();
     // const { search, searchHandler } = useFlyoutSearch();
     const { connect, connectedWallet } = useWalletManager();
+    // const { connectedWallet, connect } = useContext(CustomWalletContext);
     const dispatch = useAppDispatch();
     useEffect(() => {
         (async () => {
@@ -103,7 +104,6 @@ const Header = ({ className }) => {
         })();
     }, [connectedWallet, dispatch]);
 
-    // const { connectedWallet, connect } = useContext(CustomWalletContext);
     const isAdmin = useAppSelector((state) => state.admin.isAdmin);
     const finalMenuData = useMemo(() => {
         if (connectedWallet) {

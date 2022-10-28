@@ -79,7 +79,6 @@ function useAxios() {
                     },
                 },
             } = await axios.post(subQueryUrl, { query });
-            console.log("nodes", nodes);
             return nodes;
         } catch (err) {}
     });

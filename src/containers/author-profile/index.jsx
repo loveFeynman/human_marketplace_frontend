@@ -119,10 +119,9 @@ const AuthorProfileArea = ({ className }) => {
                 const crrNfts = marketplaceNfts[key];
                 crrNfts.forEach((nft) => {
                     if (nft.seller !== connectedWallet?.address) return;
-
-                    // else {
-                    //     myOwned.push(nft);
-                    // }
+                    else {
+                        myOwned.push(nft);
+                    }
                     myOnSale.push(nft);
                 });
             });
