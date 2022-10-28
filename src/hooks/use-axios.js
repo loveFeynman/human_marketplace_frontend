@@ -3,11 +3,6 @@ import { backendBaseUrl, subQueryUrl } from "@constant";
 import { useCallback } from "react";
 
 function useAxios() {
-    const saveSaleHistory = (data) => {
-        axios
-            .post(`${backendBaseUrl}/api/sale_history/put_sale_history`, data)
-            .catch((err) => false);
-    };
     const fetchAllUsers = useCallback(async () => {
         try {
             const users = await axios.get(
@@ -33,11 +28,6 @@ function useAxios() {
             return {};
         }
     }, []);
-    const saveMintHistory = (data) => {
-        axios
-            .post(`${backendBaseUrl}/api/nfts/register_nft`, data)
-            .catch((err) => false);
-    };
     const getNewestItem = useCallback(async () => {
         try {
             // const { data } = await axios.get(
@@ -148,10 +138,8 @@ function useAxios() {
         }
     });
     return {
-        saveSaleHistory,
         fetchAllUsers,
         fetchUserInfo,
-        saveMintHistory,
         getNewestItem,
         getHistoricalData,
         fetchFollowInfo,
