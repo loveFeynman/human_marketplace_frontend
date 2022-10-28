@@ -14,7 +14,7 @@ export default async (req, res) => {
 
   const mailDetails = {
     from: email,
-    to: 'support@humans.ai',
+    to: 'rares.duvac@gmail.com',
     subject: `Item report from ${name}`,
     html: `
     <p><strong>Name:</strong> ${name}</p>
