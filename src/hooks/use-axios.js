@@ -44,7 +44,7 @@ function useAxios() {
             //     `${backendBaseUrl}/api/nfts/get_new_nft`
             // );
             const query = `query {
-                mintEvents(filter: {random: {equalTo: 0}} orderBy: TIME_DESC, first: 5) {
+                mintEvents(filter: {random: {equalTo: 1}} orderBy: TIME_DESC, first: 5) {
                     nodes {
                     minter
                     owner
