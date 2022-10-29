@@ -5,7 +5,7 @@ export default async (req, res) => {
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 587,
-    secure: false,
+    secure: false, //TODO: check this
     auth: {
       user: 'humans.reporter@gmail.com',
       pass: "jsasbmshvelepzsv",
@@ -34,7 +34,7 @@ export default async (req, res) => {
 
 
 
-  /*transporter.sendMail(mailDetails, function (error, info) {
+  /*transporter.sendMail(mailDetails, function (error, info) { // this works but not on vercel/netlify
     if (error) {
       console.log(error);
     }

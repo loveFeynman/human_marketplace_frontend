@@ -48,7 +48,7 @@ export default function ReportForm() {
           console.log("response = ", response);
             if (response.status == 200) {
                 setDisabled(value => !value);
-             // reset() //clear form
+              reset() //clear form
               toast.success("Report sent"); //confirmation message
               //handleReportModal();
               setButtonText("Report");
