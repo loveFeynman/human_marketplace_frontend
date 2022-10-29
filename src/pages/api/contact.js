@@ -22,11 +22,12 @@ export default async (req, res) => {
     <p><strong>Reported NFT:</strong> ${reportedNFT}</p>
     <p><strong>Report message:</strong> ${reportMessage}</p>`
   }
-  res.status(200).json(req.body);
-  console.log("email sent: ", req.body);
+
   try {
     const emailResponse = await transporter.sendMail(mailDetails)
     console.log("Report sent", emailResponse.messageId);
+    res.status(200).json(req.body);
+    console.log("email sent: ", req.body);
   } catch (error) {
     console.log(error);
   }
@@ -41,4 +42,5 @@ export default async (req, res) => {
       console.log('Email sent: ' + info.response);
     }
   })*/
-}
+
+};
