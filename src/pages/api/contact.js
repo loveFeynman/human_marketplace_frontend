@@ -24,7 +24,7 @@ export default async (req, res) => {
   }
 
   try {
-    const emailResponse = await transporter.sendMail(mailDetails)
+    const emailResponse = transporter.sendMail(mailDetails)
     console.log("Report sent", emailResponse.messageId);
     res.status(200).json(req.body);
     console.log("email sent: ", req.body);
