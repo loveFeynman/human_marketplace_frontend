@@ -22,7 +22,8 @@ export default function ReportForm() {
         setShowReportModal((prev) => !prev);
     };*/
     const thisPageURL = getPath();
-    //const [buttonText, setButtonText] = useState("Report");
+    const [buttonText, setButtonText] = useState("Report");
+    const [disabled, setDisabled] = useState(false);
     const {
         register,
         handleSubmit,
@@ -41,15 +42,16 @@ export default function ReportForm() {
           data: values,
         };
         try {
-            //setButtonText("Sending...");
+            setButtonText("Sending...");
+            setDisabled(value => !value);
           const response = await axios(config);
           console.log("response = ", response);
-          if (response.status == 200) {
-              reset() //clear form
+            if (response.status == 200) {
+                setDisabled(value => !value);
+             // reset() //clear form
               toast.success("Report sent"); //confirmation message
               //handleReportModal();
-              //console.log("sent is now: ", showReportModal);
-              //setButtonText("Report");
+              setButtonText("Report");
           }
       } catch (error) {
           console.log(error);
@@ -161,8 +163,9 @@ export default function ReportForm() {
                         type="submit"
                         size="medium"
                         className="mb-3 mt-5 w-100"
+                        disabled={disabled}
                     >
-                        Report
+                        {buttonText}
                     </Button>
                 </div>
             </div>

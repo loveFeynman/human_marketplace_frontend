@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-export default (req, res) => {
+export default async (req, res) => {
   const { name, email, reportedNFT, reportMessage } = req.body;
 
   const transporter = nodemailer.createTransport({
@@ -15,7 +15,7 @@ export default (req, res) => {
   const mailDetails = {
     from: email,
     to: 'rares.duvac@gmail.com',
-    subject: `Item report from ${name}`,
+    subject: `[NFT Marketplace] Item report from ${name}`,
     html: `
     <p><strong>Name:</strong> ${name}</p>
     <p><strong>Email:</strong> ${email}</p><br>
@@ -24,7 +24,7 @@ export default (req, res) => {
   }
 
   try {
-    const emailResponse = transporter.sendMail(mailDetails)
+    const emailResponse = await transporter.sendMail(mailDetails)
     console.log("Report sent", emailResponse.messageId);
     res.status(200).json(req.body);
     console.log("email sent: ", req.body);
