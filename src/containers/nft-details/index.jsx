@@ -85,7 +85,7 @@ const ProductDetailsArea = ({
             if (connectedWallet?.address === product.seller) {
                 if (product.sale_type !== "auction") {
                     buttonString = "Withdraw";
-                } else {
+                } else { 
                     buttonString = expired? (bids?.length? "Accept Bid" : "Withdraw") : ""
                 }
             } else if (product.sale_type === "auction") {
