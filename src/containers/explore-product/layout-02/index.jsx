@@ -33,7 +33,7 @@ const ExploreProductArea = ({ className, space, data }) => {
         setProducts(marketNfts);
     }, []);
     const getDataForShow = (item) => {
-        const collection = collections[item.collection];
+        const collection = collections[item.collection] || {};
         const tokenIdNumber = item.token_id.split(".").pop();
         const _data = {
             token_address: item.collection,
