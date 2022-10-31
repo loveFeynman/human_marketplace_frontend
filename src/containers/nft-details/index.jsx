@@ -6,7 +6,7 @@ import { useWalletManager } from "@noahsaso/cosmodal";
 import Sticky from "@ui/sticky";
 import Button from "@ui/button";
 import CountdownTimer from "@ui/countdown/layout-01";
-import { useContract, useAxios } from "@hooks";
+import { useContract, useAxios, useRefresh } from "@hooks";
 import ProductTitle from "@components/product-details/title";
 import TopSellerArea from "@components/top-seller/layout-01";
 import PurchaseModal from "@components/modals/purchase-modal";
@@ -42,6 +42,7 @@ const ProductDetailsArea = ({
     // );
     // console.log("history: ", history);
     const history = UseHistory(product?.token_id, product?.token_address);
+    const { second: value } = useRefresh();
 
     const { fetchUserInfo } = useAxios();
     const { connectedWallet } = useWalletManager();
@@ -102,7 +103,7 @@ const ProductDetailsArea = ({
             expired,
             isOwner: product.owner === connectedWallet?.address,
         };
-    }, [connectedWallet?.address, product]);
+    }, [connectedWallet?.address, product, value]);
 
     const defaultAmount = useMemo(() => {
         const maxBid =

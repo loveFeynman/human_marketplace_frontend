@@ -15,7 +15,7 @@ const RefreshContext = React.createContext({
 });
 
 // Check if the tab is active in the user browser
-const useIsBrowserTabActive = () => {
+export const useIsBrowserTabActive = () => {
     const isBrowserTabActiveRef = useRef(true);
 
     useEffect(() => {
@@ -35,6 +35,7 @@ const useIsBrowserTabActive = () => {
 
 const RefreshContextProvider = ({ children }) => {
     const [value, setValue] = useState(0);
+    const [secondInterval, setSecondInterval] = useState(0);
     const isBrowserTabActiveRef = useIsBrowserTabActive();
     useEffect(() => {
         const interval = setInterval(async () => {
@@ -42,7 +43,15 @@ const RefreshContextProvider = ({ children }) => {
                 setValue((prev) => prev + 1);
             }
         }, REFRESH_INTERVAL);
-        return () => clearInterval(interval);
+        const fastInterval = setInterval(async() => {
+            if (isBrowserTabActiveRef.current) {
+                setSecondInterval((prev) => prev + 1);
+            }
+        }, 1000)
+        return () => {
+            clearInterval(interval);
+            clearInterval(fastInterval);
+        };
     }, [isBrowserTabActiveRef]);
 
     const refreshAll = useCallback(() => {
@@ -51,7 +60,7 @@ const RefreshContextProvider = ({ children }) => {
 
     return (
         <RefreshContext.Provider
-            value={useMemo(() => ({ value, refreshAll }), [value, refreshAll])}
+            value={useMemo(() => ({ second: secondInterval, value, refreshAll }), [value, refreshAll, secondInterval])}
         >
             {children}
         </RefreshContext.Provider>
