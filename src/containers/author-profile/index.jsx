@@ -110,26 +110,30 @@ const AuthorProfileArea = ({ className }) => {
 
     useEffect(() => {
         if (myBids.length) {
-            Promise.all(
-                myBids.map((bid) => runQuery(bid.collection, {
-                    all_nft_info: {
+            let result = [];
+            myBids.forEach(async (bid) => {
+                const existingNftInfo = (marketplaceNfts[bid.collection] || []).concat(myNfts[bid.collection] || []).filter((item) => item.token_id === bid.token_id);
+                if (existingNftInfo.length) {
+                    result.push(existingNftInfo[0])
+                } else {
+                    const nftData = await runQuery(bid.collection, {
+                        all_nft_info: {
+                            token_id: bid.token_id,
+                        },
+                    });
+                    result.push({
+                        image_url: nftData?.info.extension.image_url,
+                        token_address: bid.collection,
                         token_id: bid.token_id,
-                    },
-                }))
-            ).then((results) => {
-                setMyBidTargetNfts(results.map((result, index) => ({
-                    image_url: result?.info.extension.image_url,
-                    token_address: myBids[index].collection,
-                    token_id: myBids[index].token_id,
-                    token_url: result?.info.token_uri,
-                    collection: collections[myBids[index].collection]?.collection_info?.title || "",
-                    owner: result?.access.owner,
-                    creator: result?.info.extension.minter,
-                    created_at: result?.info.created_time,
-                })))
-            }).catch((err) => {
-                console.error("fetch nft data error", err)
+                        token_url: nftData?.info.token_uri,
+                        collection: collections[bid.collection]?.collection_info?.title || "",
+                        owner: nftData?.access.owner,
+                        creator: nftData?.info.extension.minter,
+                        created_at: nftData?.info.created_time,
+                    })
+                }
             })
+            setMyBidTargetNfts(result)
         } else {
             setMyBidTargetNfts([]);
         }
