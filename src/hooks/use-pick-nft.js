@@ -28,6 +28,7 @@ function usePickNft(tokenId, collection) {
             owner: marketplaceNft?.seller || nftData?.access.owner,
             creator: nftData?.info.extension.minter,
             created_at: nftData?.info.created_time,
+            content_type: nftData?.info?.content_type,
         };
         setSelectedNft(selectedNftData);
     }, [tokenId, collection]);
