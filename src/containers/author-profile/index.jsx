@@ -17,6 +17,7 @@ const LIMIT_BIDS = 10;
 
 const AuthorProfileArea = ({ className }) => {
     const [myBids, setMyBids] = useState([]);
+    const [myBidTargetNfts, setMyBidTargetNfts] = useState([]);
     const router = useRouter();
     const { runQuery } = useContract();
     const { connectedWallet } = useWalletManager();
@@ -57,6 +58,7 @@ const AuthorProfileArea = ({ className }) => {
         };
         fetchBids();
     }, [connectedWallet, runQuery]);
+
     useEffect(() => {
         (async () => {
             const createdNftsInSubquery = await getCreatedNfts(
@@ -105,6 +107,34 @@ const AuthorProfileArea = ({ className }) => {
             setCreatedNfts(createdNftsInContract);
         })();
     }, [connectedWallet?.address]);
+
+    useEffect(() => {
+        if (myBids.length) {
+            Promise.all(
+                myBids.map((bid) => runQuery(bid.collection, {
+                    all_nft_info: {
+                        token_id: bid.token_id,
+                    },
+                }))
+            ).then((results) => {
+                setMyBidTargetNfts(results.map((result, index) => ({
+                    image_url: result?.info.extension.image_url,
+                    token_address: myBids[index].collection,
+                    token_id: myBids[index].token_id,
+                    token_url: result?.info.token_uri,
+                    collection: collections[myBids[index].collection]?.collection_info?.title || "",
+                    owner: result?.access.owner,
+                    creator: result?.info.extension.minter,
+                    created_at: result?.info.created_time,
+                })))
+            }).catch((err) => {
+                console.error("fetch nft data error", err)
+            })
+        } else {
+            setMyBidTargetNfts([]);
+        }
+    }, [myBids])
+
     const myNfts = useMemo(() => {
         const myOwned = [];
         let myOnSale = [];
@@ -212,7 +242,7 @@ const AuthorProfileArea = ({ className }) => {
                             ))}
                         </TabPane>
                         <TabPane className="row g-5 d-flex" eventKey="nav-bids">
-                            {myBids?.map((bid) => (
+                            {/* {myBids?.map((bid) => (
                                 <TopSeller
                                     key={`${bid.bidder}-${bid.token_id}`}
                                     tokenId={bid.token_id}
@@ -223,6 +253,14 @@ const AuthorProfileArea = ({ className }) => {
                                         )
                                     }
                                 />
+                            ))} */}
+                            {myBidTargetNfts.map((prod) => (
+                                <div
+                                    key={prod.token_id}
+                                    className="col-5 col-lg-4 col-md-6 col-sm-6 col-12"
+                                >
+                                    <NftItem overlay item={prod} />
+                                </div>
                             ))}
                         </TabPane>
                     </TabContent>
