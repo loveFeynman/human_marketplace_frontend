@@ -137,7 +137,7 @@ const NftDetail = () => {
                 <ProductArea
                     data={{
                         section_title: { title: "Related Item" },
-                        products: (relatedProducts || []).slice(0, 5),
+                        products: (relatedProducts || []).filter((item) => item.token_id !== token_id).slice(0, 5),
                     }}
                 />
                 {connectedWallet?.address && (
