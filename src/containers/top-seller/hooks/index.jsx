@@ -1,6 +1,6 @@
 import axios from "axios";
 import { backendBaseUrl, subQueryUrl } from "@constant";
-import { getReducedAddress } from "@utils/index";
+import { getFullName, getReducedAddress } from "@utils/index";
 import { getImageFromHash } from "@utils/ipfs";
 
 export const getTopSellers = async (days) => {
@@ -55,7 +55,7 @@ export const getTopSellers = async (days) => {
                 ? getImageFromHash(avatars[index].logo)
                 : "/images/client/client-2.png";
             _data.name =
-                avatars[index].first_name || getReducedAddress(_data.from_a);
+                getFullName(avatars[index].first_name, avatars[index].last_name) || getReducedAddress(avatars[index].wallet);
             return _data;
         });
         // return [];

@@ -1,7 +1,15 @@
 import { fileSizeLimit } from "@constant";
 
+export const getFullName = (firstName, lastName) => {
+    return lastName
+        ? firstName
+            ? `${firstName} ${lastName}`
+            : lastName
+        : firstName || "";
+};
+
 export const getReducedAddress = (address) =>
-    `${address?.slice(0, 5)}...${address?.slice(-5)}`;
+    address ? `${address?.slice(0, 5)}...${address?.slice(-5)}` : "";
 
 export const getStandardTime = (time) => {
     const interval = Date.now() / 1000 - Number(time);
