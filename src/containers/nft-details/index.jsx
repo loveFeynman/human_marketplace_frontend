@@ -89,7 +89,7 @@ const ProductDetailsArea = ({
                     buttonString = expired? (bids?.length? "Accept Bid" : "Withdraw") : ""
                 }
             } else if (product.sale_type === "auction") {
-                buttonString = "Set a Bid";
+                buttonString = expired? "" : "Set a Bid";
             } else {
                 buttonString = "Buy";
             }

@@ -59,13 +59,15 @@ const PlaceBet = ({
                         </div>
                     )}
                 </div>
-                <Button
-                    color={btnColor || "primary-alta"}
-                    className="mt--30"
-                    onClick={handleBid}
-                >
-                    {buttonString}
-                </Button>
+                {buttonString && (
+                    <Button
+                        color={btnColor || "primary-alta"}
+                        className="mt--30"
+                        onClick={handleBid}
+                    >
+                        {buttonString}
+                    </Button>
+                )}
             </div>
         </>
     );
