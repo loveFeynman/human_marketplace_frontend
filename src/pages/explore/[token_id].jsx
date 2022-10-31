@@ -147,6 +147,7 @@ const NftDetail = () => {
         };
         (async () => {
             let result = (totalMarketplaceNfts[collection] || []).concat(myNfts[collection] || []);
+            const existingTokenIds = result.map((item) => item.token_id);
             const crrContentType = selectedNft.content_type || "";
             if (crrContentType) {
                 const queryData = await runQuery(MarketplaceContract, {
@@ -155,10 +156,11 @@ const NftDetail = () => {
                         limit: 5,
                     },
                 });
-                let marketNfts = queryData?.asks?.map((item) => {
-                    return getDataForShow(item);
+                queryData?.asks?.forEach((item) => {
+                    if (!existingTokenIds.includes(item.token_id)) {
+                        result.push(getDataForShow(item));
+                    }
                 });
-                result = result.concat(marketNfts || [])
             }
             setRelatedProducts(result)
         })()

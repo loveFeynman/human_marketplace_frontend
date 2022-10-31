@@ -168,6 +168,7 @@ const ProductDetailsArea = ({
             try {
                 await buyNft(product);
                 setShowBidModal(false);
+                router.back();
                 // eslint-disable-next-line no-empty
             } catch (e) {
             } finally {
@@ -278,10 +279,19 @@ const ProductDetailsArea = ({
 
                                 {nftInfo.buttonString && (
                                     <Button
+                                        style={{marginRight: 20}}
                                         color="primary-alta"
                                         onClick={handleBidModal}
                                     >
                                         {nftInfo.buttonString}
+                                    </Button>
+                                )}
+                                {product.sale_type === "auction" && nftInfo.expired && bids.length > 0 && (
+                                    <Button
+                                        color="primary-alta"
+                                        onClick={() => withdrawNft(product)}
+                                    >
+                                        Withdraw
                                     </Button>
                                 )}
                                 {/* <div className="catagory-collection">
