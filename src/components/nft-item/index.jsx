@@ -203,7 +203,9 @@ const NftItem = ({ overlay, item }) => {
                 >
                     <span className="product-name">{item.token_id}</span>
                 </Anchor>
-                <div className="latest-bid">{item.collection}</div>
+                <Anchor path={`/explore/collections/${item.token_address}`}>
+                    <div className="latest-bid">{item.collection}</div>
+                </Anchor>
                 {item.seller && (
                     <div
                         style={{ textOverflow: "ellipsis", overflow: "hidden" }}
