@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import Anchor from "@ui/anchor";
+// import Anchor from "@ui/anchor";
 
+// eslint-disable-next-line no-unused-vars
 const Breadcrumb = ({ pageTitle, currentPage, className, space }) => (
     <div
         className={clsx(
@@ -17,7 +18,7 @@ const Breadcrumb = ({ pageTitle, currentPage, className, space }) => (
                         {pageTitle}
                     </h5>
                 </div>
-                <div className="col-lg-6 col-md-6 col-12">
+                {/* <div className="col-lg-6 col-md-6 col-12">
                     <ul className="breadcrumb-list">
                         <li className="item">
                             <Anchor path="/">Home</Anchor>
@@ -29,7 +30,7 @@ const Breadcrumb = ({ pageTitle, currentPage, className, space }) => (
                             {currentPage || pageTitle}
                         </li>
                     </ul>
-                </div>
+                </div> */}
             </div>
         </div>
     </div>
