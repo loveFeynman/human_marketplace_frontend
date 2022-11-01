@@ -98,7 +98,7 @@ const ProductArea = ({ space, className }) => {
                         >
                             <Anchor
                                 className="btn-transparent"
-                                path="/collections"
+                                path="/explore/collections"
                             >
                                 VIEW ALL
                                 <i className="feather feather-arrow-right" />
