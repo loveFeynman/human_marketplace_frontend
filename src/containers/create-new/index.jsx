@@ -17,7 +17,7 @@ import Video from "@components/video";
 import { fileSizeLimit } from "@constant";
 
 const CreateNewArea = ({ className, space }) => {
-    const [isSubmitting, setIsSubmitting] = useState(false)
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [showProductModal, setShowProductModal] = useState(false);
     const [selectedImage, setSelectedImage] = useState();
     const [metadataSet, setMetadataSet] = useState([{ field: "", value: "" }]);
@@ -33,7 +33,7 @@ const CreateNewArea = ({ className, space }) => {
     const collectionInfo = useAppSelector((state) => state.collections);
     const { connectedWallet } = useWalletManager();
     const { runExecute } = useContract();
-    const router = useRouter()
+    const router = useRouter();
     const { nftAddress } = router.query;
 
     const {
@@ -41,7 +41,7 @@ const CreateNewArea = ({ className, space }) => {
         handleSubmit,
         formState: { errors },
         setValue,
-        reset: resetForm,
+        // reset: resetForm,
     } = useForm({
         mode: "onSubmit",
     });
@@ -49,7 +49,7 @@ const CreateNewArea = ({ className, space }) => {
     const collectionSelectOptions = useMemo(() => {
         const addresses = collectionInfo.addresses?.userDefined || [];
 
-        return [{value: "add new", text: "+ Create a New Collection"}].concat(
+        return [{ value: "add new", text: "+ Create a New Collection" }].concat(
             addresses
                 .filter(
                     (_address) => _address.creator === connectedWallet?.address
@@ -66,13 +66,16 @@ const CreateNewArea = ({ className, space }) => {
     }, [collectionInfo, connectedWallet]);
 
     useEffect(() => {
-        if ( nftAddress ) {
-            const selectOptionValues = (collectionSelectOptions || []).map((option) => option.value);
+        if (nftAddress) {
+            const selectOptionValues = (collectionSelectOptions || []).map(
+                (option) => option.value
+            );
             if (selectOptionValues.includes(nftAddress)) {
-                setValue("collection", nftAddress)
+                setValue("collection", nftAddress);
             }
         }
-    }, [collectionSelectOptions, nftAddress])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [collectionSelectOptions, nftAddress]);
 
     const handleProductModal = () => {
         setShowProductModal(false);
@@ -86,10 +89,10 @@ const CreateNewArea = ({ className, space }) => {
         }
     };
 
-    const handleAddNewMetadataItem = () => {
-        setMetadataSet((prev) => prev.concat({ field: "", value: "" }));
-        setHasMetadataError(false);
-    };
+    // const handleAddNewMetadataItem = () => {
+    //     setMetadataSet((prev) => prev.concat({ field: "", value: "" }));
+    //     setHasMetadataError(false);
+    // };
 
     const handleAddNewAttributeItem = () => {
         setAttributesSet((prev) => prev.concat({ field: "", value: "" }));
@@ -114,17 +117,17 @@ const CreateNewArea = ({ className, space }) => {
 
     const handleChangeCollection = (item, name) => {
         if (item.value === "add new") {
-            router.push('/create-collection')
+            router.push("/create-collection");
         } else {
             setValue(name, item.value);
         }
     };
 
-    const reset = () => {
-        resetForm();
-        setMetadataSet([{ field: "", value: "" }]);
-        setAttributesSet([{ field: "", value: "" }]);
-    };
+    // const reset = () => {
+    //     resetForm();
+    //     setMetadataSet([{ field: "", value: "" }]);
+    //     setAttributesSet([{ field: "", value: "" }]);
+    // };
 
     const onSubmit = async (data, e) => {
         if (isSubmitting) return;
@@ -138,10 +141,10 @@ const CreateNewArea = ({ className, space }) => {
         const attributes = [];
         attributesSet.forEach((attributeItem) => {
             const { field, value } = attributeItem;
-            let _attribute = {};
+            const _attribute = {};
             if (field && value) {
-                _attribute["trait_type"] = field;
-                _attribute["value"] = value;
+                _attribute.trait_type = field;
+                _attribute.value = value;
             }
             attributes.push(_attribute);
         });
@@ -205,11 +208,11 @@ const CreateNewArea = ({ className, space }) => {
                         // reset();
                         // setSelectedImage();
                         // router.push(`/explore/${data.token_id}?collection=${data.collection}`)
-                        router.push(`/explore/collections/${data.collection}`)
+                        router.push(`/explore/collections/${data.collection}`);
                     } catch (err) {
                         // eslint-disable-next-line no-console
-                        throw new Error(err);
                         toast.error("Mint Failed!");
+                        throw new Error(err);
                     }
                 })
                 .catch((err) => {
@@ -218,7 +221,7 @@ const CreateNewArea = ({ className, space }) => {
                     toast.error("Fail!");
                 })
                 .finally(() => {
-                    setIsSubmitting(false)
+                    setIsSubmitting(false);
                 });
         }
     };
@@ -230,25 +233,25 @@ const CreateNewArea = ({ className, space }) => {
     const handleDragEnter = (e) => {
         e.preventDefault();
         e.stopPropagation();
-    }
+    };
     const handleDragOver = (e) => {
         e.preventDefault();
         e.stopPropagation();
         e.dataTransfer.dropEffect = "copy";
-    }
+    };
     const handleDragLeave = (e) => {
         e.preventDefault();
         e.stopPropagation();
-    }
+    };
     const handleDrop = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        const files = [...e.dataTransfer.files]
+        const files = [...e.dataTransfer.files];
         if (files.length && files[0]) {
             if (!validationFile(files[0])) return;
             setSelectedImage(files[0]);
         }
-    }
+    };
 
     // const renderMetaSetItem = (metadataItem, index, totalData) => {
     //     const isLastElement = index === totalData.length - 1;
@@ -369,6 +372,31 @@ const CreateNewArea = ({ className, space }) => {
     //     });
     // };
 
+    const renderImageVideoItem = () => {
+        if (selectedImage?.type?.match("image.*")) {
+            return (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                    id="createfileImage"
+                    src={URL.createObjectURL(selectedImage)}
+                    alt=""
+                />
+            );
+        }
+        if (selectedImage?.type?.match("video.*")) {
+            return (
+                <Video
+                    className="upload-video-preview"
+                    src={URL.createObjectURL(selectedImage)}
+                    autoPlay
+                    loop
+                    alt=""
+                />
+            );
+        }
+        return null;
+    };
+
     return (
         <>
             <div
@@ -413,28 +441,8 @@ const CreateNewArea = ({ className, space }) => {
                                             multiple
                                             onChange={imageChange}
                                         />
-                                        {selectedImage && !!selectedImage?.type?.match("image.*") && (
-                                            // eslint-disable-next-line @next/next/no-img-element
-                                            <img
-                                                id="createfileImage"
-                                                src={URL.createObjectURL(
-                                                    selectedImage
-                                                )}
-                                                alt=""
-                                            />
-                                        )}
-
-                                        {selectedImage && !!selectedImage?.type?.match("video.*") && (
-                                            <Video
-                                                className="upload-video-preview"
-                                                src={URL.createObjectURL(
-                                                    selectedImage
-                                                )}
-                                                autoPlay
-                                                loop
-                                                alt=""
-                                            />
-                                        )}
+                                        {selectedImage &&
+                                            renderImageVideoItem()}
 
                                         <label
                                             htmlFor="file"
@@ -447,7 +455,11 @@ const CreateNewArea = ({ className, space }) => {
                                                         Choose a File
                                                     </span>
                                                     <p className="text-center mt--10">
-                                                        JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, or GLTF. <br /> {`Max ${fileSizeLimit} MB`}.
+                                                        JPG, PNG, GIF, SVG, MP4,
+                                                        WEBM, MP3, WAV, OGG,
+                                                        GLB, or GLTF. <br />{" "}
+                                                        {`Max ${fileSizeLimit} MB`}
+                                                        .
                                                     </p>
                                                 </>
                                             )}
@@ -828,7 +840,11 @@ const CreateNewArea = ({ className, space }) => {
                                         <div className="col-md-12 col-xl-8 mt_lg--15 mt_md--15 mt_sm--15">
                                             <div className="input-box">
                                                 <Button type="submit" fullwidth>
-                                                    {`${isSubmitting? "Submitting" : "Submit"} Item`}
+                                                    {`${
+                                                        isSubmitting
+                                                            ? "Submitting"
+                                                            : "Submit"
+                                                    } Item`}
                                                 </Button>
                                             </div>
                                         </div>

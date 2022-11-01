@@ -73,7 +73,7 @@ const Collection = () => {
                 result.sort((a, b) => b.tradingVolume - a.tradingVolume)
             );
         }
-    }, [collections, sortKey]);
+    }, [collections, sortKey, topCollections]);
 
     const filterHandler = async (filterKey) => {
         setSortKey(filterKey);

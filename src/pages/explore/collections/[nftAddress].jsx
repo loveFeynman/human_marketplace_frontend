@@ -23,7 +23,9 @@ const Product = () => {
         (state) => state.marketplaceNfts[nftAddress]
     );
     const myNfts = useAppSelector((state) => state.myNfts[nftAddress]);
-    const collectionInfo = useAppSelector((state) => state.collections[nftAddress]);
+    const collectionInfo = useAppSelector(
+        (state) => state.collections[nftAddress]
+    );
 
     const productData = useMemo(
         () =>
@@ -34,29 +36,41 @@ const Product = () => {
             // }));
             ({
                 id: nftAddress || "nft marketplace",
-                nft: collectionInfo?.userDefined? (marketplaceNfts || []).concat(myNfts || []) : marketplaceNfts || [],
+                nft: collectionInfo?.userDefined
+                    ? (marketplaceNfts || []).concat(myNfts || [])
+                    : marketplaceNfts || [],
             }),
-        [marketplaceNfts, nftAddress]
+        [collectionInfo?.userDefined, marketplaceNfts, myNfts, nftAddress]
     );
 
-    const collectionTitle = collectionInfo?.collection_info?.title || "Collection";
+    const collectionTitle =
+        collectionInfo?.collection_info?.title || "Collection";
+
+    const isAvailableCreateNft =
+        collectionInfo?.userDefined &&
+        collectionInfo?.minter === connectedWallet?.address;
 
     return (
         <Wrapper>
             <SEO pageTitle={collectionTitle} />
             <Header />
             <main id="main-content">
-                <Breadcrumb pageTitle={collectionTitle} currentPage={collectionTitle} />
-                {collectionInfo?.userDefined && collectionInfo?.minter === connectedWallet?.address && 
+                <Breadcrumb
+                    pageTitle={collectionTitle}
+                    currentPage={collectionTitle}
+                />
+                {isAvailableCreateNft && (
                     <div className="ptb--30 container">
                         <Button>
-                            <Anchor path={`/create-nft?nftAddress=${collectionInfo.nftAddress}`}>
+                            <Anchor
+                                path={`/create-nft?nftAddress=${collectionInfo.nftAddress}`}
+                            >
                                 {/* Create an Nft */}
                                 Add a new Nft to this Collection
                             </Anchor>
                         </Button>
                     </div>
-                }
+                )}
                 <ProductArea data={{ products: productData }} hiddenExpired />
             </main>
             <Footer />

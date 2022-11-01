@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 import clsx from "clsx";
 import { useWalletManager } from "@noahsaso/cosmodal";
 import TabContent from "react-bootstrap/TabContent";
@@ -11,17 +11,19 @@ import { useAppSelector } from "@app/hooks";
 import { MarketplaceContract } from "@constant";
 import NftItem from "@components/nft-item";
 import { useContract, useAxios } from "@hooks";
-import TopSeller from "@components/top-seller/layout-03";
+// import TopSeller from "@components/top-seller/layout-03";
 
 const LIMIT_BIDS = 10;
 
 const AuthorProfileArea = ({ className }) => {
     const [myBids, setMyBids] = useState([]);
     const [myBidTargetNfts, setMyBidTargetNfts] = useState([]);
-    const router = useRouter();
+    // const router = useRouter();
     const { runQuery } = useContract();
     const { connectedWallet } = useWalletManager();
     const [createdNfts, setCreatedNfts] = useState([]);
+    const [ownedNfts, setOwnedNfts] = useState([]);
+    const [onSaleNfts, setOnSaleNfts] = useState([]);
     const { getCreatedNfts } = useAxios();
     const marketplaceNfts = useAppSelector((state) => state.marketplaceNfts);
     const myNftsFromStorage = useAppSelector((state) => state.myNfts);
@@ -32,6 +34,7 @@ const AuthorProfileArea = ({ className }) => {
     //         router.push("/");
     //     }
     // }, [connectedWallet, router]);
+
     useEffect(() => {
         setMyBids([]);
         if (!connectedWallet) {
@@ -94,10 +97,11 @@ const AuthorProfileArea = ({ className }) => {
                             token_url: nftData?.info.token_uri,
                             collection:
                                 collections[nft.collection]?.collection_info
-                                    .title,
+                                    ?.title,
                             owner: nftData?.access.owner,
                         };
                     } catch (err) {
+                        // eslint-disable-next-line no-console
                         console.log("createdNftsInContract: ", err);
                         return {};
                     }
@@ -106,15 +110,23 @@ const AuthorProfileArea = ({ className }) => {
 
             setCreatedNfts(createdNftsInContract);
         })();
-    }, [connectedWallet?.address]);
+    }, [
+        collections,
+        connectedWallet?.address,
+        getCreatedNfts,
+        marketplaceNfts,
+        runQuery,
+    ]);
 
     useEffect(() => {
         if (myBids.length) {
-            let result = [];
+            const result = [];
             myBids.forEach(async (bid) => {
-                const existingNftInfo = (marketplaceNfts[bid.collection] || []).concat(myNfts[bid.collection] || []).filter((item) => item.token_id === bid.token_id);
+                const existingNftInfo = (marketplaceNfts[bid.collection] || [])
+                    .concat(myNftsFromStorage[bid.collection] || [])
+                    .filter((item) => item.token_id === bid.token_id);
                 if (existingNftInfo.length) {
-                    result.push(existingNftInfo[0])
+                    result.push(existingNftInfo[0]);
                 } else {
                     const nftData = await runQuery(bid.collection, {
                         all_nft_info: {
@@ -126,42 +138,50 @@ const AuthorProfileArea = ({ className }) => {
                         token_address: bid.collection,
                         token_id: bid.token_id,
                         token_url: nftData?.info.token_uri,
-                        collection: collections[bid.collection]?.collection_info?.title || "",
+                        collection:
+                            collections[bid.collection]?.collection_info
+                                ?.title || "",
                         owner: nftData?.access.owner,
                         creator: nftData?.info.extension.minter,
                         created_at: nftData?.info.created_time,
-                    })
+                    });
                 }
-            })
-            setMyBidTargetNfts(result)
+            });
+            setMyBidTargetNfts(result);
         } else {
             setMyBidTargetNfts([]);
         }
-    }, [myBids])
+    }, [collections, marketplaceNfts, myBids, myNftsFromStorage, runQuery]);
 
-    const myNfts = useMemo(() => {
+    useEffect(() => {
         const myOwned = [];
-        let myOnSale = [];
         Object.keys(myNftsFromStorage || {}).forEach((key) => {
-            const crrNfts = myNftsFromStorage[key];
-            crrNfts.forEach((nft) => {
-                myOwned.push(nft);
-            });
+            if (key !== "addresses") {
+                const crrNfts = myNftsFromStorage[key];
+                crrNfts.forEach((nft) => {
+                    myOwned.push(nft);
+                });
+            }
         });
+        setOwnedNfts(myOwned);
+        // return { onSale: myOnSale, owned: myOwned };
+    }, [myNftsFromStorage]);
+
+    useEffect(() => {
+        const myOnSale = [];
         if (connectedWallet) {
             Object.keys(marketplaceNfts || {}).forEach((key) => {
                 const crrNfts = marketplaceNfts[key];
                 crrNfts.forEach((nft) => {
                     if (nft.seller !== connectedWallet?.address) return;
-                    else {
-                        myOwned.push(nft);
-                    }
                     myOnSale.push(nft);
                 });
             });
         }
-        return { onSale: myOnSale, owned: myOwned };
-    }, [connectedWallet, marketplaceNfts, myNftsFromStorage]);
+        setOnSaleNfts(myOnSale);
+        // return { onSale: myOnSale, owned: myOwned };
+    }, [connectedWallet, marketplaceNfts]);
+
     return (
         <div className={clsx("rn-authore-profile-area", className)}>
             <TabContainer defaultActiveKey="nav-owned">
@@ -210,7 +230,7 @@ const AuthorProfileArea = ({ className }) => {
                             className="row d-flex g-5"
                             eventKey="nav-on-sale"
                         >
-                            {myNfts.onSale?.map((prod) => (
+                            {onSaleNfts?.map((prod) => (
                                 <div
                                     key={prod.token_id}
                                     className="col-5 col-lg-4 col-md-6 col-sm-6 col-12"
@@ -223,14 +243,16 @@ const AuthorProfileArea = ({ className }) => {
                             className="row g-5 d-flex"
                             eventKey="nav-owned"
                         >
-                            {myNfts.owned?.map((prod) => (
-                                <div
-                                    key={prod.token_id}
-                                    className="col-5 col-lg-4 col-md-6 col-sm-6 col-12"
-                                >
-                                    <NftItem overlay item={prod} />
-                                </div>
-                            ))}
+                            {(ownedNfts || [])
+                                .concat(onSaleNfts || [])
+                                .map((prod) => (
+                                    <div
+                                        key={prod.token_id}
+                                        className="col-5 col-lg-4 col-md-6 col-sm-6 col-12"
+                                    >
+                                        <NftItem overlay item={prod} />
+                                    </div>
+                                ))}
                         </TabPane>
                         <TabPane
                             className="row g-5 d-flex"
@@ -260,7 +282,9 @@ const AuthorProfileArea = ({ className }) => {
                             ))} */}
                             {myBidTargetNfts.map((prod) => (
                                 <div
-                                    key={prod.token_id}
+                                    key={`${prod.token_id}-${Number(
+                                        new Date()
+                                    )}`}
                                     className="col-5 col-lg-4 col-md-6 col-sm-6 col-12"
                                 >
                                     <NftItem overlay item={prod} />

@@ -165,7 +165,7 @@
             max-width: 80px;
             height: 80px;
             border-radius: 50%;
-            border: 5px solid var(--color-primary-alta);
+            // border: 5px solid var(--color-primary-alta);
             transition: var(--transition);
 
             @media #{$md-layout} {

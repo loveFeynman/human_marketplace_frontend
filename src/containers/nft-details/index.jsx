@@ -16,11 +16,11 @@ import BidTab from "@components/product-details/bid-tab";
 import PlaceBet from "@components/product-details/place-bet";
 // import { NftType } from "@utils/types";
 import { ChainConfig } from "@constant";
-import { UseHistory } from "./hooks";
 import { getImageFromHash } from "@utils/ipfs";
 import { getReducedAddress } from "@utils/index";
 import { useRouter } from "next/router";
 import Video from "@components/video";
+import { UseHistory } from "./hooks";
 // Demo Image
 
 const ProductDetailsArea = ({
@@ -29,7 +29,7 @@ const ProductDetailsArea = ({
     product,
     bids,
     refreshData,
-    fetchNftInfo
+    // fetchNftInfo,
 }) => {
     const [previewType, setPreviewType] = useState("image");
     const [showBidModal, setShowBidModal] = useState(false);
@@ -61,7 +61,7 @@ const ProductDetailsArea = ({
             const userInfo = await fetchUserInfo(
                 product.seller || product.owner
             );
-            const creatorInfo = await fetchUserInfo(product.creator);
+            const fetchedCreatorInfo = await fetchUserInfo(product.creator);
             const _collectionInfo = await getCollectionInfo(
                 product.token_address
             );
@@ -69,9 +69,10 @@ const ProductDetailsArea = ({
                 title: _collectionInfo?.collection_info?.title,
                 image: _collectionInfo?.collection_info?.background_url,
             });
-            setCreatorInfo(creatorInfo);
+            setCreatorInfo(fetchedCreatorInfo);
             setOwnerInfo(userInfo);
         })();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [product.owner, product.creator]);
 
     const nftInfo = useMemo(() => {
@@ -81,16 +82,15 @@ const ProductDetailsArea = ({
             : null;
         const expired = expiresAt && Number(new Date()) - Number(expiresAt) > 0;
         const image = product.image_url;
-        let buttonString = connectedWallet?.address === product.owner? "Sell" : "";
+        let buttonString =
+            connectedWallet?.address === product.owner ? "Sell" : "";
         if (price) {
             if (connectedWallet?.address === product.seller) {
-                if (product.sale_type !== "auction") {
-                    buttonString = "Withdraw";
-                } else { 
-                    buttonString = expired? (bids?.length? "Accept Bid" : "Withdraw") : ""
+                if (product.sale_type === "auction") {
+                    buttonString = expired && bids?.length ? "Accept Bid" : "";
                 }
             } else if (product.sale_type === "auction") {
-                buttonString = expired? "" : "Set a Bid";
+                buttonString = expired ? "" : "Set a Bid";
             } else {
                 buttonString = "Buy";
             }
@@ -103,6 +103,7 @@ const ProductDetailsArea = ({
             expired,
             isOwner: product.owner === connectedWallet?.address,
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [connectedWallet?.address, product, value]);
 
     const defaultAmount = useMemo(() => {
@@ -196,6 +197,7 @@ const ProductDetailsArea = ({
                                 }}
                             >
                                 {previewType === "image" && (
+                                    // eslint-disable-next-line @next/next/no-img-element
                                     <img
                                         src={product.image_url}
                                         alt=""
@@ -266,7 +268,6 @@ const ProductDetailsArea = ({
                                         <TopSellerArea
                                             name={collectionInfo.title}
                                             // total_sale={ownerInfo.total_sale}
-                                            // slug={`/marketplace?nftAddress=${product.token_address}`}
                                             slug={`/explore/collections/${product.token_address}`}
                                             image={{
                                                 src: collectionInfo.image,
@@ -279,14 +280,14 @@ const ProductDetailsArea = ({
 
                                 {nftInfo.buttonString && (
                                     <Button
-                                        style={{marginRight: 20}}
+                                        style={{ marginRight: 20 }}
                                         color="primary-alta"
                                         onClick={handleBidModal}
                                     >
                                         {nftInfo.buttonString}
                                     </Button>
                                 )}
-                                {product.sale_type === "auction" && nftInfo.expired && bids.length > 0 && (
+                                {connectedWallet?.address === product.owner && (
                                     <Button
                                         color="primary-alta"
                                         onClick={() => withdrawNft(product)}

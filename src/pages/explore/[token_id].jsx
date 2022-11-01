@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import SEO from "@components/seo";
 import Wrapper from "@layout/wrapper";
@@ -21,13 +21,17 @@ const NftDetail = () => {
     const router = useRouter();
     const { token_id, collection } = router.query;
     const { runQuery } = useContract();
-    const { nftInfo: selectedNft, fetchNftInfo } = usePickNft(token_id, collection) || {};
+    const { nftInfo: selectedNft, fetchNftInfo } =
+        usePickNft(token_id, collection) || {};
     const collections = useAppSelector((state) => state.collections);
-    const myNfts = useAppSelector((state) => state.myNfts)
-    const totalMarketplaceNfts = useAppSelector((state) => state.marketplaceNfts)
+    const myNfts = useAppSelector((state) => state.myNfts);
+    const totalMarketplaceNfts = useAppSelector(
+        (state) => state.marketplaceNfts
+    );
     const [bids, setBids] = useState([]);
-    const [recentView, setRecentView] = useState([])
+    const [recentView, setRecentView] = useState([]);
     const [relatedProducts, setRelatedProducts] = useState([]);
+    const [refresh, setRefresh] = useState(0);
     const { fetchUserInfo, registerRecentView, fetchRecentView } = useAxios();
     const { connectedWallet } = useWalletManager();
     const fetchBids = async (startBidder) => {
@@ -77,14 +81,22 @@ const NftDetail = () => {
 
     useEffect(() => {
         if (connectedWallet?.address) {
-            registerRecentView({tokenId: token_id, collection, address: connectedWallet.address});
+            registerRecentView({
+                tokenId: token_id,
+                collection,
+                address: connectedWallet.address,
+            });
             (async () => {
                 const data = await fetchRecentView(connectedWallet.address);
                 const result = [];
                 (data || []).forEach(async (viewItem) => {
-                    const existingNftInfo = (totalMarketplaceNfts[viewItem.collection] || []).concat(myNfts[viewItem.collection] || []).filter((item) => item.token_id === viewItem.token_id);
+                    const existingNftInfo = (
+                        totalMarketplaceNfts[viewItem.collection] || []
+                    )
+                        .concat(myNfts[viewItem.collection] || [])
+                        .filter((item) => item.token_id === viewItem.token_id);
                     if (existingNftInfo.length) {
-                        result.push(existingNftInfo[0])
+                        result.push(existingNftInfo[0]);
                     } else {
                         const nftData = await runQuery(viewItem.collection, {
                             all_nft_info: {
@@ -96,40 +108,44 @@ const NftDetail = () => {
                             token_address: viewItem.collection,
                             token_id: viewItem.token_id,
                             token_url: nftData?.info.token_uri,
-                            collection: collections[viewItem.collection]?.collection_info?.title || "",
+                            collection:
+                                collections[viewItem.collection]
+                                    ?.collection_info?.title || "",
                             owner: nftData?.access.owner,
                             creator: nftData?.info.extension.minter,
                             created_at: nftData?.info.created_time,
-                        })
+                        });
                     }
-                })
+                });
                 setRecentView(result);
-            })()
+            })();
         }
-    }, [token_id, collection, connectedWallet?.address])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [token_id, collection, connectedWallet?.address]);
 
     useEffect(() => {
         fetchBids();
-    }, [runQuery, selectedNft.token_address, selectedNft.token_id]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [runQuery, selectedNft.token_address, selectedNft.token_id, refresh]);
 
     const refreshData = async () => {
-        await fetchBids();
+        setRefresh((prev) => prev + 1);
     };
 
     const nftTitle = selectedNft.token_id || "NFT Detail";
 
     useEffect(() => {
         const getDataForShow = (item) => {
-            const collection = collections[item.collection] || {};
+            const collectionInfo = collections[item.collection] || {};
             const tokenIdNumber = item.token_id.split(".").pop();
             const _data = {
                 token_address: item.collection,
                 token_id: item.token_id,
-                collection: collection.collection_info?.title,
+                collection: collectionInfo.collection_info?.title,
                 image_url:
                     item.img_url ||
                     `https://secretsteampunks.mypinata.cloud/ipfs/QmdkjgT5CYivvFkvSvUdFF7b4QaeBikBaAbfthTVgD8FdP/SteamPunk_Human_${tokenIdNumber}.png`,
-                token_url: `${collection.mint_info?.base_token_uri}${tokenIdNumber}.png`,
+                token_url: `${collectionInfo.mint_info?.base_token_uri}${tokenIdNumber}.png`,
                 seller: item.seller,
                 price: {
                     denom: ChainConfig.microDenom,
@@ -146,7 +162,9 @@ const NftDetail = () => {
             return _data;
         };
         (async () => {
-            let result = (totalMarketplaceNfts[collection] || []).concat(myNfts[collection] || []);
+            const result = (totalMarketplaceNfts[collection] || []).concat(
+                myNfts[collection] || []
+            );
             const existingTokenIds = result.map((item) => item.token_id);
             const crrContentType = selectedNft.content_type || "";
             if (crrContentType) {
@@ -162,9 +180,10 @@ const NftDetail = () => {
                     }
                 });
             }
-            setRelatedProducts(result)
-        })()
-    }, [totalMarketplaceNfts, collection, selectedNft])
+            setRelatedProducts(result);
+        })();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [totalMarketplaceNfts, collection, selectedNft, refresh]);
 
     return (
         <Wrapper>
@@ -187,7 +206,9 @@ const NftDetail = () => {
                 <ProductArea
                     data={{
                         section_title: { title: "Related Item" },
-                        products: (relatedProducts || []).filter((item) => item.token_id !== token_id).slice(0, 5),
+                        products: (relatedProducts || [])
+                            .filter((item) => item.token_id !== token_id)
+                            .slice(0, 5),
                     }}
                 />
                 {connectedWallet?.address && (

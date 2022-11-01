@@ -11,7 +11,11 @@ import { useAppSelector } from "@app/hooks";
 import { useContract } from "@hooks";
 import { MarketplaceContract, ChainConfig } from "@constant";
 
-const ExploreProductArea = ({ className, space, data }) => {
+const ExploreProductArea = ({
+    className,
+    space,
+    // data
+}) => {
     const filters = [
         "ai nft",
         "language processing",
@@ -31,6 +35,7 @@ const ExploreProductArea = ({ className, space, data }) => {
             marketNfts = [...marketNfts, ...crrNfts];
         });
         setProducts(marketNfts);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     const getDataForShow = (item) => {
         const collection = collections[item.collection] || {};
@@ -59,9 +64,10 @@ const ExploreProductArea = ({ className, space, data }) => {
         return _data;
     };
     const filterHandler = async (filterKey) => {
+        let queryData;
+        let marketNfts = [];
         switch (filterKey) {
             case "all": {
-                let marketNfts = [];
                 Object.keys(marketplaceNfts || {}).forEach((key) => {
                     const crrNfts = marketplaceNfts[key];
                     marketNfts = [...marketNfts, ...crrNfts];
@@ -70,74 +76,65 @@ const ExploreProductArea = ({ className, space, data }) => {
                 break;
             }
             case "ai nft": {
-                const queryData = await runQuery(MarketplaceContract, {
+                queryData = await runQuery(MarketplaceContract, {
                     asks_sorted_by_content_type: {
                         content_type: "ai_nft",
                         limit: 20,
                     },
                 });
 
-                let marketNfts = queryData.asks.map((item) => {
-                    return getDataForShow(item);
-                });
+                marketNfts = queryData.asks.map((item) => getDataForShow(item));
                 setProducts(marketNfts);
                 break;
             }
             case "language processing": {
-                const queryData = await runQuery(MarketplaceContract, {
+                queryData = await runQuery(MarketplaceContract, {
                     asks_sorted_by_content_type: {
                         content_type: "language_processing",
                         limit: 20,
                     },
                 });
 
-                let marketNfts = queryData.asks.map((item) => {
-                    return getDataForShow(item);
-                });
+                marketNfts = queryData.asks.map((item) => getDataForShow(item));
                 setProducts(marketNfts);
                 break;
             }
             case "syntetic media": {
-                const queryData = await runQuery(MarketplaceContract, {
+                queryData = await runQuery(MarketplaceContract, {
                     asks_sorted_by_content_type: {
                         content_type: "syntetic_media",
                         limit: 20,
                     },
                 });
-                console.log('syntetic media', queryData)
 
-                let marketNfts = queryData.asks.map((item) => {
-                    return getDataForShow(item);
-                });
+                marketNfts = queryData.asks.map((item) => getDataForShow(item));
                 setProducts(marketNfts);
                 break;
             }
             case "highest": {
-                const queryData = await runQuery(MarketplaceContract, {
+                queryData = await runQuery(MarketplaceContract, {
                     asks_sorted_by_sell_price: {
                         limit: 20,
                     },
                 });
 
-                let marketNfts = queryData.asks.map((item) => {
-                    return getDataForShow(item);
-                });
+                marketNfts = queryData.asks.map((item) => getDataForShow(item));
                 setProducts(marketNfts);
                 break;
             }
             case "lowest": {
-                const queryData = await runQuery(MarketplaceContract, {
+                queryData = await runQuery(MarketplaceContract, {
                     reverse_sorted_by_sell_price: {
                         limit: 20,
                     },
                 });
 
-                let marketNfts = queryData.asks.map((item) => {
-                    return getDataForShow(item);
-                });
+                marketNfts = queryData.asks.map((item) => getDataForShow(item));
                 setProducts(marketNfts);
                 break;
             }
+            default:
+                break;
         }
         // const prods = data?.products ? [...data.products] : [];
         // if (filterKey === "all") {
@@ -174,9 +171,9 @@ const ExploreProductArea = ({ className, space, data }) => {
                 </div>
                 <div className="col-lg-12">
                     <motion.div layout className="isotope-list item-5">
-                        {products?.slice(0, 10)?.map((prod, index) => (
+                        {products?.slice(0, 10)?.map((prod) => (
                             <motion.div
-                                key={index}
+                                key={`${Number(new Date())}-${Math.random()}`}
                                 className={clsx("grid-item")}
                                 layout
                             >

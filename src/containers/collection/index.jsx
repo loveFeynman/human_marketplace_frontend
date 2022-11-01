@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import Collection from "@components/collection";
@@ -15,11 +15,16 @@ const CollectionArea = ({ className, space, id, data, showAll }) => {
     const collectionsInfo = useAppSelector((state) => state.collections);
     const myNfts = useAppSelector((state) => state.myNfts);
 
-    const {totalNfts, last3Nfts} = useMemo(() => {
-        const totalNftsResult = {}, last3NftsResult = {};
+    const { totalNfts, last3Nfts } = useMemo(() => {
+        const totalNftsResult = {};
+
+        const last3NftsResult = {};
         Object.keys(marketplaceNfts).forEach((key) => {
             const crrCollectionInfo = collectionsInfo[key] || {};
-            const crrNfts = showAll && crrCollectionInfo.userDefined? (marketplaceNfts[key] || []).concat(myNfts[key] || []) : marketplaceNfts[key] || [];
+            const crrNfts =
+                showAll && crrCollectionInfo.userDefined
+                    ? (marketplaceNfts[key] || []).concat(myNfts[key] || [])
+                    : marketplaceNfts[key] || [];
             let count = 0;
             crrNfts.forEach((nft) => {
                 const expiresAt = nft.expires_at
@@ -30,12 +35,20 @@ const CollectionArea = ({ className, space, id, data, showAll }) => {
                 if (!expiresAt || !expired) count += 1;
             });
             totalNftsResult[key] = count;
-            last3NftsResult[key] = Array.from({length: 3}).map((item, index) => ({src: crrNfts[index]?.image_url || '/images/collection/collection-sm-01.jpg'}));
+            last3NftsResult[key] = Array.from({ length: 3 }).map(
+                (item, index) => ({
+                    src:
+                        crrNfts[index]?.image_url ||
+                        "/images/collection/collection-sm-01.jpg",
+                })
+            );
         });
-        return {totalNfts: totalNftsResult, last3Nfts: last3NftsResult};
-    }, [marketplaceNfts]);
-    
-    const displayCollections = (data.collections || []).filter((collection) => showAll || totalNfts[collection.id] > 0)
+        return { totalNfts: totalNftsResult, last3Nfts: last3NftsResult };
+    }, [collectionsInfo, marketplaceNfts, myNfts, showAll]);
+
+    const displayCollections = (data.collections || []).filter(
+        (collection) => showAll || totalNfts[collection.id] > 0
+    );
     const numberOfPages = Math.ceil(displayCollections.length / POSTS_PER_PAGE);
     const paginationHandler = (page) => {
         setCurrentPage(page);
@@ -62,26 +75,28 @@ const CollectionArea = ({ className, space, id, data, showAll }) => {
         >
             <div className="container">
                 <div className="row g-5">
-                    {displayCollections.slice(start, start + POSTS_PER_PAGE).map((collection) => (
-                        <div
-                            key={collection.id}
-                            className="col-lg-6 col-xl-3 col-md-6 col-sm-6 col-12"
-                        >
-                            <Collection
-                                id={collection.id}
-                                title={collection.title}
-                                // total_item={
-                                //     marketplaceNfts[collection.id]?.length || 0
-                                // }
-                                total_item={totalNfts[collection.id] || 0}
-                                path={collection.slug}
-                                image={collection.image}
-                                // thumbnails={collection.thumbnails}
-                                thumbnails={last3Nfts[collection.id]}
-                                profile_image={collection.profile_image}
-                            />
-                        </div>
-                    ))}
+                    {displayCollections
+                        .slice(start, start + POSTS_PER_PAGE)
+                        .map((collection) => (
+                            <div
+                                key={collection.id}
+                                className="col-lg-6 col-xl-3 col-md-6 col-sm-6 col-12"
+                            >
+                                <Collection
+                                    id={collection.id}
+                                    title={collection.title}
+                                    // total_item={
+                                    //     marketplaceNfts[collection.id]?.length || 0
+                                    // }
+                                    total_item={totalNfts[collection.id] || 0}
+                                    path={collection.slug}
+                                    image={collection.image}
+                                    // thumbnails={collection.thumbnails}
+                                    thumbnails={last3Nfts[collection.id]}
+                                    profile_image={collection.profile_image}
+                                />
+                            </div>
+                        ))}
                 </div>
                 {numberOfPages > 1 && (
                     <div className="row">
@@ -111,7 +126,7 @@ CollectionArea.propTypes = {
     data: PropTypes.shape({
         collections: PropTypes.arrayOf(CollectionType),
     }),
-    showAll: PropTypes.bool
+    showAll: PropTypes.bool,
 };
 CollectionArea.defaultProps = {
     space: 1,

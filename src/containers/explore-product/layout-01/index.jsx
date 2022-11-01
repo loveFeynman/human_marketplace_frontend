@@ -40,16 +40,16 @@ const ExploreProductArea = ({ className, space, data, hiddenExpired }) => {
         slideToggle(filterRef.current);
     };
 
-    const getNftPrice = (priceAmount) => Number(priceAmount) / 1e6
+    const getNftPrice = (priceAmount) => Number(priceAmount) / 1e6;
 
     const priceRange = useMemo(() => {
         let maxPrice = 0;
         state.products?.nft.forEach((nft) => {
-            const nftPrice = getNftPrice(nft.price?.amount || 0)
-            maxPrice = nftPrice > maxPrice? nftPrice : maxPrice
-        })
-        return maxPrice
-    })
+            const nftPrice = getNftPrice(nft.price?.amount || 0);
+            maxPrice = nftPrice > maxPrice ? nftPrice : maxPrice;
+        });
+        return maxPrice;
+    }, [state.products?.nft]);
 
     const displayNfts = useMemo(() => {
         const { price, sale_type } = state.inputs || {};
@@ -61,9 +61,12 @@ const ExploreProductArea = ({ className, space, data, hiddenExpired }) => {
                 const expired = Date.now() - Number(expiresAt) > 0;
                 filtered = filtered && (!expiresAt || !expired);
             }
-            let nftPrice = getNftPrice(nft.price?.amount || 0);
+            const nftPrice = getNftPrice(nft.price?.amount || 0);
             // nftPrice = Number.isNaN(nftPrice) ? 0 : nftPrice / 1e6;
-            filtered = filtered && nftPrice >= price[0] * priceRange / 100 && nftPrice <= price[1] * priceRange / 100;
+            filtered =
+                filtered &&
+                nftPrice >= (price[0] * priceRange) / 100 &&
+                nftPrice <= (price[1] * priceRange) / 100;
             // console.log("filtered1: ", filtered, nftPrice);
             if (sale_type === "fixed-price") {
                 filtered = filtered && nft.sale_type === "fixed_price";
@@ -78,7 +81,7 @@ const ExploreProductArea = ({ className, space, data, hiddenExpired }) => {
             }
         });
         return filteredNfts;
-    }, [hiddenExpired, state.inputs, state.products?.nft]);
+    }, [hiddenExpired, priceRange, state.inputs, state.products?.nft]);
     const numberOfPages = Math.ceil(
         (displayNfts?.length || 0) / COUNT_PER_PAGE
     );
@@ -143,7 +146,7 @@ const ExploreProductArea = ({ className, space, data, hiddenExpired }) => {
                     selectHandler={selectHandler}
                     // sortHandler={sortHandler}
                     priceHandler={priceHandler}
-                    inputs={{...state.inputs, maxPrice: priceRange}}
+                    inputs={{ ...state.inputs, maxPrice: priceRange }}
                 />
                 <div className="row g-5">
                     {displayNfts?.length > 0 ? (

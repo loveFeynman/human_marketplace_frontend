@@ -14,7 +14,7 @@ import Button from "@ui/button";
 // import { ImageType } from "@utils/types";
 import { NftType } from "@utils/types";
 import { ChainConfig } from "@constant";
-import { useContract } from "@hooks";
+import { useContract, useRefresh } from "@hooks";
 import Video from "@components/video";
 import { checkKeplr } from "src/context/WalletProvider";
 // import { CustomWalletContext } from "@context";
@@ -24,6 +24,7 @@ const NftItem = ({ overlay, item }) => {
     const [previewType, setPreviewType] = useState("image");
     const { sellNft, withdrawNft, buyNft, setBid, acceptBid } = useContract();
     const { connect, connectedWallet } = useWalletManager();
+    const { second: value } = useRefresh();
     const isOwner = item.owner && item.owner === connectedWallet?.address;
     // const { connectedWallet } = useContext(CustomWalletContext);
     const nftInfo = useMemo(() => {
@@ -42,10 +43,10 @@ const NftItem = ({ overlay, item }) => {
             if (connectedWallet?.address === item.seller) {
                 if (item.sale_type !== "auction") {
                     buttonString = "Withdraw";
-                } else if (expired) {
-                    buttonString = bids?.length ? "Accept Bid" : "Withdraw";
+                } else if (expired && Number(bids?.max_bid) > 0) {
+                    buttonString = "Accept Bid";
                 } else {
-                    buttonString = "";
+                    buttonString = "Withdraw";
                 }
             } else if (item.sale_type === "auction") {
                 buttonString = "Set a Bid";
@@ -54,7 +55,8 @@ const NftItem = ({ overlay, item }) => {
             }
         }
         return { price, buttonString, image, expiresAt, expired, bids };
-    }, [connectedWallet, item, isOwner]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [connectedWallet, item, isOwner, value]);
 
     const defaultAmount = useMemo(() => {
         if (nftInfo.bids) {
@@ -70,6 +72,8 @@ const NftItem = ({ overlay, item }) => {
         if (!connectedWallet) {
             connect();
             await checkKeplr();
+        } else if (nftInfo.buttonString === "Withdraw") {
+            await withdrawNft(item);
         } else {
             setShowBidModal((prev) => !prev);
         }
@@ -158,13 +162,11 @@ const NftItem = ({ overlay, item }) => {
                             completedString="Auction Expired!"
                         />
                     )}
-                    {nftInfo.buttonString &&
-                        (!nftInfo.expired ||
-                            nftInfo.buttonString === "Withdraw") && (
-                            <Button onClick={handleBidModal} size="small">
-                                {nftInfo.buttonString}
-                            </Button>
-                        )}
+                    {nftInfo.buttonString && (
+                        <Button onClick={handleBidModal} size="small">
+                            {nftInfo.buttonString}
+                        </Button>
+                    )}
                 </div>
                 <div className="product-share-wrapper">
                     {nftInfo.bids && (
