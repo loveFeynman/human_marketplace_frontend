@@ -31,6 +31,7 @@ function usePickNft(tokenId, collection) {
             content_type: nftData?.info?.content_type,
         };
         setSelectedNft(selectedNftData);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [tokenId, collection]);
 
     useEffect(() => {

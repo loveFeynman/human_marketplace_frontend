@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import { useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import Image from "next/image";
@@ -36,13 +37,15 @@ const NftItem = ({ overlay, item }) => {
         const expiresAt = item.expires_at ? new Date(item.expires_at) : null;
         const expired = expiresAt && Number(new Date()) - Number(expiresAt) > 0;
         const image = item.image_url;
-        let buttonString = isOwner? "Sell" : "";
+        let buttonString = isOwner ? "Sell" : "";
         if (price) {
             if (connectedWallet?.address === item.seller) {
                 if (item.sale_type !== "auction") {
                     buttonString = "Withdraw";
+                } else if (expired) {
+                    buttonString = bids?.length ? "Accept Bid" : "Withdraw";
                 } else {
-                    buttonString = expired? (bids?.length? "Accept Bid" : "Withdraw") : ""
+                    buttonString = "";
                 }
             } else if (item.sale_type === "auction") {
                 buttonString = "Set a Bid";
@@ -139,15 +142,13 @@ const NftItem = ({ overlay, item }) => {
                                 />
                             )}
                             {previewType === "video" && (
-                                <>
-                                    <Video
-                                        src={nftInfo.image}
-                                        autoPlay
-                                        muted
-                                        loop
-                                        fit
-                                    />
-                                </>
+                                <Video
+                                    src={nftInfo.image}
+                                    autoPlay
+                                    muted
+                                    loop
+                                    fit
+                                />
                             )}
                         </Anchor>
                     )}
@@ -157,12 +158,13 @@ const NftItem = ({ overlay, item }) => {
                             completedString="Auction Expired!"
                         />
                     )}
-                    {nftInfo.buttonString && (!nftInfo.expired ||
-                        nftInfo.buttonString === "Withdraw") && (
-                        <Button onClick={handleBidModal} size="small">
-                            {nftInfo.buttonString}
-                        </Button>
-                    )}
+                    {nftInfo.buttonString &&
+                        (!nftInfo.expired ||
+                            nftInfo.buttonString === "Withdraw") && (
+                            <Button onClick={handleBidModal} size="small">
+                                {nftInfo.buttonString}
+                            </Button>
+                        )}
                 </div>
                 <div className="product-share-wrapper">
                     {nftInfo.bids && (

@@ -11,7 +11,7 @@ import { coins } from "@cosmjs/proto-signing";
 import { ChainConfig, MarketplaceContract } from "@constant";
 import { toMicroAmount } from "@utils/coins";
 import { useAppSelector } from "@app/hooks";
-import useAxios from "./use-axios";
+// import useAxios from "./use-axios";
 import useRefresh from "./use-refresh";
 // import { CustomWalletContext } from "@context";
 
@@ -151,6 +151,7 @@ function useContract() {
                 toast.error("Fail!");
             }
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [address, collections, runExecute]
     );
 
@@ -185,6 +186,7 @@ function useContract() {
                 toast.error("Fail!");
             }
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [runExecute]
     );
 
@@ -234,6 +236,7 @@ function useContract() {
                 );
             }
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [runExecute]
     );
 
@@ -294,8 +297,8 @@ function useContract() {
     );
 
     const getCollectionInfo = useCallback(
-        async (address) => {
-            const data = await runQuery(address, {
+        async (collectionAddress) => {
+            const data = await runQuery(collectionAddress, {
                 get_collection_state: {},
             });
             return data;
