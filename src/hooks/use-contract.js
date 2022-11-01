@@ -256,7 +256,7 @@ function useContract() {
                 //     denom: price.denom,
                 // });
                 await setBid(item, { ...price, amount: price.amount / 1e6 });
-
+                refresh();
                 // toast.success("Success!");
             } catch (err) {
                 const errMsg = err.message;
@@ -265,6 +265,7 @@ function useContract() {
                 toast.error(`Fail! ${errMsg}`);
             }
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [setBid]
     );
 

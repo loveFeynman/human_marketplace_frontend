@@ -175,7 +175,7 @@ const AuthorProfileArea = ({ className }) => {
                 });
             });
         }
-        setOnSaleNfts(myOnSale);
+        setOnSaleNfts([...new Set(myOnSale)]);
         // return { onSale: myOnSale, owned: myOwned };
     }, [connectedWallet, marketplaceNfts]);
 

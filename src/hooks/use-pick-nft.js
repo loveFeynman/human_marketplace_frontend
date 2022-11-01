@@ -32,7 +32,7 @@ function usePickNft(tokenId, collection) {
         };
         setSelectedNft(selectedNftData);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [tokenId, collection]);
+    }, [tokenId, collection, marketplaceNft]);
 
     useEffect(() => {
         fetchNftInfo();

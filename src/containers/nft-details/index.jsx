@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /* eslint-disable react/prop-types */
 import { useMemo, useState, useEffect } from "react";
 import PropTypes from "prop-types";
@@ -130,7 +131,7 @@ const ProductDetailsArea = ({
             try {
                 await sellNft(product, amount, extraOption);
                 setShowBidModal(false);
-                router.back();
+                // router.back();
                 // eslint-disable-next-line no-empty
             } catch (e) {
             } finally {
@@ -169,7 +170,7 @@ const ProductDetailsArea = ({
             try {
                 await buyNft(product);
                 setShowBidModal(false);
-                router.back();
+                // router.back();
                 // eslint-disable-next-line no-empty
             } catch (e) {
             } finally {
@@ -290,14 +291,15 @@ const ProductDetailsArea = ({
                                         {nftInfo.buttonString}
                                     </Button>
                                 )}
-                                {connectedWallet?.address === product.owner && (
-                                    <Button
-                                        color="primary-alta"
-                                        onClick={() => withdrawNft(product)}
-                                    >
-                                        Withdraw
-                                    </Button>
-                                )}
+                                {connectedWallet?.address === product.owner &&
+                                    product.price && (
+                                        <Button
+                                            color="primary-alta"
+                                            onClick={() => withdrawNft(product)}
+                                        >
+                                            Withdraw
+                                        </Button>
+                                    )}
                                 {/* <div className="catagory-collection">
                                 <ProductCategory owner={product.owner} />
                                 <ProductCollection
