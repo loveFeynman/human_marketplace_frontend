@@ -12,19 +12,21 @@ import { getImageFromHash } from "@utils/ipfs";
 
 const ActivityArea = ({ space, className }) => {
     const [history, setHistory] = useState([]);
-    const marketFilters = ["Sales", "Followers", "Following", "Live Auction"];
+    // const marketFilters = ["Sales", "Followers", "Following", "Live Auction"];
     const { getHistoricalData, fetchUserInfo } = useAxios();
     useEffect(() => {
         (async () => {
             const data = await getHistoricalData();
             const avatars = await Promise.all(
                 data.map(async (element) => {
-                    return await fetchUserInfo(element.buyer);
+                    const result = await fetchUserInfo(element.buyer);
+                    return result;
                 })
             );
             setHistory(
-                data.map((_data, index) => {
-                    _data.author = {
+                data.map((_data, index) => ({
+                    ..._data,
+                    author: {
                         logo: avatars[index].logo
                             ? getImageFromHash(avatars[index].logo)
                             : "/images/client/client-2.png",
@@ -32,10 +34,8 @@ const ActivityArea = ({ space, className }) => {
                             avatars[index].first_name ||
                             getReducedAddress(_data.buyer),
                         slug: `/profile/${_data.buyer}`,
-                    };
-
-                    return _data;
-                })
+                    },
+                }))
             );
         })();
     });
@@ -74,9 +74,9 @@ const ActivityArea = ({ space, className }) => {
                                 }}
                             />
                         ))} */}
-                        {history?.map((item, index) => (
+                        {history?.map((item) => (
                             <Activity
-                                key={index}
+                                key={item.time}
                                 time={item.time}
                                 token_id={item.token_id}
                                 collection={item.collection}

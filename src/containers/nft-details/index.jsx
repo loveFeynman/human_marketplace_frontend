@@ -17,7 +17,7 @@ import PlaceBet from "@components/product-details/place-bet";
 // import { NftType } from "@utils/types";
 import { ChainConfig } from "@constant";
 import { getImageFromHash } from "@utils/ipfs";
-import { getReducedAddress } from "@utils/index";
+import { getFullName, getReducedAddress } from "@utils/index";
 import { useRouter } from "next/router";
 import Video from "@components/video";
 import { UseHistory } from "./hooks";
@@ -239,15 +239,18 @@ const ProductDetailsArea = ({
                                         </span>
                                     </span>
                                 )}
-                                <h6 className="title-name">
+                                {/* <h6 className="title-name">
                                     {product.seller || product.owner}
-                                </h6>
+                                </h6> */}
                                 <div className="catagory-collection">
                                     <div className="catagory">
                                         <span>Owned by</span>
                                         <TopSellerArea
                                             name={
-                                                ownerInfo.first_name ||
+                                                getFullName(
+                                                    ownerInfo.first_name,
+                                                    ownerInfo.last_name
+                                                ) ||
                                                 getReducedAddress(
                                                     ownerInfo.wallet
                                                 )
