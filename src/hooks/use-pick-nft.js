@@ -7,12 +7,12 @@ function usePickNft(tokenId, collection) {
     const marketplaceNfts = useAppSelector((state) => state.marketplaceNfts);
     const { runQuery } = useContract();
     const [selectedNft, setSelectedNft] = useState({});
-    const marketplaceNft =
-        marketplaceNfts[collection]?.filter(
-            (item) => item.token_id === tokenId
-        )[0] || {};
 
     const fetchNftInfo = useCallback(async () => {
+        const marketplaceNft =
+            marketplaceNfts[collection]?.filter(
+                (item) => item.token_id === tokenId
+            )[0] || {};
         const nftData = await runQuery(collection, {
             all_nft_info: {
                 token_id: tokenId,
@@ -32,12 +32,12 @@ function usePickNft(tokenId, collection) {
         };
         setSelectedNft(selectedNftData);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [tokenId, collection, marketplaceNft]);
+    }, [tokenId, collection, marketplaceNfts]);
 
     useEffect(() => {
         fetchNftInfo();
     }, [fetchNftInfo]);
-    return { nftInfo: selectedNft, fetchNftInfo };
+    return { nftInfo: selectedNft };
 }
 
 export default usePickNft;

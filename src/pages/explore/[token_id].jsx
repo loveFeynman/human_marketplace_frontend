@@ -21,8 +21,7 @@ const NftDetail = () => {
     const router = useRouter();
     const { token_id, collection } = router.query;
     const { runQuery } = useContract();
-    const { nftInfo: selectedNft, fetchNftInfo } =
-        usePickNft(token_id, collection) || {};
+    const { nftInfo: selectedNft } = usePickNft(token_id, collection) || {};
     const collections = useAppSelector((state) => state.collections);
     const myNfts = useAppSelector((state) => state.myNfts);
     const totalMarketplaceNfts = useAppSelector(
@@ -195,7 +194,6 @@ const NftDetail = () => {
                     product={selectedNft || {}}
                     bids={bids}
                     refreshData={refreshData}
-                    fetchNftInfo={fetchNftInfo}
                 />
                 {/* <ProductArea
                     data={{

@@ -89,6 +89,8 @@ const ProductDetailsArea = ({
             if (connectedWallet?.address === product.seller) {
                 if (product.sale_type === "auction") {
                     buttonString = expired && bids?.length ? "Accept Bid" : "";
+                } else {
+                    buttonString = "";
                 }
             } else if (product.sale_type === "auction") {
                 buttonString = expired ? "" : "Set a Bid";
