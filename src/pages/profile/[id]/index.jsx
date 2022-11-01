@@ -11,7 +11,7 @@ import AuthorProfileArea from "@containers/author-profile";
 
 const Profile = () => {
     const router = useRouter();
-    const userAddress = router.asPath.split("/")[2];
+    const { id: userAddress } = router.query;
     const { connectedWallet } = useWalletManager();
     return (
         <Wrapper>

@@ -60,7 +60,8 @@ const AuthorProfileArea = ({ className }) => {
             }
         };
         fetchBids();
-    }, [connectedWallet, runQuery]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [connectedWallet]);
 
     useEffect(() => {
         (async () => {
@@ -110,13 +111,8 @@ const AuthorProfileArea = ({ className }) => {
 
             setCreatedNfts(createdNftsInContract);
         })();
-    }, [
-        collections,
-        connectedWallet?.address,
-        getCreatedNfts,
-        marketplaceNfts,
-        runQuery,
-    ]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [collections, connectedWallet?.address, marketplaceNfts]);
 
     useEffect(() => {
         if (myBids.length) {
@@ -151,7 +147,8 @@ const AuthorProfileArea = ({ className }) => {
         } else {
             setMyBidTargetNfts([]);
         }
-    }, [collections, marketplaceNfts, myBids, myNftsFromStorage, runQuery]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [collections, marketplaceNfts, myBids, myNftsFromStorage]);
 
     useEffect(() => {
         const myOwned = [];
@@ -163,7 +160,7 @@ const AuthorProfileArea = ({ className }) => {
                 });
             }
         });
-        setOwnedNfts(myOwned);
+        setOwnedNfts([...new Set(myOwned)]);
         // return { onSale: myOnSale, owned: myOwned };
     }, [myNftsFromStorage]);
 
@@ -232,7 +229,7 @@ const AuthorProfileArea = ({ className }) => {
                         >
                             {onSaleNfts?.map((prod) => (
                                 <div
-                                    key={prod.token_id}
+                                    key={`on-sale-${prod.token_id}`}
                                     className="col-5 col-lg-4 col-md-6 col-sm-6 col-12"
                                 >
                                     <NftItem overlay item={prod} />
@@ -247,7 +244,7 @@ const AuthorProfileArea = ({ className }) => {
                                 .concat(onSaleNfts || [])
                                 .map((prod) => (
                                     <div
-                                        key={prod.token_id}
+                                        key={`owned-${prod.token_id}`}
                                         className="col-5 col-lg-4 col-md-6 col-sm-6 col-12"
                                     >
                                         <NftItem overlay item={prod} />
@@ -260,7 +257,7 @@ const AuthorProfileArea = ({ className }) => {
                         >
                             {createdNfts.map((prod) => (
                                 <div
-                                    key={prod.token_id}
+                                    key={`created-${prod.token_id}`}
                                     className="col-5 col-lg-4 col-md-6 col-sm-6 col-12"
                                 >
                                     <NftItem overlay item={prod} />
