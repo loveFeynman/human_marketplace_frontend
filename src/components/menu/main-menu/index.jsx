@@ -14,18 +14,16 @@ const MainMenu = ({ menu }) => (
                     !!nav.megamenu && "with-megamenu"
                 )}
             >
-                {nav.path? (
+                {nav.path ? (
                     <Anchor className="its_new" path={nav.path}>
                         {nav.text}
                     </Anchor>
-                )
-                :
-                (
-                    <a style={{cursor: "pointer"}} className="its_new">
+                ) : (
+                    // eslint-disable-next-line jsx-a11y/anchor-is-valid
+                    <a style={{ cursor: "pointer" }} className="its_new">
                         {nav.text}
                     </a>
-                )
-                }
+                )}
                 {nav?.submenu && <SubMenu menu={nav.submenu} />}
                 {nav?.megamenu && <MegaMenu menu={nav.megamenu} />}
             </li>

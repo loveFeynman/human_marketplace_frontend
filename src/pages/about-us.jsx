@@ -5,7 +5,7 @@ import Footer from "@layout/footer";
 import AboutArea from "@containers/about/layout-02";
 import QuoteArea from "@containers/quote-area";
 import FunfactArea from "@containers/funfact";
-import CTAArea from "@containers/cta";
+// import CTAArea from "@containers/cta";
 
 // Demo data
 // import aboutData from "../data/innerpages/about.json";

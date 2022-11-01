@@ -40,54 +40,52 @@ const NftItem = ({ overlay, item }) => {
         return { price, buttonString, image, expiresAt, expired, bids };
     }, [connectedWallet, item]);
     return (
-        <>
-            <div
-                className={clsx(
-                    "product-style-one with-placeBid",
-                    !overlay && "no-overlay"
-                )}
-            >
-                <div className="card-thumbnail">
-                    {nftInfo.image && (
-                        <Anchor
-                            path={`/fortest/${item.token_id}?collection=${item.token_address}`}
-                        >
-                            <Image
-                                src={nftInfo.image}
-                                alt=""
-                                width={533}
-                                height={533}
-                            />
-                        </Anchor>
-                    )}
-                </div>
-                <div className="product-share-wrapper" />
-                <Anchor
-                    path={`/fortest/${item.token_id}?collection=${item.token_address}`}
-                >
-                    <span className="product-name">{item.token_id}</span>
-                </Anchor>
-                <div className="latest-bid">{item.collection}</div>
-                {item.seller && (
-                    <div
-                        style={{ textOverflow: "ellipsis", overflow: "hidden" }}
-                        title={item.seller}
-                        className="latest-bid"
+        <div
+            className={clsx(
+                "product-style-one with-placeBid",
+                !overlay && "no-overlay"
+            )}
+        >
+            <div className="card-thumbnail">
+                {nftInfo.image && (
+                    <Anchor
+                        path={`/fortest/${item.token_id}?collection=${item.token_address}`}
                     >
-                        {item.seller}
-                    </div>
+                        <Image
+                            src={nftInfo.image}
+                            alt=""
+                            width={533}
+                            height={533}
+                        />
+                    </Anchor>
                 )}
-                {/* <span className="latest-bid">Highest bid {latestBid}</span> */}
-                {nftInfo.price && (
-                    <div className="bid-react-area">
-                        <div className="last-bid">
-                            {nftInfo.price.amount / 1e6} {nftInfo.price.denom}
-                        </div>
-                    </div>
-                )}
-                {/* <ProductBid price={price} likeCount={likeCount} /> */}
             </div>
-        </>
+            <div className="product-share-wrapper" />
+            <Anchor
+                path={`/fortest/${item.token_id}?collection=${item.token_address}`}
+            >
+                <span className="product-name">{item.token_id}</span>
+            </Anchor>
+            <div className="latest-bid">{item.collection}</div>
+            {item.seller && (
+                <div
+                    style={{ textOverflow: "ellipsis", overflow: "hidden" }}
+                    title={item.seller}
+                    className="latest-bid"
+                >
+                    {item.seller}
+                </div>
+            )}
+            {/* <span className="latest-bid">Highest bid {latestBid}</span> */}
+            {nftInfo.price && (
+                <div className="bid-react-area">
+                    <div className="last-bid">
+                        {nftInfo.price.amount / 1e6} {nftInfo.price.denom}
+                    </div>
+                </div>
+            )}
+            {/* <ProductBid price={price} likeCount={likeCount} /> */}
+        </div>
     );
 };
 

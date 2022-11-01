@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unused-prop-types */
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import TopSeller from "@components/top-seller/layout-01";
@@ -30,8 +32,11 @@ const DetailsTabContent = ({ token_uri, ownerInfo }) => {
                 <div className="rn-pd-sm-property-wrapper">
                     <h6 className="pd-property-title">Tags</h6>
                     <div className="catagory-wrapper">
-                        {tags.map((tag, index) => (
-                            <div key={`${tag.id}-${index}`} className="pd-property-inner">
+                        {tags.map((tag) => (
+                            <div
+                                key={`${tag.id}-${Math.random()}`}
+                                className="pd-property-inner"
+                            >
                                 <span className="color-body type">
                                     {tag.trait_type}
                                 </span>

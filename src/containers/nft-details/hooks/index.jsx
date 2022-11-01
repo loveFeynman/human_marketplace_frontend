@@ -53,17 +53,18 @@ export const UseHistory = (token_id, collection_address) => {
             );
             setHistory(
                 nodes.map((_data, index) => {
-                    _data.logo = avatars[index].logo
+                    const result = _data;
+                    result.logo = avatars[index].logo
                         ? getImageFromHash(avatars[index].logo)
                         : "/images/client/client-2.png";
-                    _data.name =
+                    result.name =
                         avatars[index].first_name ||
                         getReducedAddress(_data.buyer);
-                    _data.slug = `/profile/${_data.buyer}`;
-                    return _data;
+                    result.slug = `/profile/${result.buyer}`;
+                    return result;
                 })
             );
         })();
-    }, [token_id]);
+    }, [collection_address, token_id]);
     return history;
 };

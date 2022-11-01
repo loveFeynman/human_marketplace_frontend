@@ -12,42 +12,40 @@ const TopSeller = ({
     className,
     isVarified,
     followBtn,
-}) => {
-    return (
-        <div className={clsx("top-seller-inner-one", className)}>
-            <div className="top-seller-wrapper">
-                <div className={clsx("thumbnail", isVarified && "varified")}>
-                    <Anchor path={slug}>
-                        <Image
-                            src={image.src}
-                            alt={image?.alt || name}
-                            width={image?.width || 54}
-                            height={image?.height || 54}
-                            layout="fixed"
-                        />
-                    </Anchor>
-                </div>
-                <div className="top-seller-content">
-                    <Anchor path={slug}>
-                        <h6 className="name">{name}</h6>
-                    </Anchor>
-                    {total_sale && (
-                        <span className="count-number">
-                            {new Intl.NumberFormat("en-US", {
-                                currency: "USD",
-                            }).format(total_sale / 1000000)}
-                        </span>
-                    )}
-                </div>
+}) => (
+    <div className={clsx("top-seller-inner-one", className)}>
+        <div className="top-seller-wrapper">
+            <div className={clsx("thumbnail", isVarified && "varified")}>
+                <Anchor path={slug}>
+                    <Image
+                        src={image.src}
+                        alt={image?.alt || name}
+                        width={image?.width || 54}
+                        height={image?.height || 54}
+                        layout="fixed"
+                    />
+                </Anchor>
             </div>
-            {followBtn && (
-                <Button path={slug} color="primary-alta" size="small">
-                    Follow
-                </Button>
-            )}
+            <div className="top-seller-content">
+                <Anchor path={slug}>
+                    <h6 className="name">{name}</h6>
+                </Anchor>
+                {total_sale && (
+                    <span className="count-number">
+                        {new Intl.NumberFormat("en-US", {
+                            currency: "USD",
+                        }).format(total_sale / 1000000)}
+                    </span>
+                )}
+            </div>
         </div>
-    );
-};
+        {followBtn && (
+            <Button path={slug} color="primary-alta" size="small">
+                Follow
+            </Button>
+        )}
+    </div>
+);
 
 TopSeller.propTypes = {
     name: PropTypes.string.isRequired,

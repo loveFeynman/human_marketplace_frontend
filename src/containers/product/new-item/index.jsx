@@ -56,6 +56,7 @@ const ProductArea = ({ space, className }) => {
                             owner: nftData?.access.owner,
                         };
                     } catch (err) {
+                        // eslint-disable-next-line no-console
                         console.log("queryError: ", err);
                         return nft;
                     }
@@ -72,6 +73,7 @@ const ProductArea = ({ space, className }) => {
             );
             setDisplayNfts(newNftInfo);
         })();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [getNewestItem, runQuery]);
     return (
         <div

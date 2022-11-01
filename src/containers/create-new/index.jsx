@@ -20,6 +20,7 @@ const CreateNewArea = ({ className, space }) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [showProductModal, setShowProductModal] = useState(false);
     const [selectedImage, setSelectedImage] = useState();
+    // eslint-disable-next-line no-unused-vars
     const [metadataSet, setMetadataSet] = useState([{ field: "", value: "" }]);
     const [attributesSet, setAttributesSet] = useState([
         { field: "", value: "" },

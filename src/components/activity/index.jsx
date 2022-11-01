@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unused-prop-types */
+/* eslint-disable react/prop-types */
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import Image from "next/image";
@@ -24,7 +26,7 @@ const Activity = ({ className, time, token_id, collection, author }) => {
                                     selectedNft.image_url ||
                                     "/images/collection/collection-sm-01.jpg"
                                 }
-                                alt={"Nft_Profile"}
+                                alt="Nft_Profile"
                                 width={500}
                                 height={500}
                             />

@@ -55,14 +55,14 @@ const menuData = [
             {
                 id: 31,
                 text: "All NFTs",
-                path: "/explore/all-nfts"
+                path: "/explore/all-nfts",
             },
             {
                 id: 32,
                 text: "Collections",
-                path: "/explore/collections"
-            }
-        ]
+                path: "/explore/collections",
+            },
+        ],
     },
     {
         id: 4,

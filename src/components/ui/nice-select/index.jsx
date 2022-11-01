@@ -15,11 +15,11 @@ const NiceSelect = ({
     const [current, setCurrent] = useState(options[defaultCurrent]);
     useEffect(() => {
         options.forEach((_option, index) => {
-            if (_option.value == defaultCurrent) {
+            if (_option.value === defaultCurrent) {
                 setCurrent(options[index]);
             }
         });
-    }, [defaultCurrent]);
+    }, [defaultCurrent, options]);
     const onClose = useCallback(() => {
         setOpen(false);
     }, []);

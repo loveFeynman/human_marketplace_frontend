@@ -5,15 +5,16 @@ import SectionTitle from "@components/section-title/layout-02";
 import Anchor from "@ui/anchor";
 import Collection from "@components/collection";
 import { SectionTitleType, CollectionType } from "@utils/types";
-import { GetTopCollections } from "../hooks";
 import { useAppSelector } from "@app/hooks";
+import { GetTopCollections } from "../hooks";
 
+// eslint-disable-next-line no-unused-vars
 const TopCollectionArea = ({ className, id, space, data }) => {
     const collections = GetTopCollections();
     const marketplaceNfts = useAppSelector((state) => state.marketplaceNfts);
     const { totalNfts, last3Nfts } = useMemo(() => {
-        const totalNftsResult = {},
-            last3NftsResult = {};
+        const totalNftsResult = {};
+        const last3NftsResult = {};
         Object.keys(marketplaceNfts).forEach((key) => {
             const crrNfts = marketplaceNfts[key] || [];
             let count = 0;

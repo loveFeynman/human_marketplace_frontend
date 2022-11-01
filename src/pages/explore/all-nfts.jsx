@@ -6,8 +6,8 @@ import Footer from "@layout/footer";
 import Breadcrumb from "@components/breadcrumb";
 import ProductArea from "@containers/explore-product/layout-01";
 import { useAppSelector } from "@app/hooks";
-import { useRouter } from "next/router";
-import { useWalletManager } from "@noahsaso/cosmodal";
+// import { useRouter } from "next/router";
+// import { useWalletManager } from "@noahsaso/cosmodal";
 // import Button from "@ui/button";
 // import Anchor from "@ui/anchor";
 
@@ -16,11 +16,9 @@ import { useWalletManager } from "@noahsaso/cosmodal";
 // }
 
 const Product = () => {
-    const router = useRouter();
-    const { connectedWallet } = useWalletManager();
-    const marketplaceNfts = useAppSelector(
-        (state) => state.marketplaceNfts
-    );
+    // const router = useRouter();
+    // const { connectedWallet } = useWalletManager();
+    const marketplaceNfts = useAppSelector((state) => state.marketplaceNfts);
     const myNfts = useAppSelector((state) => state.myNfts);
     // const collectionInfo = useAppSelector((state) => state.collections);
 
@@ -35,21 +33,24 @@ const Product = () => {
         Object.keys(myNfts).forEach((key) => {
             const crrMyNfts = myNfts[key];
             if (key !== "addresses" && crrMyNfts.length > 0) {
-                nft = nft.concat(crrMyNfts); 
+                nft = nft.concat(crrMyNfts);
             }
         });
         return {
             id: "all nfts",
             nft,
-        }
-    }, [marketplaceNfts, myNfts])
+        };
+    }, [marketplaceNfts, myNfts]);
 
     return (
         <Wrapper>
             <SEO pageTitle="Explore NFTs" />
             <Header />
             <main id="main-content">
-                <Breadcrumb pageTitle="Explore All NFTs" currentPage="Explore All NFTs" />
+                <Breadcrumb
+                    pageTitle="Explore All NFTs"
+                    currentPage="Explore All NFTs"
+                />
                 <ProductArea data={{ products: productData }} />
             </main>
             <Footer />

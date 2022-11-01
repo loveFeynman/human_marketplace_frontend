@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import PropTypes from "prop-types";
 import TopSeller from "@components/top-seller/layout-02";
 import { getImageFromHash } from "@utils/ipfs";
@@ -38,7 +39,7 @@ const HistoryTabContent = ({ history, creatorInfo }) => {
                             <Anchor path={`/profile/${creatorInfo.wallet}`}>
                                 <Image
                                     src={getImageFromHash(creatorInfo.logo)}
-                                    alt={"Nft_Profile"}
+                                    alt="Nft_Profile"
                                     width={40}
                                     height={40}
                                     layout="fixed"
@@ -47,15 +48,11 @@ const HistoryTabContent = ({ history, creatorInfo }) => {
                         </div>
                         <div className="top-seller-content">
                             <span>
-                                <>
-                                    Created by{" "}
-                                    <Anchor
-                                        path={`/profile/${creatorInfo.wallet}`}
-                                    >
-                                        {creatorInfo.first_name ||
-                                            creatorInfo.wallet}
-                                    </Anchor>
-                                </>
+                                Created by{" "}
+                                <Anchor path={`/profile/${creatorInfo.wallet}`}>
+                                    {creatorInfo.first_name ||
+                                        creatorInfo.wallet}
+                                </Anchor>
                                 {/* <Anchor path={path}>{name}</Anchor> */}
                             </span>
                             <span className="count-number">

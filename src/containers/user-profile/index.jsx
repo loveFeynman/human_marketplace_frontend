@@ -11,12 +11,12 @@ import { useAppSelector } from "@app/hooks";
 import { MarketplaceContract } from "@constant";
 import NftItem from "@components/nft-item";
 import { useContract, useAxios } from "@hooks";
-import TopSeller from "@components/top-seller/layout-03";
+// import TopSeller from "@components/top-seller/layout-03";
 
 const LIMIT_BIDS = 10;
 
 const UserProfileArea = ({ className }) => {
-    const [myBids, setMyBids] = useState([]);
+    const [, setMyBids] = useState([]);
     const [ownedNfts, setOwnedNfts] = useState({});
     const [createdNfts, setCreatedNfts] = useState([]);
     const { getCreatedNfts } = useAxios();
@@ -31,7 +31,7 @@ const UserProfileArea = ({ className }) => {
     );
     useEffect(() => {
         (async () => {
-            let _ownedNfts = {};
+            const _ownedNfts = {};
             Object.keys(collections).forEach(async (key) => {
                 const collection = collections[key];
                 const queryResult = await runQuery(key, {
@@ -56,6 +56,7 @@ const UserProfileArea = ({ className }) => {
             });
             setOwnedNfts(_ownedNfts);
         })();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userAddress]);
     useEffect(() => {
         (async () => {
@@ -99,6 +100,7 @@ const UserProfileArea = ({ className }) => {
             );
             setCreatedNfts(createdNftsInContract);
         })();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userAddress]);
     useEffect(() => {
         setMyBids([]);
@@ -129,7 +131,7 @@ const UserProfileArea = ({ className }) => {
 
     const myNfts = useMemo(() => {
         const myOwned = [];
-        let myOnSale = [];
+        const myOnSale = [];
         Object.keys(ownedNfts || {}).forEach((key) => {
             const crrNfts = ownedNfts[key] || {};
             crrNfts.forEach((nft) => {
@@ -139,17 +141,16 @@ const UserProfileArea = ({ className }) => {
         if (connectedWallet) {
             Object.keys(marketplaceNfts || {}).forEach((key) => {
                 const crrNfts = marketplaceNfts[key] || [];
-                crrNfts.forEach((nft, index) => {
+                crrNfts.forEach((nft) => {
                     if (nft.seller !== userAddress) return;
-                    else {
-                        myOwned.push(nft);
-                    }
+                    myOwned.push(nft);
                     myOnSale.push(nft);
                     // myOnSale = [...myOnSale, ...crrNfts];
                 });
             });
         }
         return { onSale: myOnSale, owned: myOwned };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [collectionAddresses, connectedWallet, marketplaceNfts, ownedNfts]);
     return (
         <div className={clsx("rn-authore-profile-area", className)}>
@@ -199,9 +200,9 @@ const UserProfileArea = ({ className }) => {
                             className="row d-flex g-5"
                             eventKey="nav-on-sale"
                         >
-                            {myNfts?.onSale?.map((prod, index) => (
+                            {myNfts?.onSale?.map((prod) => (
                                 <div
-                                    key={index}
+                                    key={`on-sale-${prod.token_id}`}
                                     className="col-5 col-lg-4 col-md-6 col-sm-6 col-12"
                                 >
                                     <NftItem overlay item={prod} />
@@ -212,9 +213,9 @@ const UserProfileArea = ({ className }) => {
                             className="row g-5 d-flex"
                             eventKey="nav-owned"
                         >
-                            {myNfts?.owned?.map((prod, index) => (
+                            {myNfts?.owned?.map((prod) => (
                                 <div
-                                    key={index}
+                                    key={`owned-${prod.token_id}`}
                                     className="col-5 col-lg-4 col-md-6 col-sm-6 col-12"
                                 >
                                     <NftItem overlay item={prod} />
@@ -225,9 +226,9 @@ const UserProfileArea = ({ className }) => {
                             className="row g-5 d-flex"
                             eventKey="nav-created"
                         >
-                            {createdNfts.map((prod, index) => (
+                            {createdNfts.map((prod) => (
                                 <div
-                                    key={index}
+                                    key={`created-${prod.token_id}`}
                                     className="col-5 col-lg-4 col-md-6 col-sm-6 col-12"
                                 >
                                     <NftItem overlay item={prod} />

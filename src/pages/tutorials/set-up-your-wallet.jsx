@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unused-prop-types */
+/* eslint-disable @next/next/no-img-element */
 import PropTypes from "prop-types";
 import SEO from "@components/seo";
 import Wrapper from "@layout/wrapper";
@@ -6,13 +8,13 @@ import Footer from "@layout/footer";
 import Breadcrumb from "@components/breadcrumb";
 import clsx from "clsx";
 // import Image from "next/image";
-import { ImageType } from "@utils/types";
+// import { ImageType } from "@utils/types";
 
 export async function getStaticProps() {
     return { props: { className: "template-color-1" } };
 }
 
-const AddYourNfts = ({}) => (
+const AddYourNfts = () => (
     <Wrapper>
         <SEO pageTitle="Set up your wallet" />
         <Header />

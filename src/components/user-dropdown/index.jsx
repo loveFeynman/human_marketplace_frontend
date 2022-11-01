@@ -111,7 +111,9 @@ const UserDropdown = () => {
                 </div> */}
                 <ul className="list-inner">
                     <li>
-                        <Anchor path="/profile/my-collections">My Collections</Anchor>
+                        <Anchor path="/profile/my-collections">
+                            My Collections
+                        </Anchor>
                     </li>
                     <li>
                         <Anchor path={`/profile/${connectedWallet?.address}`}>

@@ -3,6 +3,7 @@ import clsx from "clsx";
 import AiProduct from "@components/product/ai-product";
 import { SectionTitleType, ProductType } from "@utils/types";
 
+// eslint-disable-next-line no-unused-vars
 const AiNftsArea = ({ data, className, space, gap }) => (
     <div
         className={clsx(

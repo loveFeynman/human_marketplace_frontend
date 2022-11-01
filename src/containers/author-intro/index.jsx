@@ -1,6 +1,9 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import ShareModal from "@components/modals/share-modal";
 import FollowingModal from "@components/modals/following-modal";
-import ShareDropdown from "@components/share-dropdown";
+// import ShareDropdown from "@components/share-dropdown";
 import { useWalletManager } from "@noahsaso/cosmodal";
 import Anchor from "@ui/anchor";
 import clsx from "clsx";
@@ -39,7 +42,7 @@ const AuthorIntroArea = ({ className, space }) => {
             following: 0,
         };
         return result;
-    }, [connectedWallet, userInfo.cover, userInfo.logo]);
+    }, [userInfo.cover, userInfo.first_name, userInfo.logo]);
     const fetchFollow = async () => {
         const followInfo = await fetchFollowInfo(connectedWallet?.address);
         setFollow({
@@ -51,6 +54,7 @@ const AuthorIntroArea = ({ className, space }) => {
         (async () => {
             await fetchFollow();
         })();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
         <>
@@ -135,8 +139,8 @@ const AuthorIntroArea = ({ className, space }) => {
                                             )}
                                         </div>
                                         <div className="follow-area">
-                                           <div 
-                                                className="follow followers" 
+                                            <div
+                                                className="follow followers"
                                                 onClick={() => {
                                                     setIsFollowing(false);
                                                     handleFollowingModal();
@@ -145,17 +149,12 @@ const AuthorIntroArea = ({ className, space }) => {
                                                 <span>
                                                     {follow.to &&
                                                         follow.to.length}{" "}
-                                                    <a
-                                                        // href="https://twitter.com"
-                                                        // target="_blank"
-                                                        // rel="noreferrer"
-                                                        className="color-body"
-                                                    >
+                                                    <a className="color-body">
                                                         followers
                                                     </a>
                                                 </span>
                                             </div>
-                                            <div 
+                                            <div
                                                 className="follow following"
                                                 onClick={() => {
                                                     setIsFollowing(true);
@@ -165,12 +164,7 @@ const AuthorIntroArea = ({ className, space }) => {
                                                 <span>
                                                     {follow.from &&
                                                         follow.from.length}{" "}
-                                                    <a
-                                                        // href="https://twitter.com"
-                                                        // target="_blank"
-                                                        // rel="noreferrer"
-                                                        className="color-body"
-                                                    >
+                                                    <a className="color-body">
                                                         following
                                                     </a>
                                                 </span>

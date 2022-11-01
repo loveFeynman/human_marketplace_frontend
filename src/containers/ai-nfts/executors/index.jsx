@@ -57,7 +57,7 @@ const RankingArea = ({ className, space }) => {
     const rankingHandler = useCallback(() => {
         const start = (currentPage - 1) * POSTS_PER_PAGE;
         setRanking(temp_data.slice(start, start + POSTS_PER_PAGE));
-    }, [currentPage, temp_data]);
+    }, [currentPage]);
 
     useEffect(() => {
         rankingHandler();

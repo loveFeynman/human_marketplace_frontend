@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+/* eslint-disable no-empty */
 import axios from "axios";
 import { backendBaseUrl, subQueryUrl } from "@constant";
 import { useCallback } from "react";
@@ -12,7 +14,7 @@ function useAxios() {
         } catch (err) {
             return [];
         }
-    });
+    }, []);
     const fetchUserInfo = useCallback(async (address) => {
         try {
             const userInfo = await axios.get(
@@ -81,7 +83,7 @@ function useAxios() {
             } = await axios.post(subQueryUrl, { query });
             return nodes;
         } catch (err) {}
-    });
+    }, []);
     const getHistoricalData = useCallback(async (skip = 0, limit = 10) => {
         try {
             const query = `query {
@@ -107,6 +109,7 @@ function useAxios() {
 
             return nodes;
         } catch (err) {
+            // eslint-disable-next-line no-console
             console.log("axiosError: ", err);
             return [];
         }
@@ -136,7 +139,7 @@ function useAxios() {
         } catch (err) {
             return false;
         }
-    });
+    }, []);
     const registerRecentView = useCallback(
         async ({ tokenId, collection, address }) => {
             if (!tokenId || !collection || !address) return;

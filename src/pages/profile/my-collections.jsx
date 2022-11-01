@@ -81,7 +81,10 @@ const MyCollections = () => {
                         </Anchor>
                     </Button>
                 </div>
-                <CollectionArea showAll data={{ collections: collectionsData }} />
+                <CollectionArea
+                    showAll
+                    data={{ collections: collectionsData }}
+                />
             </main>
             <Footer />
         </Wrapper>

@@ -1,16 +1,18 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useRouter } from "next/router";
 import ShareModal from "@components/modals/share-modal";
 import ReportModal from "@components/modals/report-modal";
 import FollowingModal from "@components/modals/following-modal";
-import ShareDropdown from "@components/share-dropdown";
+// import ShareDropdown from "@components/share-dropdown";
 import { useWalletManager } from "@noahsaso/cosmodal";
-import Anchor from "@ui/anchor";
+// import Anchor from "@ui/anchor";
 import clsx from "clsx";
 import Image from "next/image";
 import PropTypes from "prop-types";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { getImageFromHash } from "@utils/ipfs";
-import { useEffect } from "react";
 import { useAxios } from "src/hooks";
 
 const UserIntroArea = ({ className, space }) => {
@@ -37,6 +39,7 @@ const UserIntroArea = ({ className, space }) => {
             setUserInfo(info);
             await fetchFollow();
         })();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userAddress]);
 
     const shareModalHandler = () => setIsShareModalOpen((prev) => !prev);
@@ -151,8 +154,8 @@ const UserIntroArea = ({ className, space }) => {
                                             )}
                                         </div>
                                         <div className="follow-area">
-                                            <div 
-                                                className="follow followers" 
+                                            <div
+                                                className="follow followers"
                                                 onClick={() => {
                                                     setIsFollowing(false);
                                                     handleFollowingModal();
@@ -161,17 +164,12 @@ const UserIntroArea = ({ className, space }) => {
                                                 <span>
                                                     {follow.to &&
                                                         follow.to.length}{" "}
-                                                    <a
-                                                        // href="https://twitter.com"
-                                                        // target="_blank"
-                                                        // rel="noreferrer"
-                                                        className="color-body"
-                                                    >
+                                                    <a className="color-body">
                                                         followers
                                                     </a>
                                                 </span>
                                             </div>
-                                            <div 
+                                            <div
                                                 className="follow following"
                                                 onClick={() => {
                                                     setIsFollowing(true);
@@ -233,8 +231,13 @@ const UserIntroArea = ({ className, space }) => {
                                                     strokeLinejoin="round"
                                                     className="feather feather-flag"
                                                 >
-                                                    <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
-                                                    <line x1="4" y1="22" x2="4" y2="15"></line>
+                                                    <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
+                                                    <line
+                                                        x1="4"
+                                                        y1="22"
+                                                        x2="4"
+                                                        y2="15"
+                                                    />
                                                 </svg>
                                             </button>
                                             {/* <div className="count at-follw">

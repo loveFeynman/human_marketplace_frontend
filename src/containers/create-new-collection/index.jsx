@@ -142,12 +142,18 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                     };
                 }
                 try {
-                    const response = await runExecute(CollectionCreatorContract, msg);
+                    const response = await runExecute(
+                        CollectionCreatorContract,
+                        msg
+                    );
                     toast.success("Successfully Created!");
-                    const createdAddress = getContractAddressFromResponse(response, "nft_address")
+                    const createdAddress = getContractAddressFromResponse(
+                        response,
+                        "nft_address"
+                    );
                     if (createdAddress) {
                         // router.push(`/marketplace?nftAddress=${createdAddress}`)
-                        router.push(`/explore/collections/${createdAddress}`)
+                        router.push(`/explore/collections/${createdAddress}`);
                     } else {
                         reset();
                     }
@@ -175,20 +181,20 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
     const handleDragEnter = (e) => {
         e.preventDefault();
         e.stopPropagation();
-    }
+    };
     const handleDragOver = (e) => {
         e.preventDefault();
         e.stopPropagation();
         e.dataTransfer.dropEffect = "copy";
-    }
+    };
     const handleDragLeave = (e) => {
         e.preventDefault();
         e.stopPropagation();
-    }
+    };
     const handleDrop = (e, name) => {
         e.preventDefault();
         e.stopPropagation();
-        const files = [...e.dataTransfer.files]
+        const files = [...e.dataTransfer.files];
         if (files.length && files[0]) {
             if (!validationFile(files[0])) return;
             if (name === "logo-image") {
@@ -197,8 +203,8 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                 setSelectedBackgroundImage(files[0]);
             }
         }
-    }
-    
+    };
+
     return (
         <div
             className={clsx(
@@ -234,7 +240,9 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                                         onDragEnter={(e) => handleDragEnter(e)}
                                         onDragOver={(e) => handleDragOver(e)}
                                         onDragLeave={(e) => handleDragLeave(e)}
-                                        onDrop={(e) => handleDrop(e, "background-image")}
+                                        onDrop={(e) =>
+                                            handleDrop(e, "background-image")
+                                        }
                                     >
                                         <input
                                             name="background-image"
@@ -268,7 +276,11 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                                                         Choose a File
                                                     </span>
                                                     <p className="text-center mt--10">
-                                                        JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, or GLTF. <br /> {`Max ${fileSizeLimit} MB`}.
+                                                        JPG, PNG, GIF, SVG, MP4,
+                                                        WEBM, MP3, WAV, OGG,
+                                                        GLB, or GLTF. <br />{" "}
+                                                        {`Max ${fileSizeLimit} MB`}
+                                                        .
                                                     </p>
                                                 </>
                                             )}
@@ -304,7 +316,9 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                                         onDragEnter={(e) => handleDragEnter(e)}
                                         onDragOver={(e) => handleDragOver(e)}
                                         onDragLeave={(e) => handleDragLeave(e)}
-                                        onDrop={(e) => handleDrop(e, "logo-image")}
+                                        onDrop={(e) =>
+                                            handleDrop(e, "logo-image")
+                                        }
                                     >
                                         <input
                                             name="logo-image"
@@ -339,7 +353,11 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                                                         Choose a File
                                                     </span>
                                                     <p className="text-center mt--10">
-                                                        JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, or GLTF. <br /> {`Max ${fileSizeLimit} MB`}.
+                                                        JPG, PNG, GIF, SVG, MP4,
+                                                        WEBM, MP3, WAV, OGG,
+                                                        GLB, or GLTF. <br />{" "}
+                                                        {`Max ${fileSizeLimit} MB`}
+                                                        .
                                                     </p>
                                                 </>
                                             )}
@@ -432,75 +450,77 @@ const CreateNewArea = ({ className, space, isAdminPage }) => {
                                             )}
                                         </div>
                                     </div>
-                                    {isAdminPage && (<div className="col-md-12">
-                                        <div className="input-box pb--20">
-                                            <div className="form-label">
-                                                NFT Type
-                                            </div>
-                                            <div>
-                                                <input
-                                                    type="checkbox"
-                                                    checked={
-                                                        nftType === "ai_nft"
-                                                    }
-                                                    className="rn-check-box-input"
-                                                    onChange={
-                                                        handleChangeCheckbox
-                                                    }
-                                                    id="ai-nft"
-                                                    name="ai_nft"
-                                                />
-                                                <label
-                                                    className="rn-check-box-label"
-                                                    htmlFor="ai-nft"
-                                                >
-                                                    AI NFT
-                                                </label>
-                                            </div>
-                                            <div>
-                                                <input
-                                                    type="checkbox"
-                                                    checked={
-                                                        nftType ===
-                                                        "language_processing"
-                                                    }
-                                                    className="rn-check-box-input"
-                                                    onChange={
-                                                        handleChangeCheckbox
-                                                    }
-                                                    id="language-processing"
-                                                    name="language_processing"
-                                                />
-                                                <label
-                                                    className="rn-check-box-label"
-                                                    htmlFor="language-processing"
-                                                >
-                                                    Language Processing
-                                                </label>
-                                            </div>
-                                            <div>
-                                                <input
-                                                    type="checkbox"
-                                                    checked={
-                                                        nftType ===
-                                                        "syntetic_media"
-                                                    }
-                                                    className="rn-check-box-input"
-                                                    onChange={
-                                                        handleChangeCheckbox
-                                                    }
-                                                    id="syntetic-media"
-                                                    name="syntetic_media"
-                                                />
-                                                <label
-                                                    className="rn-check-box-label"
-                                                    htmlFor="syntetic-media"
-                                                >
-                                                    Syntetic media
-                                                </label>
+                                    {isAdminPage && (
+                                        <div className="col-md-12">
+                                            <div className="input-box pb--20">
+                                                <div className="form-label">
+                                                    NFT Type
+                                                </div>
+                                                <div>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={
+                                                            nftType === "ai_nft"
+                                                        }
+                                                        className="rn-check-box-input"
+                                                        onChange={
+                                                            handleChangeCheckbox
+                                                        }
+                                                        id="ai-nft"
+                                                        name="ai_nft"
+                                                    />
+                                                    <label
+                                                        className="rn-check-box-label"
+                                                        htmlFor="ai-nft"
+                                                    >
+                                                        AI NFT
+                                                    </label>
+                                                </div>
+                                                <div>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={
+                                                            nftType ===
+                                                            "language_processing"
+                                                        }
+                                                        className="rn-check-box-input"
+                                                        onChange={
+                                                            handleChangeCheckbox
+                                                        }
+                                                        id="language-processing"
+                                                        name="language_processing"
+                                                    />
+                                                    <label
+                                                        className="rn-check-box-label"
+                                                        htmlFor="language-processing"
+                                                    >
+                                                        Language Processing
+                                                    </label>
+                                                </div>
+                                                <div>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={
+                                                            nftType ===
+                                                            "syntetic_media"
+                                                        }
+                                                        className="rn-check-box-input"
+                                                        onChange={
+                                                            handleChangeCheckbox
+                                                        }
+                                                        id="syntetic-media"
+                                                        name="syntetic_media"
+                                                    />
+                                                    <label
+                                                        className="rn-check-box-label"
+                                                        htmlFor="syntetic-media"
+                                                    >
+                                                        Syntetic media
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>)}
+                                    )}
                                     {isAdminPage && (
                                         <div className="col-md-12">
                                             <div className="input-box pb--20">

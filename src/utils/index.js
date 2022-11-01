@@ -1,12 +1,13 @@
+/* eslint-disable no-nested-ternary */
+/* eslint-disable no-confusing-arrow */
 import { fileSizeLimit } from "@constant";
 
-export const getFullName = (firstName, lastName) => {
-    return lastName
+export const getFullName = (firstName, lastName) =>
+    lastName
         ? firstName
             ? `${firstName} ${lastName}`
             : lastName
         : firstName || "";
-};
 
 export const getReducedAddress = (address) =>
     address ? `${address?.slice(0, 5)}...${address?.slice(-5)}` : "";
@@ -21,7 +22,7 @@ export const getStandardTime = (time) => {
 };
 
 export const getCorrectTime = (utcTime) => {
-    if (!utcTime) return;
+    if (!utcTime) return null;
     const full_date = utcTime.split("T");
     const date = full_date[0].split("-");
     const time = full_date[1].split(":");
@@ -43,18 +44,13 @@ export const getContractAddressFromResponse = (response, key) => {
     return attributes?.filter((attribute) => attribute.key === key)[0]?.value;
 };
 
-export const checkFileSize = (file) => {
-    return (file?.size || 0) < fileSizeLimit * 1024 * 1024; // 100MB
-};
+export const checkFileSize = (file) =>
+    (file?.size || 0) < fileSizeLimit * 1024 * 1024; // 100MB
 
-export const checkFileType = (file) => {
-    return (
-        !!file?.type?.match("image.*") ||
-        !!file?.type?.match("video.*") ||
-        !!file?.type?.match("audio.*")
-    );
-};
+export const checkFileType = (file) =>
+    !!file?.type?.match("image.*") ||
+    !!file?.type?.match("video.*") ||
+    !!file?.type?.match("audio.*");
 
-export const validationFile = (file) => {
-    return checkFileSize(file) && checkFileType(file);
-};
+export const validationFile = (file) =>
+    checkFileSize(file) && checkFileType(file);

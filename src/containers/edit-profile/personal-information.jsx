@@ -4,8 +4,8 @@ import { useWalletManager } from "@noahsaso/cosmodal";
 import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "@app/hooks";
-import { editUser } from "./hooks";
 import { countries } from "@constant";
+import { editUser } from "./hooks";
 
 const PersonalInformation = () => {
     const { connectedWallet } = useWalletManager();
@@ -104,10 +104,7 @@ const PersonalInformation = () => {
                         />
                     </div>
                     <div className="half-wid">
-                        <label
-                            htmlFor="twitter"
-                            className="form-label"
-                        >
+                        <label htmlFor="twitter" className="form-label">
                             Twitter
                         </label>
                         <input

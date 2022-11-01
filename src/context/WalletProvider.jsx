@@ -125,7 +125,7 @@ const WalletProvider = ({ children }) => (
             walletImage: "cosmodal-wallet-image",
             walletInfo: "cosmodal-wallet-info",
             walletName: "cosmodal-wallet-name",
-            walletDescription: "cosmodal-wallet-description"
+            walletDescription: "cosmodal-wallet-description",
         }}
     >
         {children}

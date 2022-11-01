@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import axios from "axios";
 import { backendBaseUrl, subQueryUrl } from "@constant";
 import { getFullName, getReducedAddress } from "@utils/index";
@@ -51,12 +52,16 @@ export const getTopSellers = async (days) => {
             })
         );
         return groupedAggregates.map((_data, index) => {
-            _data.logo = avatars[index].logo
+            const result = _data;
+            result.logo = avatars[index].logo
                 ? getImageFromHash(avatars[index].logo)
                 : "/images/client/client-2.png";
-            _data.name =
-                getFullName(avatars[index].first_name, avatars[index].last_name) || getReducedAddress(avatars[index].wallet);
-            return _data;
+            result.name =
+                getFullName(
+                    avatars[index].first_name,
+                    avatars[index].last_name
+                ) || getReducedAddress(avatars[index].wallet);
+            return result;
         });
         // return [];
     } catch (error) {

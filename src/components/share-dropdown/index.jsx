@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import ShareModal from "@components/modals/share-modal";
@@ -28,20 +29,20 @@ const ShareDropdown = ({ isOwner = false, isNft = false }) => {
                         strokeLinejoin="round"
                         className="feather feather-flag"
                     >
-                        <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
-                        <line x1="4" y1="22" x2="4" y2="15"></line>
+                        <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
+                        <line x1="4" y1="22" x2="4" y2="15" />
                     </svg>
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu className="share-btn-setting" align="end">
                     {/* {isOwner && ( */}
-                        <button
-                            type="button"
-                            className="btn-setting-text share-text"
-                            onClick={handleShareModal}
-                        >
-                            Share
-                        </button>
+                    <button
+                        type="button"
+                        className="btn-setting-text share-text"
+                        onClick={handleShareModal}
+                    >
+                        Share
+                    </button>
                     {/* )} */}
                     {!isOwner && (
                         <button
@@ -54,7 +55,11 @@ const ShareDropdown = ({ isOwner = false, isNft = false }) => {
                     )}
                 </Dropdown.Menu>
             </Dropdown>
-            <ShareModal isNft={isNft} show={showShareModal} handleModal={handleShareModal} />
+            <ShareModal
+                isNft={isNft}
+                show={showShareModal}
+                handleModal={handleShareModal}
+            />
             <ReportModal
                 show={showReportModal}
                 handleModal={handleReportModal}

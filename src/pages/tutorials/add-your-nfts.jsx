@@ -1,19 +1,22 @@
+/* eslint-disable react/no-unused-prop-types */
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable @next/next/no-img-element */
 import PropTypes from "prop-types";
 import SEO from "@components/seo";
 import Wrapper from "@layout/wrapper";
 import Header from "@layout/header";
 import Footer from "@layout/footer";
 import Breadcrumb from "@components/breadcrumb";
-import TutorialDetailsArea from "@containers/blog-details";
+// import TutorialDetailsArea from "@containers/blog-details";
 import clsx from "clsx";
 // import Image from "next/image";
-import { ImageType } from "@utils/types";
+// import { ImageType } from "@utils/types";
 
 export async function getStaticProps() {
     return { props: { className: "template-color-1" } };
 }
 
-const TutorialDetails = ({}) => (
+const TutorialDetails = () => (
     <Wrapper>
         <SEO pageTitle="Add your NFTs" />
         <Header />

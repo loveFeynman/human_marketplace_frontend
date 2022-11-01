@@ -15,9 +15,13 @@ const InputRange = ({ values, onChange, hideButton, max }) => {
         <SliderTrack {...props} min={MIN} max={MAX} values={values} />
     );
 
-    const priceRange = useMemo(() => {
-        return [(max || 1) * (values[0] || 0)/ 100, (max || 1) * (values[1] || 100) / 100]
-    }, [values, max])
+    const priceRange = useMemo(
+        () => [
+            ((max || 1) * (values[0] || 0)) / 100,
+            ((max || 1) * (values[1] || 100)) / 100,
+        ],
+        [values, max]
+    );
     return (
         <div className="input-range">
             <Range
@@ -34,8 +38,7 @@ const InputRange = ({ values, onChange, hideButton, max }) => {
                     <div className="price--output">
                         <span>Price :</span>
                         <span className="output-label">
-                            {priceRange[0]} $Heart -{" "}
-                            {priceRange[1]} $Heart
+                            {priceRange[0]} $Heart - {priceRange[1]} $Heart
                         </span>
                     </div>
                     {hideButton === false && (
@@ -55,7 +58,7 @@ InputRange.propTypes = {
     values: PropTypes.arrayOf(PropTypes.number),
     onChange: PropTypes.func,
     hideButton: PropTypes.bool,
-    max: PropTypes.number
+    max: PropTypes.number,
 };
 
 InputRange.defaultProps = {

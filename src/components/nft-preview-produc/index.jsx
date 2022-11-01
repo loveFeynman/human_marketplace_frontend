@@ -20,16 +20,9 @@ const NftPreviewProduct = ({ overlay, title, image, client, metadata }) => {
                         onError={() => setPreviewType("video")}
                     />
                 )}
-                {
-                    image?.src && previewType === "video" && (
-                        <Video 
-                            src={image.src}
-                            autoPlay
-                            controls
-                            loop
-                        />
-                    )
-                }
+                {image?.src && previewType === "video" && (
+                    <Video src={image.src} autoPlay controls loop />
+                )}
             </div>
             <div className="product-share-wrapper">
                 <div className="profile-share">
@@ -60,26 +53,25 @@ const NftPreviewProduct = ({ overlay, title, image, client, metadata }) => {
                     <>
                         <div>Attributes</div>
                         <div className="container">
-                            {metadata.attributes.map((attributeField) => {
+                            {/* eslint-disable-next-line react/prop-types */}
+                            {metadata.attributes?.map((attributeField) => (
                                 // const attributeValue =
                                 //     metadata.attributes[attributeField];
-                                return (
-                                    <div className="row" key={attributeField}>
-                                        <div className="col-md-4">
-                                            {attributeField.trait_type}
-                                        </div>
-                                        <div className="col-md-8">
-                                            {attributeField.value}
-                                        </div>
+                                <div className="row" key={attributeField}>
+                                    <div className="col-md-4">
+                                        {attributeField.trait_type}
                                     </div>
-                                );
-                            })}
+                                    <div className="col-md-8">
+                                        {attributeField.value}
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </>
                 )}
             </div>
         </div>
-    )
+    );
 };
 
 NftPreviewProduct.propTypes = {

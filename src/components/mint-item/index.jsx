@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import Image from "next/image";
@@ -12,7 +13,6 @@ import PurchaseModal from "@components/modals/purchase-modal";
 import { ImageType } from "@utils/types";
 import { useContract } from "@hooks";
 import { ChainConfig } from "@constant";
-import { useAxios } from "@hooks";
 import { toast } from "react-toastify";
 // import { CustomWalletContext } from "@context";
 
@@ -88,9 +88,8 @@ const MintItem = ({
 
     const handleMint = async (amount, extraOption, callback) => {
         try {
-            let result = {};
             if (amount) {
-                result = await runExecute(
+                await runExecute(
                     contractAddress,
                     {
                         mint: {},
@@ -100,7 +99,7 @@ const MintItem = ({
                     }
                 );
             } else {
-                result = await runExecute(contractAddress, {
+                await runExecute(contractAddress, {
                     mint: {},
                 });
             }

@@ -1,3 +1,6 @@
+/* eslint-disable no-console */
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable jsx-a11y/iframe-has-title */
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import SEO from "@components/seo";
@@ -10,18 +13,14 @@ import Sticky from "@ui/sticky";
 // import ProductArea from "@containers/nft-details-area";
 import usePickNft from "src/hooks/use-pick-nft";
 import { useContract } from "@hooks";
-import { MarketplaceContract } from "@constant";
+import { MarketplaceContract, ChainConfig } from "@constant";
 import { useAxios } from "src/hooks";
 import { getReducedAddress } from "@utils/index";
 import NiceSelect from "@ui/nice-select";
 import Button from "@ui/button";
 // demo data
 // william
-import { ChainConfig } from "@constant";
-import {
-    CosmWasmClient,
-    SigningCosmWasmClient,
-} from "@cosmjs/cosmwasm-stargate";
+import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 import { GasPrice } from "@cosmjs/stargate";
 import { useWallet } from "@noahsaso/cosmodal";
 import { coins } from "@cosmjs/proto-signing";
@@ -32,19 +31,17 @@ const LIMIT_BIDS = 20;
 const NftDetail = () => {
     const router = useRouter();
     const token_id = router.asPath.split("/")[2].split("?")[0];
-    const { runQuery, runExecute } = useContract();
+    const { runQuery } = useContract();
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const [showData, setShowData] = useState({ endpoint: "", workload_id: "" });
     const { collection } = router.query;
     const { nftInfo: selectedNft } = usePickNft(token_id, collection) || {};
-    const [bids, setBids] = useState([]);
+    const [, setBids] = useState([]);
     const { fetchUserInfo } = useAxios();
     const [option, setOption] = useState("Execute1");
 
-    const { offlineSigner, signingCosmWasmClient, address } = useWallet(
-        ChainConfig.chainId
-    );
+    const { offlineSigner, address } = useWallet(ChainConfig.chainId);
     useEffect(() => {
         setBids([]);
         const fetchBids = async (startBidder) => {
@@ -93,8 +90,9 @@ const NftDetail = () => {
             }
         };
         fetchBids();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [runQuery, selectedNft.token_address, selectedNft.token_id]);
-    const handleChangeCollection = (item, name) => {
+    const handleChangeCollection = (item) => {
         // setValue(name, item.value);
         setOption(item.value);
     };
@@ -133,13 +131,13 @@ const NftDetail = () => {
             );
 
             const wasmData = result.logs[0].events[5].attributes;
-            const endpoint = wasmData[2].value;
+            // const endpoint = wasmData[2].value;
             const workload_id = wasmData[1].value;
 
             const signature = await window.keplr.signArbitrary(
                 ChainConfig.chainId,
                 address,
-                workload_id //Buffer.from(JSON.stringify(execute_msg)).toString("base64")
+                workload_id // Buffer.from(JSON.stringify(execute_msg)).toString("base64")
             );
 
             console.log("signature: ", signature);
@@ -184,12 +182,10 @@ const NftDetail = () => {
                 pubkey: signature.pub_key.value,
             };
             try {
-                console.log("post data: ", postData);
                 const resData = await axios.post(
                     "http://18.220.100.80:443/set-state",
                     postData
                 );
-                console.log("resData: ", postData, resData);
                 setShowData({ endpoint: resData.data, workload_id });
             } catch (err) {
                 console.log("err: ", err);
@@ -267,7 +263,7 @@ const NftDetail = () => {
                         <iframe
                             src={`http://18.220.100.80:443${showData.endpoint}`}
                             style={{ height: "600px" }}
-                        ></iframe>
+                        />
                     </>
                 )}
                 {/* <ProductArea

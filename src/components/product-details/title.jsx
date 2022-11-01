@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
@@ -40,32 +41,34 @@ const ProductTitle = ({ className, title, isOwner, isNft }) => {
                         <i className="feather-share-2" />
                     </button>
 
-                    {!isOwner && <button
-                        type="button"
-                        // className="btn-setting-text report-text"
-                        className="btn at-follw"
-                        onClick={handleReportModal}
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="feather feather-flag"
+                    {!isOwner && (
+                        <button
+                            type="button"
+                            // className="btn-setting-text report-text"
+                            className="btn at-follw"
+                            onClick={handleReportModal}
                         >
-                            <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
-                            <line x1="4" y1="22" x2="4" y2="15"></line>
-                        </svg>
-                    </button>}
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="feather feather-flag"
+                            >
+                                <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
+                                <line x1="4" y1="22" x2="4" y2="15" />
+                            </svg>
+                        </button>
+                    )}
                 </div>
             </div>
         </>
-    )
+    );
 };
 
 ProductTitle.propTypes = {

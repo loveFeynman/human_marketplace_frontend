@@ -43,11 +43,11 @@ const RefreshContextProvider = ({ children }) => {
                 setValue((prev) => prev + 1);
             }
         }, REFRESH_INTERVAL);
-        const fastInterval = setInterval(async() => {
+        const fastInterval = setInterval(async () => {
             if (isBrowserTabActiveRef.current) {
                 setSecondInterval((prev) => prev + 1);
             }
-        }, 1000)
+        }, 1000);
         return () => {
             clearInterval(interval);
             clearInterval(fastInterval);
@@ -60,7 +60,10 @@ const RefreshContextProvider = ({ children }) => {
 
     return (
         <RefreshContext.Provider
-            value={useMemo(() => ({ second: secondInterval, value, refreshAll }), [value, refreshAll, secondInterval])}
+            value={useMemo(
+                () => ({ second: secondInterval, value, refreshAll }),
+                [value, refreshAll, secondInterval]
+            )}
         >
             {children}
         </RefreshContext.Provider>

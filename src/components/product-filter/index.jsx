@@ -97,7 +97,7 @@ ProductFilter.propTypes = {
     priceHandler: PropTypes.func,
     inputs: PropTypes.shape({
         price: PropTypes.arrayOf(PropTypes.number),
-        maxPrice: PropTypes.number
+        maxPrice: PropTypes.number,
     }),
 };
 

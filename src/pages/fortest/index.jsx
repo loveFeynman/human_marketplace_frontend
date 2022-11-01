@@ -46,21 +46,19 @@ const productData = {
     ],
 };
 
-const Product = () => {
-    return (
-        <Wrapper>
-            <SEO pageTitle="Marketplace" />
-            <Header />
-            <main id="main-content">
-                <div className="row g-5" style={{ padding: "30px" }}>
-                    <div className="col-5 col-lg-4 col-md-6 col-sm-6 col-12">
-                        <NftItem overlay item={productData.nft[0]} />
-                    </div>
+const Product = () => (
+    <Wrapper>
+        <SEO pageTitle="Marketplace" />
+        <Header />
+        <main id="main-content">
+            <div className="row g-5" style={{ padding: "30px" }}>
+                <div className="col-5 col-lg-4 col-md-6 col-sm-6 col-12">
+                    <NftItem overlay item={productData.nft[0]} />
                 </div>
-            </main>
-            <Footer />
-        </Wrapper>
-    );
-};
+            </div>
+        </main>
+        <Footer />
+    </Wrapper>
+);
 
 export default Product;
