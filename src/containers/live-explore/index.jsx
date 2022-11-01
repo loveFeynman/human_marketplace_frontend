@@ -13,7 +13,9 @@ const LiveExploreArea = ({ className, space }) => {
     useEffect(() => {
         (async () => {
             const contractData = await runQuery(MarketplaceContract, {
-                asks_sorted_by_bid_count: {},
+                asks_sorted_by_expiration: {
+                    limit: 10,
+                },
             });
             const dispData =
                 contractData &&
@@ -39,6 +41,7 @@ const LiveExploreArea = ({ className, space }) => {
                 }));
             setDisplayNfts(dispData || []);
         })();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
         <div
