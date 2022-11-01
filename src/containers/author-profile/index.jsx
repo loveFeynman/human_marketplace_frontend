@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 // import { useRouter } from "next/router";
 import clsx from "clsx";
@@ -179,6 +179,11 @@ const AuthorProfileArea = ({ className }) => {
         // return { onSale: myOnSale, owned: myOwned };
     }, [connectedWallet, marketplaceNfts]);
 
+    const finalOwnedNfts = useMemo(
+        () => [...new Set(ownedNfts), ...new Set(onSaleNfts)],
+        [ownedNfts, onSaleNfts]
+    );
+
     return (
         <div className={clsx("rn-authore-profile-area", className)}>
             <TabContainer defaultActiveKey="nav-owned">
@@ -240,16 +245,14 @@ const AuthorProfileArea = ({ className }) => {
                             className="row g-5 d-flex"
                             eventKey="nav-owned"
                         >
-                            {(ownedNfts || [])
-                                .concat(onSaleNfts || [])
-                                .map((prod) => (
-                                    <div
-                                        key={`owned-${prod.token_id}`}
-                                        className="col-5 col-lg-4 col-md-6 col-sm-6 col-12"
-                                    >
-                                        <NftItem overlay item={prod} />
-                                    </div>
-                                ))}
+                            {finalOwnedNfts.map((prod) => (
+                                <div
+                                    key={`owned-${prod.token_id}`}
+                                    className="col-5 col-lg-4 col-md-6 col-sm-6 col-12"
+                                >
+                                    <NftItem overlay item={prod} />
+                                </div>
+                            ))}
                         </TabPane>
                         <TabPane
                             className="row g-5 d-flex"
