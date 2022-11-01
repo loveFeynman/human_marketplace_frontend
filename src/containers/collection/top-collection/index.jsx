@@ -63,7 +63,7 @@ const TopCollectionArea = ({ className, id, space, data }) => {
                         >
                             <Anchor
                                 className="btn-transparent"
-                                path="/collections"
+                                path="/explore/collections"
                             >
                                 VIEW ALL
                                 <i className="feather feather-arrow-right" />
