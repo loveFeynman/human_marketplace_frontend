@@ -8,7 +8,7 @@ import Breadcrumb from "@components/breadcrumb";
 import ProductDetailsArea from "@containers/nft-details";
 import ProductArea from "@containers/nft-details-area";
 import usePickNft from "src/hooks/use-pick-nft";
-import { useContract, useAxios } from "@hooks";
+import { useContract, useAxios, useRefresh } from "@hooks";
 import { ChainConfig, MarketplaceContract } from "@constant";
 import { getReducedAddress } from "@utils/index";
 import { useAppSelector } from "@app/hooks";
@@ -33,6 +33,7 @@ const NftDetail = () => {
     const [refresh, setRefresh] = useState(0);
     const { fetchUserInfo, registerRecentView, fetchRecentView } = useAxios();
     const { connectedWallet } = useWalletManager();
+    const { second: value } = useRefresh();
     const fetchBids = async (startBidder) => {
         const msg = {
             bids: {
@@ -125,7 +126,13 @@ const NftDetail = () => {
     useEffect(() => {
         fetchBids();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [runQuery, selectedNft.token_address, selectedNft.token_id, refresh]);
+    }, [
+        runQuery,
+        selectedNft.token_address,
+        selectedNft.token_id,
+        refresh,
+        value,
+    ]);
 
     const refreshData = async () => {
         setRefresh((prev) => prev + 1);
