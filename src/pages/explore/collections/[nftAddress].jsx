@@ -43,12 +43,17 @@ const Product = () => {
         [collectionInfo?.userDefined, marketplaceNfts, myNfts, nftAddress]
     );
 
-    const collectionTitle =
-        collectionInfo?.collection_info?.title || "Collection";
-
-    const isAvailableCreateNft =
-        collectionInfo?.userDefined &&
-        collectionInfo?.minter === connectedWallet?.address;
+    const { collectionTitle, isAvailableCreateNft, description } = useMemo(
+        () => ({
+            collectionTitle:
+                collectionInfo?.collection_info?.title || "Collection",
+            isAvailableCreateNft:
+                collectionInfo?.userDefined &&
+                collectionInfo?.minter === connectedWallet?.address,
+            description: collectionInfo?.collection_info?.description || "",
+        }),
+        [collectionInfo, connectedWallet?.address]
+    );
 
     return (
         <Wrapper>
@@ -58,6 +63,7 @@ const Product = () => {
                 <Breadcrumb
                     pageTitle={collectionTitle}
                     currentPage={collectionTitle}
+                    description={description}
                 />
                 {isAvailableCreateNft && (
                     <div className="ptb--30 container">

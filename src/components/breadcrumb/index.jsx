@@ -3,7 +3,13 @@ import clsx from "clsx";
 // import Anchor from "@ui/anchor";
 
 // eslint-disable-next-line no-unused-vars
-const Breadcrumb = ({ pageTitle, currentPage, className, space }) => (
+const Breadcrumb = ({
+    pageTitle,
+    // currentPage,
+    className,
+    space,
+    description,
+}) => (
     <div
         className={clsx(
             "rn-breadcrumb-inner",
@@ -17,6 +23,9 @@ const Breadcrumb = ({ pageTitle, currentPage, className, space }) => (
                     <h5 className="pageTitle text-center text-md-start">
                         {pageTitle}
                     </h5>
+                    {description && (
+                        <p className="page-description">{description}</p>
+                    )}
                 </div>
                 {/* <div className="col-lg-6 col-md-6 col-12">
                     <ul className="breadcrumb-list">
@@ -38,13 +47,15 @@ const Breadcrumb = ({ pageTitle, currentPage, className, space }) => (
 
 Breadcrumb.propTypes = {
     pageTitle: PropTypes.string.isRequired,
-    currentPage: PropTypes.string,
+    // currentPage: PropTypes.string,
     className: PropTypes.string,
+    description: PropTypes.string,
     space: PropTypes.oneOf([1]),
 };
 
 Breadcrumb.defaultProps = {
     space: 1,
+    description: "",
 };
 
 export default Breadcrumb;
