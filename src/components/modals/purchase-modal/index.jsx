@@ -103,8 +103,12 @@ const PurchaseModal = ({
                                         balance.denom || ""
                                     }`} */}
                                 </span>
-                                <span>10 $HEART</span>
-                                <span />
+                                <span>0 $HEART</span>
+                                <span>
+                                    {`${
+                                        amount || amountOptions?.defaultAmount
+                                    } $HEART`}
+                                </span>
                             </div>
                         </div>
                         {generalOptions.isSelling && (
