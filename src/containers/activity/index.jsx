@@ -6,7 +6,7 @@ import Activity from "@components/activity";
 import { IDType, ImageType } from "@utils/types";
 import { useAxios } from "@hooks";
 // import { flatDeep } from "@utils/methods";
-import { getReducedAddress } from "@utils/index";
+import { getFullName, getReducedAddress } from "@utils/index";
 import { getImageFromHash } from "@utils/ipfs";
 // import TopSeller from "@components/top-seller/layout-02";
 
@@ -31,8 +31,10 @@ const ActivityArea = ({ space, className }) => {
                             ? getImageFromHash(avatars[index].logo)
                             : "/images/client/client-2.png",
                         name:
-                            avatars[index].first_name ||
-                            getReducedAddress(_data.buyer),
+                            getFullName(
+                                avatars[index].first_name,
+                                avatars[index].last_name
+                            ) || getReducedAddress(_data.buyer),
                         slug: `/profile/${_data.buyer}`,
                     },
                 }))
@@ -59,7 +61,7 @@ const ActivityArea = ({ space, className }) => {
                     <h3 className="title">All following Activity</h3>
                 </div>
                 <div className="row g-6 activity-direction">
-                    <div className="col-lg-8 mb_dec--15">
+                    <div className="col-lg-8 col-sm-12 mb_dec--15">
                         {/* {history?.map((item) => (
                             <TopSeller
                                 key={item.time}
@@ -78,9 +80,12 @@ const ActivityArea = ({ space, className }) => {
                             <Activity
                                 key={item.time}
                                 time={item.time}
-                                token_id={item.token_id}
+                                token_id={item.tokenId}
                                 collection={item.collection}
                                 author={item.author}
+                                buyer={item.buyer}
+                                action={item.action}
+                                price={item.price}
                                 // status={item.status}
                             />
                         ))}
