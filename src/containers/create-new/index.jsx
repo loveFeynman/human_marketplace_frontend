@@ -132,6 +132,11 @@ const CreateNewArea = ({ className, space }) => {
 
     const onSubmit = async (data, e) => {
         if (isSubmitting) return;
+
+        if (!connectedWallet) {
+            toast.error("Connect Wallet!");
+            return;
+        }
         const { target } = e;
         const submitBtn =
             target.localName === "span" ? target.parentElement : target;
@@ -172,11 +177,6 @@ const CreateNewArea = ({ className, space }) => {
             };
             setPreviewData({ ...nftData, image: selectedImage });
             setShowProductModal(true);
-        }
-
-        if (!connectedWallet) {
-            toast.error("Connect Wallet!");
-            return;
         }
 
         if (!isPreviewBtn) {
