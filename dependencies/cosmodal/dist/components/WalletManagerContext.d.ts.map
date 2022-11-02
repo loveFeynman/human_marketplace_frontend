@@ -1,1 +1,0 @@
-{"version":3,"file":"WalletManagerContext.d.ts","sourceRoot":"","sources":["../../src/components/WalletManagerContext.tsx"],"names":[],"mappings":";AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,qBAAqB,CAAA;AAG/C,OAAO,EAEL,qBAAqB,EACrB,iBAAiB,EAElB,MAAM,UAAU,CAAA;AAGjB,eAAO,MAAM,oBAAoB,uDAEhC,CAAA;AAED,eAAO,MAAM,gBAAgB,6BAO5B,CAAA;AAED,eAAO,MAAM,SAAS,aACV,SAAS,CAAC,SAAS,CAAC,KAC7B,iBAuEF,CAAA"}
