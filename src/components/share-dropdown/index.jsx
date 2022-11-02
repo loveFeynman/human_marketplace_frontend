@@ -2,6 +2,9 @@ import { useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import ShareModal from "@components/modals/share-modal";
 import ReportModal from "@components/modals/report-modal";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { useForm } from "react-hook-form";
 
 const ShareDropdown = ({ isOwner = false, isNft = false }) => {
     const [showShareModal, setShowShareModal] = useState(false);
@@ -12,6 +15,40 @@ const ShareDropdown = ({ isOwner = false, isNft = false }) => {
     const handleReportModal = () => {
         setShowReportModal((prev) => !prev);
     };
+
+    async function submitReport(values) {
+        //let buttonText, setButtonText;
+        //let disabled, setDisabled;
+        handleReportModal(); //close modal after reporting
+        //console.log(values);
+        toast.success("Report sent"); //confirmation message - moved outside of try catch block for faster confirmation
+        let config = {
+            method: "post",
+            url: `${process.env.NEXT_PUBLIC_API_URL}/api/contact`,
+            headers: {
+                "Content-Type": "application/json",
+            },
+            data: values,
+        };
+        //reset() //clear form
+        try {
+            //setButtonText("Sending...");
+           // setDisabled((value) => !value);
+            const response = await axios(config);
+            //console.log("response = ", response);
+            if (response.status == 200) {
+               // setDisabled((value) => !value);
+                //setButtonText("Report");
+                console.log("email sent")
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error(error);
+            //setDisabled((value) => !value);
+            //setButtonText("Report");
+        }
+    }
+
     return (
         <>
             <Dropdown className="share-btn share-btn-activation">
@@ -58,6 +95,7 @@ const ShareDropdown = ({ isOwner = false, isNft = false }) => {
             <ReportModal
                 show={showReportModal}
                 handleModal={handleReportModal}
+                submitReport={submitReport}
             />
         </>
     );

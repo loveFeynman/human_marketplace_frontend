@@ -14,7 +14,7 @@ export default async (req, res) => {
 
   const mailDetails = {
     from: email,
-    to: 'support@humans.ai',
+    to: 'rares.duvac@gmail.com',
     subject: `[NFT Marketplace] Item report from ${name}`,
     html: `
     <p><strong>Name:</strong> ${name}</p>
@@ -22,6 +22,8 @@ export default async (req, res) => {
     <p><strong>Reported NFT:</strong> ${reportedNFT}</p>
     <p><strong>Report message:</strong> ${reportMessage}</p>`
   }
+
+ // res.status(200).json(req.body);
 
   try {
     const emailResponse = await transporter.sendMail(mailDetails)
