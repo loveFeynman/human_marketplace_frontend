@@ -14,7 +14,7 @@ export default async (req, res) => {
 
   const mailDetails = {
     from: email,
-    to: 'rares.duvac@gmail.com',
+    to: 'support@humans.ai',
     subject: `[NFT Marketplace] Item report from ${name}`,
     html: `
     <p><strong>Name:</strong> ${name}</p>
