@@ -84,7 +84,9 @@ const ProductDetailsArea = ({
         const expired = expiresAt && Number(new Date()) - Number(expiresAt) > 0;
         const image = product.image_url;
         let buttonString =
-            connectedWallet?.address === product.owner ? "Sell" : "";
+            connectedWallet && connectedWallet?.address === product.owner
+                ? "Sell"
+                : "";
         if (price) {
             if (connectedWallet?.address === product.seller) {
                 if (product.sale_type === "auction") {

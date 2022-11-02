@@ -21,6 +21,7 @@ import { checkKeplr } from "src/context/WalletProvider";
 
 const NftItem = ({ overlay, item }) => {
     const [showBidModal, setShowBidModal] = useState(false);
+    const [isPendingTx, setIsPendingTx] = useState(false);
     const [previewType, setPreviewType] = useState("image");
     const { sellNft, withdrawNft, buyNft, setBid, acceptBid } = useContract();
     const { connect, connectedWallet } = useWalletManager();
@@ -80,6 +81,8 @@ const NftItem = ({ overlay, item }) => {
     };
 
     const handleNft = async (amount, extraOption, callback) => {
+        if (isPendingTx) return;
+        setIsPendingTx(true);
         if (!nftInfo.price) {
             try {
                 await sellNft(item, amount, extraOption);
@@ -87,6 +90,7 @@ const NftItem = ({ overlay, item }) => {
                 // eslint-disable-next-line no-empty
             } catch (e) {
             } finally {
+                setIsPendingTx(false);
                 callback();
             }
         } else if (item.seller === connectedWallet.address) {
@@ -100,6 +104,7 @@ const NftItem = ({ overlay, item }) => {
                 // eslint-disable-next-line no-empty
             } catch (e) {
             } finally {
+                setIsPendingTx(false);
                 callback();
             }
         } else if (item.sale_type === "auction") {
@@ -109,6 +114,7 @@ const NftItem = ({ overlay, item }) => {
                 // eslint-disable-next-line no-empty
             } catch (e) {
             } finally {
+                setIsPendingTx(false);
                 callback();
             }
         } else {
@@ -118,6 +124,7 @@ const NftItem = ({ overlay, item }) => {
                 // eslint-disable-next-line no-empty
             } catch (e) {
             } finally {
+                setIsPendingTx(false);
                 callback();
             }
         }
