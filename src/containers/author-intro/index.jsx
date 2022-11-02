@@ -25,41 +25,6 @@ const AuthorIntroArea = ({ className, space }) => {
     const [follow, setFollow] = useState({});
     const { fetchFollowInfo } = useAxios();
 
-    //insert social media icons with links if user added this information in edit-profile
-    function insertTwitter() {
-        if (userData.twitter.length > 0) {
-            const twitterLink = "https://twitter.com/" + userData.twitter;
-            return (
-                <a
-                    href={twitterLink}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="social-follw"
-                >
-                    <i className="feather-twitter" />
-                    <span className="user-name"> {userData.twitter}</span>
-                </a>
-            );
-        }
-    }
-
-    function insertInstagram() {
-        if (userData.instagram.length > 0) {
-            const instagramLink = "https://instagram.com/" + userData.instagram;
-            return (
-                <a
-                    href={instagramLink}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="social-follw"
-                >
-                    <i className="feather-instagram" />
-                    <span className="user-name"> {userData.instagram}</span>
-                </a>
-            );
-        }
-    }
-
     const userData = useMemo(() => {
         const result = {
             background: {
@@ -80,7 +45,49 @@ const AuthorIntroArea = ({ className, space }) => {
             following: 0,
         };
         return result;
-    }, [userInfo.cover, userInfo.first_name, userInfo.logo]);
+    }, [
+        userInfo.cover,
+        userInfo.first_name,
+        userInfo.instagram,
+        userInfo.logo,
+        userInfo.twitter,
+    ]);
+
+    // insert social media icons with links if user added this information in edit-profile
+    // const insertTwitter = () => {
+    //     if (userData.twitter.length > 0) {
+    //         const twitterLink = `https://twitter.com/${userData.twitter}`;
+    //         return (
+    //             <a
+    //                 href={twitterLink}
+    //                 target="_blank"
+    //                 rel="noreferrer"
+    //                 className="social-follw"
+    //             >
+    //                 <i className="feather-twitter" />
+    //                 <span className="user-name"> {userData.twitter}</span>
+    //             </a>
+    //         );
+    //     }
+    // };
+
+    // const insertInstagram = () => {
+    //     if (userData.instagram.length > 0) {
+    //         const instagramLink = `https://instagram.com/${userData.instagram}`;
+    //         return (
+    //             <a
+    //                 href={instagramLink}
+    //                 target="_blank"
+    //                 rel="noreferrer"
+    //                 className="social-follw"
+    //             >
+    //                 <i className="feather-instagram" />
+    //                 <span className="user-name"> {userData.instagram}</span>
+    //             </a>
+    //         );
+    //     }
+    // };
+
     const fetchFollow = async () => {
         const followInfo = await fetchFollowInfo(connectedWallet?.address);
         setFollow({

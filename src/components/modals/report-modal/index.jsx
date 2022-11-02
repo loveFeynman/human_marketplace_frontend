@@ -1,11 +1,10 @@
 import PropTypes from "prop-types";
 import Modal from "react-bootstrap/Modal";
 import Button from "@ui/button";
-import ReportForm from "./form.js";
-import { useState, useRef } from "react";
+// import { useState, useRef } from "react";
+import ReportForm from "./form";
 
 const ReportModal = ({ show, handleModal }) => (
-    (
     <Modal
         className="rn-popup-modal report-modal-wrapper"
         show={show}
@@ -25,8 +24,8 @@ const ReportModal = ({ show, handleModal }) => (
         <Modal.Header className="report-modal-header">
             <h5 className="modal-title">Report this item</h5>
         </Modal.Header>
-            <Modal.Body>
-                <ReportForm />
+        <Modal.Body>
+            <ReportForm />
             <Button
                 color="primary-alta"
                 size="medium"
@@ -37,7 +36,6 @@ const ReportModal = ({ show, handleModal }) => (
             </Button>
         </Modal.Body>
     </Modal>
-)
 );
 
 ReportModal.propTypes = {
@@ -45,4 +43,3 @@ ReportModal.propTypes = {
     handleModal: PropTypes.func.isRequired,
 };
 export default ReportModal;
-

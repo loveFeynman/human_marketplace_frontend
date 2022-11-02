@@ -3,25 +3,22 @@ import Button from "@ui/button";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
-const getPath = () => {
+const ReportForm = () => {
     const router = useRouter();
-    const origin =
-        typeof window !== "undefined" && window.location.origin
-            ? window.location.origin
-            : "";
-    const path = origin + router.asPath;
-    return path;
-};
-
-export default function ReportForm() {
-
-    /*const [showReportModal, setShowReportModal] = useState(false);
+    /* const [showReportModal, setShowReportModal] = useState(false);
     const handleReportModal = () => {
         setShowReportModal((prev) => !prev);
-    };*/
-    const thisPageURL = getPath();
+    }; */
+    const thisPageURL = useMemo(() => {
+        const origin =
+            typeof window !== "undefined" && window.location.origin
+                ? window.location.origin
+                : "";
+        const path = origin + router.asPath;
+        return path;
+    }, [router.asPath]);
     const [buttonText, setButtonText] = useState("Report");
     const [disabled, setDisabled] = useState(false);
     const {
@@ -32,30 +29,32 @@ export default function ReportForm() {
     } = useForm();
 
     async function submitReport(values) {
-        //console.log(values);
-        let config = {
-          method: "post",
-          url: `${process.env.NEXT_PUBLIC_API_URL}/api/contact`,
-          headers: {
-              "Content-Type": "application/json",
-          },
-          data: values,
+        // console.log(values);
+        const config = {
+            method: "post",
+            url: `${process.env.NEXT_PUBLIC_API_URL}/api/contact`,
+            headers: {
+                "Content-Type": "application/json",
+            },
+            data: values,
         };
         try {
             setButtonText("Sending...");
-            setDisabled(value => !value);
-          const response = await axios(config);
-          console.log("response = ", response);
-            if (response.status == 200) {
-                setDisabled(value => !value);
-              reset() //clear form
-              toast.success("Report sent"); //confirmation message
-              //handleReportModal();
-              setButtonText("Report");
-          }
-      } catch (error) {
-          console.log(error);
-      }
+            setDisabled((value) => !value);
+            const response = await axios(config);
+            // eslint-disable-next-line no-console
+            console.log("response = ", response);
+            if (response.status === 200) {
+                setDisabled((value) => !value);
+                reset(); // clear form
+                toast.success("Report sent"); // confirmation message
+                // handleReportModal();
+                setButtonText("Report");
+            }
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.log(error);
+        }
     }
 
     return (
@@ -63,8 +62,11 @@ export default function ReportForm() {
             className="nuron-information"
             onSubmit={handleSubmit(submitReport)}
         >
-            <input type="hidden" value={thisPageURL}
-                {...register("reportedNFT")} />
+            <input
+                type="hidden"
+                value={thisPageURL}
+                {...register("reportedNFT")}
+            />
             <div className="report-form-box">
                 <div className="mb-4">
                     <label htmlFor="contact-name" className="form-label">
@@ -171,7 +173,6 @@ export default function ReportForm() {
             </div>
         </form>
     );
-}
+};
 
-
-
+export default ReportForm;

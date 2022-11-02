@@ -27,40 +27,65 @@ const UserIntroArea = ({ className, space }) => {
     const { asPath } = useRouter();
     const userAddress = asPath.split("/")[2];
 
-    //insert social media icons with links if user added this information in edit-profile
-    function insertTwitter() {
-        if (userData.twitter.length > 0) {
-            const twitterLink = "https://twitter.com/" + userData.twitter;
-            return (
-                <a
-                    href={twitterLink}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="social-follw"
-                >
-                    <i className="feather-twitter" />
-                    <span className="user-name"> {userData.twitter}</span>
-                </a>
-            );
-        }
-    }
+    const userData = useMemo(() => {
+        const result = {
+            background: {
+                src: userInfo.cover
+                    ? getImageFromHash(userInfo.cover)
+                    : "/images/bg/bg-image-9.png",
+            },
+            image: {
+                alt: "",
+                src: userInfo.logo
+                    ? getImageFromHash(userInfo.logo)
+                    : "/images/icons/boy-avater.png",
+            },
+            name: userInfo.first_name || "",
+            twitter: userInfo.twitter || "",
+            instagram: userInfo.instagram || "",
+        };
+        return result;
+    }, [
+        userInfo.cover,
+        userInfo.logo,
+        userInfo.first_name,
+        userInfo.twitter,
+        userInfo.instagram,
+    ]);
+    // insert social media icons with links if user added this information in edit-profile
+    // const insertTwitter = () => {
+    //     if (userData.twitter.length > 0) {
+    //         const twitterLink = `https://twitter.com/${userData.twitter}`;
+    //         return (
+    //             <a
+    //                 href={twitterLink}
+    //                 target="_blank"
+    //                 rel="noreferrer"
+    //                 className="social-follw"
+    //             >
+    //                 <i className="feather-twitter" />
+    //                 <span className="user-name"> {userData.twitter}</span>
+    //             </a>
+    //         );
+    //     }
+    // };
 
-    function insertInstagram() {
-        if (userData.instagram.length > 0) {
-            const instagramLink = "https://instagram.com/" + userData.instagram;
-            return (
-                <a
-                    href={instagramLink}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="social-follw"
-                >
-                    <i className="feather-instagram" />
-                    <span className="user-name"> {userData.instagram}</span>
-                </a>
-            );
-        }
-    }
+    // const insertInstagram = () => {
+    //     if (userData.instagram.length > 0) {
+    //         const instagramLink = `https://instagram.com/${userData.instagram}`;
+    //         return (
+    //             <a
+    //                 href={instagramLink}
+    //                 target="_blank"
+    //                 rel="noreferrer"
+    //                 className="social-follw"
+    //             >
+    //                 <i className="feather-instagram" />
+    //                 <span className="user-name"> {userData.instagram}</span>
+    //             </a>
+    //         );
+    //     }
+    // };
 
     const fetchFollow = async () => {
         const followInfo = await fetchFollowInfo(userAddress);
@@ -85,25 +110,6 @@ const UserIntroArea = ({ className, space }) => {
         await handleFollow(connectedWallet?.address, userAddress);
         await fetchFollow();
     };
-    const userData = useMemo(() => {
-        const result = {
-            background: {
-                src: userInfo.cover
-                    ? getImageFromHash(userInfo.cover)
-                    : "/images/bg/bg-image-9.png",
-            },
-            image: {
-                alt: "",
-                src: userInfo.logo
-                    ? getImageFromHash(userInfo.logo)
-                    : "/images/icons/boy-avater.png",
-            },
-            name: userInfo.first_name || "",
-            twitter: userInfo.twitter || "",
-            instagram: userInfo.instagram || "",
-        };
-        return result;
-    }, [userInfo.first_name, userInfo.cover, userInfo.logo]);
 
     return (
         <>
