@@ -1,40 +1,44 @@
-.cosmodal-content {
-  max-width: max-content !important;
-  padding: 2.5rem 2.5rem 3rem !important;
+.cosmodal-overlay {
+  z-index: 1000 !important;
 
-  .cosmodal-header {
-    font-size: 1.8rem;
-  }
+  .cosmodal-content {
+    // max-width: max-content !important;
+    padding: 2.5rem 2.5rem 3rem !important;
 
-  .cosmodal-wallet-list {
-    flex-direction: row;
+    .cosmodal-header {
+      font-size: 1.8rem;
+    }
 
-    .cosmodal-wallet-item {
-      padding: 2rem;
-      background-color: rgb(229, 231, 233);
-      flex-direction: column;
-      align-items: center;
-      width: 50%;
-  
-      &:hover {
-        background-color: rgb(229, 231, 221);
-      }
+    .cosmodal-wallet-list {
+      flex-direction: row;
 
-      .cosmodal-wallet-image {
-        margin-bottom: 1rem;
-      }
+      .cosmodal-wallet-item {
+        padding: 2rem;
+        background-color: rgb(229, 231, 233);
+        flex-direction: column;
+        align-items: center;
+        width: 50%;
 
-      .cosmodal-wallet-info {
-        text-align: center;
-        margin: 0;
-
-        .cosmodal-wallet-name {
-          font-size: 1.5rem;
+        &:hover {
+          background-color: rgb(229, 231, 221);
         }
 
-        .cosmodal-wallet-description {
-          // white-space: nowrap;
-          display: none;
+        .cosmodal-wallet-image {
+          margin-bottom: 1rem;
+        }
+
+        .cosmodal-wallet-info {
+          text-align: center;
+          margin: 0;
+
+          .cosmodal-wallet-name {
+            font-size: 1.5rem;
+          }
+
+          .cosmodal-wallet-description {
+            // white-space: nowrap;
+            display: none;
+          }
         }
       }
     }

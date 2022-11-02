@@ -118,6 +118,7 @@ const WalletProvider = ({ children }) => (
             },
         ]}
         classNames={{
+            modalOverlay: "cosmodal-overlay",
             modalContent: "cosmodal-content",
             modalHeader: "cosmodal-header",
             walletList: "cosmodal-wallet-list",
