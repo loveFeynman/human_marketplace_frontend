@@ -26,6 +26,42 @@ const UserIntroArea = ({ className, space }) => {
     const { connectedWallet } = useWalletManager();
     const { asPath } = useRouter();
     const userAddress = asPath.split("/")[2];
+
+    //insert social media icons with links if user added this information in edit-profile
+    function insertTwitter() {
+        if (userData.twitter.length > 0) {
+            const twitterLink = "https://twitter.com/" + userData.twitter;
+            return (
+                <a
+                    href={twitterLink}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="social-follw"
+                >
+                    <i className="feather-twitter" />
+                    <span className="user-name"> {userData.twitter}</span>
+                </a>
+            );
+        }
+    }
+
+    function insertInstagram() {
+        if (userData.instagram.length > 0) {
+            const instagramLink = "https://instagram.com/" + userData.instagram;
+            return (
+                <a
+                    href={instagramLink}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="social-follw"
+                >
+                    <i className="feather-instagram" />
+                    <span className="user-name"> {userData.instagram}</span>
+                </a>
+            );
+        }
+    }
+
     const fetchFollow = async () => {
         const followInfo = await fetchFollowInfo(userAddress);
         setFollow({
@@ -63,6 +99,8 @@ const UserIntroArea = ({ className, space }) => {
                     : "/images/icons/boy-avater.png",
             },
             name: userInfo.first_name || "",
+            twitter: userInfo.twitter || "",
+            instagram: userInfo.instagram || "",
         };
         return result;
     }, [userInfo.first_name, userInfo.cover, userInfo.logo]);

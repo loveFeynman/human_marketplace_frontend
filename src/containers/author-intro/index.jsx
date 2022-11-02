@@ -24,6 +24,42 @@ const AuthorIntroArea = ({ className, space }) => {
     const userInfo = useAppSelector((state) => state.user.userInfo);
     const [follow, setFollow] = useState({});
     const { fetchFollowInfo } = useAxios();
+
+    //insert social media icons with links if user added this information in edit-profile
+    function insertTwitter() {
+        if (userData.twitter.length > 0) {
+            const twitterLink = "https://twitter.com/" + userData.twitter;
+            return (
+                <a
+                    href={twitterLink}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="social-follw"
+                >
+                    <i className="feather-twitter" />
+                    <span className="user-name"> {userData.twitter}</span>
+                </a>
+            );
+        }
+    }
+
+    function insertInstagram() {
+        if (userData.instagram.length > 0) {
+            const instagramLink = "https://instagram.com/" + userData.instagram;
+            return (
+                <a
+                    href={instagramLink}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="social-follw"
+                >
+                    <i className="feather-instagram" />
+                    <span className="user-name"> {userData.instagram}</span>
+                </a>
+            );
+        }
+    }
+
     const userData = useMemo(() => {
         const result = {
             background: {
@@ -38,6 +74,8 @@ const AuthorIntroArea = ({ className, space }) => {
                     : "/images/icons/avatar.png",
             },
             name: userInfo.first_name || "",
+            twitter: userInfo.twitter || "",
+            instagram: userInfo.instagram || "",
             followers: 0,
             following: 0,
         };

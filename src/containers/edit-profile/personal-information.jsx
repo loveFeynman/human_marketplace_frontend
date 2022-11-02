@@ -153,8 +153,8 @@ const PersonalInformation = () => {
                         ]}
                         placeholder="Select Your Gender"
                         className="profile-edit-select"
-                        defaultCurrent={personalInformation.gendor}
-                        onChange={(e) => handleChangeSelect("gendor", e)}
+                        defaultCurrent={personalInformation.gender}
+                        onChange={(e) => handleChangeSelect("gender", e)}
                     />
                 </div>
                 <div className="half-wid currency">
