@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import { useMemo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import Image from "next/image";
 import clsx from "clsx";
@@ -23,6 +23,7 @@ const NftItem = ({ overlay, item }) => {
     const [showBidModal, setShowBidModal] = useState(false);
     const [isPendingTx, setIsPendingTx] = useState(false);
     const [previewType, setPreviewType] = useState("image");
+    // console.log("item", item.token_id, previewType);
     const { sellNft, withdrawNft, buyNft, setBid, acceptBid } = useContract();
     const { connect, connectedWallet } = useWalletManager();
     const { second: value } = useRefresh();
@@ -149,7 +150,16 @@ const NftItem = ({ overlay, item }) => {
                                     alt=""
                                     width={533}
                                     height={533}
-                                    onError={() => setPreviewType("video")}
+                                    onError={() => {
+                                        setPreviewType("video");
+                                    }}
+                                    // onLoadingComplete={(result) => {
+                                    //     console.log(
+                                    //         "item",
+                                    //         item.token_id,
+                                    //         result
+                                    //     );
+                                    // }}
                                 />
                             )}
                             {previewType === "video" && (
@@ -260,4 +270,6 @@ NftItem.defaultProps = {
     overlay: false,
 };
 
-export default NftItem;
+// export default NftItem;
+
+export default memo(NftItem);

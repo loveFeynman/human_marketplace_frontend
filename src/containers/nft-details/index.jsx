@@ -194,11 +194,19 @@ const ProductDetailsArea = ({
             >
                 <div className="container">
                     <div className="row g-5">
-                        <div className="col-lg-7 col-md-12 col-sm-12">
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                            }}
+                            className="col-lg-7 col-md-12 col-sm-12"
+                        >
                             <Sticky
                                 style={{
                                     width: "max-content",
                                     maxWidth: "100%",
+                                    // maxHeight: "100vh",
                                 }}
                             >
                                 {previewType === "image" && (
@@ -218,6 +226,7 @@ const ProductDetailsArea = ({
                                         loop
                                         autoPlay
                                         muted
+                                        fit
                                     />
                                 )}
                                 {nftInfo.expiresAt && (

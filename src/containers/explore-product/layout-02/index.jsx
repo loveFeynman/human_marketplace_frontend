@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 import SectionTitle from "@components/section-title/layout-02";
 import FilterButtons from "@components/filter-buttons";
 import NftItem from "@components/nft-item";
@@ -170,17 +170,20 @@ const ExploreProductArea = ({
                     </div>
                 </div>
                 <div className="col-lg-12">
-                    <motion.div layout className="isotope-list item-5">
+                    <div
+                        // layout
+                        className="isotope-list item-5"
+                    >
                         {products?.slice(0, 10)?.map((prod) => (
-                            <motion.div
-                                key={`${Number(new Date())}-${Math.random()}`}
+                            <div
+                                key={`${prod.token_id}-${prod.collection}`}
                                 className={clsx("grid-item")}
-                                layout
+                                // layout
                             >
                                 <NftItem overlay item={prod} />
-                            </motion.div>
+                            </div>
                         ))}
-                    </motion.div>
+                    </div>
                 </div>
             </div>
         </div>
