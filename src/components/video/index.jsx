@@ -21,18 +21,17 @@ const Video = (props) => {
 
     //   }
     // }
-
     const style = useMemo(() => {
         const videoWidth = element?.current?.offsetParent?.offsetWidth || 0;
-        const videoHeight = element?.current?.offsetParent?.offsetHeight || 0;
+        // const videoHeight = element?.current?.offsetParent?.offsetHeight || 0;
         if (fit && videoWidth) {
             return {
                 width: videoWidth,
                 height: videoWidth,
-                marginLeft:
-                    videoHeight > videoWidth
-                        ? (videoHeight - videoWidth) / 2
-                        : 0,
+                // marginLeft:
+                //     videoHeight > videoWidth
+                //         ? (videoHeight - videoWidth) / 2
+                //         : 0,
             };
         }
         if (size) {
