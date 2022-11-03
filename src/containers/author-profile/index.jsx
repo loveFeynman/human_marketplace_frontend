@@ -179,10 +179,22 @@ const AuthorProfileArea = ({ className }) => {
         // return { onSale: myOnSale, owned: myOwned };
     }, [connectedWallet, marketplaceNfts]);
 
-    const finalOwnedNfts = useMemo(
-        () => [...new Set(ownedNfts), ...new Set(onSaleNfts)],
-        [ownedNfts, onSaleNfts]
-    );
+    const finalOwnedNfts = useMemo(() => {
+        const existingInOwnedNfts = ownedNfts.map(
+            (item) => `${item.collection}-${item.token_id}`
+        );
+        return [
+            ...new Set(ownedNfts),
+            ...new Set(
+                onSaleNfts.filter(
+                    (item) =>
+                        !existingInOwnedNfts.includes(
+                            `${item.collection}-${item.token_id}`
+                        )
+                )
+            ),
+        ];
+    }, [ownedNfts, onSaleNfts]);
 
     return (
         <div className={clsx("rn-authore-profile-area", className)}>
