@@ -74,7 +74,7 @@ const MyCollections = () => {
                     pageTitle="My Collections"
                     currentPage="My Collections"
                 />
-                <div className="ptb--30 container">
+                <div className="ptb--30 container d-flex justify-content-center">
                     <Button>
                         <Anchor path="/create-collection">
                             Create a Collection
