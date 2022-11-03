@@ -50,7 +50,7 @@ const NftItem = ({ overlay, item }) => {
                     buttonString = "Withdraw";
                 }
             } else if (item.sale_type === "auction") {
-                buttonString = "Set a Bid";
+                buttonString = expired ? "" : "Set a Bid";
             } else {
                 buttonString = "Buy";
             }
