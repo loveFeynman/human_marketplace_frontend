@@ -1,9 +1,10 @@
-/* eslint-disable indent */
+/* eslint-disable jsx-a11y/media-has-caption */
 import PropTypes from "prop-types";
-import { memo, useMemo, useRef } from "react";
+import { memo, useMemo, useRef, useState } from "react";
 
 const Video = (props) => {
     const { fit, size } = props;
+    const [determinedSize, setDeterminedSize] = useState(false);
     const element = useRef(null);
 
     // useEffect(() => {
@@ -22,6 +23,7 @@ const Video = (props) => {
     //   }
     // }
     const style = useMemo(() => {
+        setDeterminedSize(true);
         const videoWidth = element?.current?.offsetParent?.offsetWidth || 0;
         // const videoHeight = element?.current?.offsetParent?.offsetHeight || 0;
         if (fit && videoWidth) {
@@ -44,7 +46,16 @@ const Video = (props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [element?.current, size]);
     // eslint-disable-next-line jsx-a11y/media-has-caption
-    return <video style={style} ref={element} {...props} />;
+    return (
+        <video
+            style={{
+                ...style,
+                visibility: determinedSize ? "visible" : "hidden",
+            }}
+            ref={element}
+            {...props}
+        />
+    );
 };
 
 Video.propTypes = {
