@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { memo, useMemo, useRef } from "react";
 
 const Video = (props) => {
-    const { fit } = props;
+    const { fit, size } = props;
     const element = useRef(null);
 
     // useEffect(() => {
@@ -22,35 +22,38 @@ const Video = (props) => {
     //   }
     // }
 
-    const videoWidth = useMemo(
-        () => element?.current?.offsetParent?.offsetWidth || 0,
+    const style = useMemo(() => {
+        const videoWidth = element?.current?.offsetParent?.offsetWidth || 0;
+        const videoHeight = element?.current?.offsetParent?.offsetHeight || 0;
+        if (fit && videoWidth) {
+            return {
+                width: videoWidth,
+                height: videoWidth,
+                marginLeft:
+                    videoHeight > videoWidth
+                        ? (videoHeight - videoWidth) / 2
+                        : 0,
+            };
+        }
+        if (size) {
+            return {
+                width: size.width,
+                height: size.height,
+            };
+        }
+        return {};
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [element?.current]
-    );
-    const videoHeight = useMemo(
-        () => element?.current?.offsetParent?.offsetHeight || 0,
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [element?.current]
-    );
-
-    const style =
-        fit && videoWidth
-            ? {
-                  width: videoWidth,
-                  height: videoWidth,
-                  marginLeft:
-                      videoHeight > videoWidth
-                          ? (videoHeight - videoWidth) / 2
-                          : 0,
-              }
-            : {};
-
+    }, [element?.current, size]);
     // eslint-disable-next-line jsx-a11y/media-has-caption
     return <video style={style} ref={element} {...props} />;
 };
 
 Video.propTypes = {
     fit: PropTypes.bool,
+    size: PropTypes.shape({
+        width: PropTypes.number.isRequired,
+        height: PropTypes.number.isRequired,
+    }),
 };
 
 const areEqual = (prevProps, nextProps) => prevProps.src !== nextProps.src;

@@ -226,7 +226,10 @@ const ProductDetailsArea = ({
                                         loop
                                         autoPlay
                                         muted
-                                        fit
+                                        size={{
+                                            width: 533,
+                                            height: 533,
+                                        }}
                                     />
                                 )}
                                 {nftInfo.expiresAt && (
