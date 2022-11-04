@@ -25,7 +25,7 @@ const EditProfileImage = () => {
         <div className="nuron-information">
             <div className="profile-change row g-5">
                 <div className="profile-left col-lg-4">
-                    <div className="profile-image mb--30">
+                    <div className="profile-image mb--10">
                         <h6 className="title">Change Your Profile Picture</h6>
                         <div className="img-wrap">
                             {logo ? (
@@ -52,6 +52,9 @@ const EditProfileImage = () => {
                                 type="file"
                                 onChange={imageChange}
                             />
+                            <p className="photo-description">
+                                140 X 140 px | <span>max</span> 10MB
+                            </p>
                             <label htmlFor="fatima" title="No File Choosen">
                                 <span className="text-center color-white">
                                     Upload Profile
@@ -62,7 +65,7 @@ const EditProfileImage = () => {
                 </div>
 
                 <div className="profile-left right col-lg-8">
-                    <div className="profile-image mb--30">
+                    <div className="profile-image mb--10">
                         <h6 className="title">Change Your Cover Photo</h6>
                         <div className="img-wrap">
                             {cover ? (
@@ -89,6 +92,9 @@ const EditProfileImage = () => {
                                 type="file"
                                 onChange={imageChange}
                             />
+                            <p className="photo-description">
+                                1024 X 300 px | <span>max</span> 20MB
+                            </p>
                             <label htmlFor="nipa" title="No File Choosen">
                                 <span className="text-center color-white">
                                     Upload Cover
