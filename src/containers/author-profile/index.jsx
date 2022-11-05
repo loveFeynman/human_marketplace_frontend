@@ -11,6 +11,7 @@ import { useAppSelector } from "@app/hooks";
 import { MarketplaceContract } from "@constant";
 import NftItem from "@components/nft-item";
 import { useContract, useAxios } from "@hooks";
+import MyBids from "./my-bids";
 // import TopSeller from "@components/top-seller/layout-03";
 
 const LIMIT_BIDS = 10;
@@ -292,16 +293,7 @@ const AuthorProfileArea = ({ className }) => {
                                     }
                                 />
                             ))} */}
-                            {myBidTargetNfts.map((prod) => (
-                                <div
-                                    key={`${prod.token_id}-${Number(
-                                        new Date()
-                                    )}`}
-                                    className="col-5 col-lg-4 col-md-6 col-sm-6 col-12"
-                                >
-                                    <NftItem overlay item={prod} />
-                                </div>
-                            ))}
+                            <MyBids bids={myBidTargetNfts} />
                         </TabPane>
                     </TabContent>
                 </div>

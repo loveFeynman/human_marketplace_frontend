@@ -229,7 +229,9 @@ const NftItem = ({ overlay, item }) => {
                         title={item.seller}
                         className="latest-bid"
                     >
-                        {item.seller}
+                        <Anchor path={`/profile/${item.seller}`}>
+                            {item.seller}
+                        </Anchor>
                     </div>
                 )}
                 {/* <span className="latest-bid">Highest bid {latestBid}</span> */}
