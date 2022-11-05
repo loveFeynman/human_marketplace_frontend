@@ -124,12 +124,12 @@ const FollowingModal = ({
                                     follow?.[isFollowing ? "from" : "to"] || []
                                 ).includes(user.wallet)
                             ) {
-                                if (
-                                    !connectedWallet?.address &&
-                                    !(follow?.from || []).includes(user.wallet)
-                                ) {
-                                    return null;
-                                }
+                                // if (
+                                //     !connectedWallet?.address &&
+                                //     !(follow?.from || []).includes(user.wallet)
+                                // ) {
+                                //     return null;
+                                // }
 
                                 return (
                                     <div

@@ -29,6 +29,7 @@ const UserProfileArea = ({ className }) => {
     const collectionAddresses = useAppSelector(
         (state) => state.collections.addresses
     );
+
     useEffect(() => {
         (async () => {
             const _ownedNfts = {};
@@ -58,6 +59,7 @@ const UserProfileArea = ({ className }) => {
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userAddress]);
+
     useEffect(() => {
         (async () => {
             const createdNftsInSubquery = await getCreatedNfts(userAddress);
@@ -102,6 +104,7 @@ const UserProfileArea = ({ className }) => {
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userAddress]);
+
     useEffect(() => {
         setMyBids([]);
         if (!connectedWallet) {
