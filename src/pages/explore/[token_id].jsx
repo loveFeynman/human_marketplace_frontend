@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import SEO from "@components/seo";
 import Wrapper from "@layout/wrapper";
@@ -18,8 +18,18 @@ import { useWalletManager } from "@noahsaso/cosmodal";
 const LIMIT_BIDS = 20;
 
 const NftDetail = () => {
-    const router = useRouter();
-    const { token_id, collection } = router.query;
+    const { asPath } = useRouter();
+    // eslint-disable-next-line max-len
+    // const { token_id, collection } = router.query;   //  this line doesn't work when the token_id contains the specail chars.
+    const { token_id, collection } = useMemo(() => {
+        let targetPath = asPath.split("/");
+        targetPath = targetPath[targetPath.length - 1];
+        const params = targetPath.split("?");
+        return {
+            token_id: params[0],
+            collection: params[1].split("=")[1],
+        };
+    }, [asPath]);
     const { runQuery } = useContract();
     const { nftInfo: selectedNft } = usePickNft(token_id, collection) || {};
     const collections = useAppSelector((state) => state.collections);
