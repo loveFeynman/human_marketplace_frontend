@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "@app/hooks";
 import { countries } from "@constant";
+import Anchor from "@ui/anchor";
 import { editUser } from "./hooks";
 
 const PersonalInformation = () => {
@@ -172,9 +173,15 @@ const PersonalInformation = () => {
             </div>
 
             <div className="button-area save-btn-edit">
-                <Button className="mr--15" color="primary-alta" size="medium">
-                    Cancel
-                </Button>
+                <Anchor path={`/profile/${connectedWallet?.address}`}>
+                    <Button
+                        className="mr--15"
+                        color="primary-alta"
+                        size="medium"
+                    >
+                        Cancel
+                    </Button>
+                </Anchor>
                 <Button size="medium" onClick={handleSave}>
                     Save
                 </Button>
