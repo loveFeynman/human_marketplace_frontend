@@ -86,7 +86,8 @@ const EditProfileImage = () => {
                                 onChange={imageChange}
                             />
                             <p className="photo-description">
-                                140 X 140 px | <span>max</span> 10MB
+                                {/* 140 X 140 px | <span>max</span> 10MB */}
+                                140 X 140 px | max 10MB
                             </p>
                             <label htmlFor="fatima" title="No File Choosen">
                                 <span className="text-center color-white">
@@ -126,7 +127,8 @@ const EditProfileImage = () => {
                                 onChange={imageChange}
                             />
                             <p className="photo-description">
-                                1024 X 300 px | <span>max</span> 20MB
+                                {/* 1024 X 300 px | <span>max</span> 20MB */}
+                                1024 X 300 px | max 20MB
                             </p>
                             <label htmlFor="nipa" title="No File Choosen">
                                 <span className="text-center color-white">
