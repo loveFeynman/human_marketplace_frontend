@@ -55,13 +55,13 @@ const TopSellerArea = ({ className, space, id }) => {
                 <div className="row justify-sm-center g-5 top-seller-list-wrapper">
                     {sellers.map((seller) => (
                         <div
-                            key={seller.from_a}
+                            key={`${seller.logo}-${seller.keys[0]}`}
                             className="col-5 col-lg-3 col-md-4 col-sm-6 top-seller-list"
                         >
                             <TopSeller
                                 name={seller.name}
                                 total_sale={seller.sum.price}
-                                slug={`/profile/${seller.from_a}`}
+                                slug={`/profile/${seller.keys[0]}`}
                                 image={{ src: seller.logo }}
                             />
                         </div>

@@ -7,7 +7,7 @@ const MyBids = ({ bids }) => (
     <>
         {bids.map((prod) => (
             <div
-                key={`${prod.token_id}-${Number(new Date())}`}
+                key={`my-bids-${prod.token_id}`}
                 className="col-5 col-lg-4 col-md-6 col-sm-6 col-12"
             >
                 <NftItem overlay item={prod} />
