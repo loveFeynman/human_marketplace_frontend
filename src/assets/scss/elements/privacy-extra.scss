@@ -9,9 +9,139 @@
     }
     ol {
         padding-left: 18px;
+        counter-reset: list;
         li {
             font-size: 16px;
         }
+        &[data-depth="1"] {
+            list-style-type: upper-roman;
+            &>li {
+                font-weight: bold;
+            }
+        }
+        &[data-depth="2"] {
+            list-style-type: decimal;
+            &>li {
+                font-weight: normal;
+            }
+        }
+        &[data-depth="3"] {
+            &>li {
+                font-weight: normal;
+                list-style: none;
+                position: relative;
+                padding-left: 30px;
+                &:before {
+                    content: "(" counter(list, lower-roman) ") ";
+                    counter-increment: list;
+                    position: absolute;
+                    left: 0;
+                }
+            }
+        }
+        &[data-depth="4"] {
+            &>li {
+                font-weight: normal;
+                list-style: none;
+                position: relative;
+                padding-left: 30px;
+
+                &:before {
+                    content: counter(list, lower-alpha) ") ";
+                    counter-increment: list;
+                    position: absolute;
+                    left: 0;
+                }
+            }
+        }
+    }
+    p {
+        margin-bottom: 1.5em;
+    }
+}
+
+.terms-of-use-wrapper {
+    margin-bottom: 50px;
+
+    h4 {
+        margin-bottom: 15px;
+    }
+
+    ol {
+        padding-left: 18px;
+
+        li {
+            font-size: 16px;
+        }
+
+        &[data-depth="1"] {
+            list-style-type: upper-roman;
+            counter-reset: decimalCounter;
+
+            &>li {
+                font-weight: bold;
+            }
+        }
+
+        &[data-depth="2"] {
+            // list-style-type: decimal;
+            counter-reset: none;
+            &>li {
+                list-style-type: none;
+                counter-increment: decimalCounter;
+                position: relative;
+                font-weight: normal;
+                padding-left: 30px;
+                &:before {
+                    content: counter(decimalCounter) ". ";
+                    position: absolute;
+                    left: 0;
+                }
+            }
+        }
+
+        &[data-depth="3"] {
+            list-style-type: upper-alpha;
+            &>li {
+                font-weight: normal;
+            }
+        }
+
+        &[data-depth="4"] {
+            &>li {
+                font-weight: normal;
+                list-style: none;
+                counter-increment: list;
+                position: relative;
+                padding-left: 30px;
+
+                &:before {
+                    content: counter(list, lower-alpha) ") ";
+                    position: absolute;
+                    left: 0;
+                }
+            }
+        }
+        
+        &[data-depth="5"] {
+            &>li {
+                font-weight: normal;
+                list-style: none;
+                position: relative;
+                padding-left: 30px;
+                counter-increment: list1;
+        
+                &:before {
+                    content: "(" counter(list1, lower-roman) ") ";
+                    position: absolute;
+                    left: 0;
+                }
+            }
+        }
+    }
+
+    p {
+        margin-bottom: 1.5em;
     }
 }
 

@@ -3,7 +3,7 @@ import Wrapper from "@layout/wrapper";
 import Header from "@layout/header";
 import Footer from "@layout/footer";
 import Breadcrumb from "@components/breadcrumb";
-// import PrivacyPolicyArea from "@containers/privacy-policy";
+import TermsOfUseArea from "@containers/terms-of-use";
 
 export async function getStaticProps() {
     return { props: { className: "template-color-1" } };
@@ -15,7 +15,7 @@ const PrivacyPolicy = () => (
         <Header />
         <main id="main-content">
             <Breadcrumb pageTitle="Terms of use" currentPage="Terms of use" />
-            {/* <PrivacyPolicyArea /> */}
+            <TermsOfUseArea />
         </main>
         <Footer />
     </Wrapper>
