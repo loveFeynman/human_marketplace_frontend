@@ -220,13 +220,13 @@ const AuthorIntroArea = ({ className, space }) => {
                                                 <i className="feather-user-plus" />
                                                 Follow
                                             </span> */}
-                                            <button
+                                            {/* <button
                                                 type="button"
                                                 className="btn at-follw share-button"
                                                 onClick={shareModalHandler}
                                             >
                                                 <i className="feather-share-2" />
-                                            </button>
+                                            </button> */}
 
                                             {/* <div className="count at-follw">
                                                 <ShareDropdown isOwner />

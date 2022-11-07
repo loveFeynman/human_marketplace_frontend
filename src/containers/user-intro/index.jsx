@@ -249,13 +249,13 @@ const UserIntroArea = ({ className, space }) => {
                                                         : "Follow"}
                                                 </span>
                                             )}
-                                            <button
+                                            {/* <button
                                                 type="button"
                                                 className="btn at-follw share-button"
                                                 onClick={shareModalHandler}
                                             >
                                                 <i className="feather-share-2" />
-                                            </button>
+                                            </button> */}
 
                                             <button
                                                 type="button"
