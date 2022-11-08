@@ -9,6 +9,7 @@ import { useAxios, useContract } from "@hooks";
 import { useAppSelector } from "@app/hooks";
 
 // Demo Data
+import NftItemSkeleton from "@components/nft-item/skeleton";
 import productData from "../../../data/products.json";
 
 const ProductArea = ({ space, className }) => {
@@ -23,7 +24,7 @@ const ProductArea = ({ space, className }) => {
                 Number(new Date(a.published_at))
         )
         .slice(0, 5);
-    const [displayNfts, setDisplayNfts] = useState([]);
+    const [displayNfts, setDisplayNfts] = useState(null);
     useEffect(() => {
         (async () => {
             const newNfts = await getNewestItem();
@@ -71,7 +72,7 @@ const ProductArea = ({ space, className }) => {
                     // };
                 })
             );
-            setDisplayNfts(newNftInfo);
+            setDisplayNfts(newNftInfo || []);
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [getNewestItem, runQuery]);
@@ -108,17 +109,28 @@ const ProductArea = ({ space, className }) => {
                 </div>
                 {data && (
                     <div className="row g-5">
-                        {displayNfts.map((prod) => (
-                            <div
-                                key={prod.id || prod.token_id}
-                                // data-sal="slide-up"
-                                // data-sal-delay="150"
-                                // data-sal-duration="800"
-                                className="col-5 col-lg-4 col-md-6 col-sm-6 col-12"
-                            >
-                                <NftItem overlay item={prod} />
-                            </div>
-                        ))}
+                        {!displayNfts &&
+                            [...new Array(5)].map((item, index) => (
+                                <div
+                                    className="col-5 col-lg-4 col-md-6 col-sm-6 col-12"
+                                    // eslint-disable-next-line react/no-array-index-key
+                                    key={index}
+                                >
+                                    <NftItemSkeleton />
+                                </div>
+                            ))}
+                        {displayNfts &&
+                            displayNfts.map((prod) => (
+                                <div
+                                    key={prod.id || prod.token_id}
+                                    // data-sal="slide-up"
+                                    // data-sal-delay="150"
+                                    // data-sal-duration="800"
+                                    className="col-5 col-lg-4 col-md-6 col-sm-6 col-12"
+                                >
+                                    <NftItem overlay item={prod} />
+                                </div>
+                            ))}
                     </div>
                 )}
             </div>

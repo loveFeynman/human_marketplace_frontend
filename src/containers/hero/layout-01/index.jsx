@@ -10,10 +10,11 @@ import NftItem from "@components/nft-item";
 // import Product from "@components/product/layout-01";
 import { MarketplaceContract } from "@constant";
 import { useAppSelector } from "@app/hooks";
+import NftItemSkeleton from "@components/nft-item/skeleton";
 
 const HeroArea = ({ data }) => {
     const { connect, connectedWallet } = useWalletManager();
-    const [displayNfts, setDisplayNfts] = useState([]);
+    const [displayNfts, setDisplayNfts] = useState(null);
     const { runQuery } = useContract();
     const collections = useAppSelector((state) => state.collections);
     useEffect(() => {
@@ -95,14 +96,25 @@ const HeroArea = ({ data }) => {
                     </div>
                     <div className="col-lg-6 order-1 order-lg-2">
                         <div className="row g-5">
-                            {displayNfts.slice(0, 2).map((prod) => (
-                                <div
-                                    className="col-lg-6 col-md-6"
-                                    key={prod.id || prod.token_id}
-                                >
-                                    <NftItem overlay item={prod} />
-                                </div>
-                            ))}
+                            {!displayNfts &&
+                                [...new Array(2)].map((item, index) => (
+                                    <div
+                                        className="col-lg-6 col-md-6"
+                                        // eslint-disable-next-line react/no-array-index-key
+                                        key={index}
+                                    >
+                                        <NftItemSkeleton />
+                                    </div>
+                                ))}
+                            {displayNfts &&
+                                displayNfts.slice(0, 2).map((prod) => (
+                                    <div
+                                        className="col-lg-6 col-md-6"
+                                        key={prod.id || prod.token_id}
+                                    >
+                                        <NftItem overlay item={prod} />
+                                    </div>
+                                ))}
                         </div>
                         {/* {data?.images?.[0]?.src && (
                             <div className="slider-thumbnail">

@@ -13,6 +13,7 @@ import {
 import { persistor, store } from "@app/store";
 import Updater from "@components/updater";
 
+import "react-loading-skeleton/dist/skeleton.css";
 import "../assets/css/bootstrap.min.css";
 import "../assets/css/feather.css";
 import "../assets/css/modal-video.css";

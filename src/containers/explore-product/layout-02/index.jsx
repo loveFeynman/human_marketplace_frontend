@@ -10,6 +10,7 @@ import { SectionTitleType, ProductType } from "@utils/types";
 import { useAppSelector } from "@app/hooks";
 import { useContract } from "@hooks";
 import { MarketplaceContract, ChainConfig } from "@constant";
+import NftItemSkeleton from "@components/nft-item/skeleton";
 
 const ExploreProductArea = ({
     className,
@@ -24,7 +25,7 @@ const ExploreProductArea = ({
         "highest",
     ];
     const { runQuery } = useContract();
-    const [products, setProducts] = useState([]);
+    const [products, setProducts] = useState(null);
     const marketplaceNfts = useAppSelector((state) => state.marketplaceNfts);
     const collections = useAppSelector((state) => state.collections);
     // console.log("marketplace: ", marketplaceNfts);
@@ -37,7 +38,7 @@ const ExploreProductArea = ({
             }));
             marketNfts = [...marketNfts, ...crrNfts];
         });
-        setProducts(marketNfts);
+        setProducts(marketNfts || []);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     const getDataForShow = (item) => {
@@ -177,15 +178,26 @@ const ExploreProductArea = ({
                         // layout
                         className="isotope-list item-5"
                     >
-                        {products?.slice(0, 10)?.map((prod) => (
-                            <div
-                                key={`${prod.token_id}-${prod.collection}`}
-                                className={clsx("grid-item")}
-                                // layout
-                            >
-                                <NftItem overlay item={prod} />
-                            </div>
-                        ))}
+                        {!products &&
+                            [...new Array(10)].map((item, index) => (
+                                <div
+                                    className="grid-item"
+                                    // eslint-disable-next-line react/no-array-index-key
+                                    key={index}
+                                >
+                                    <NftItemSkeleton />
+                                </div>
+                            ))}
+                        {products &&
+                            products?.slice(0, 10)?.map((prod) => (
+                                <div
+                                    key={`${prod.token_id}-${prod.collection}`}
+                                    className={clsx("grid-item")}
+                                    // layout
+                                >
+                                    <NftItem overlay item={prod} />
+                                </div>
+                            ))}
                     </div>
                 </div>
             </div>
