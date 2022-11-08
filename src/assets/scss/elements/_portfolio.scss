@@ -126,6 +126,10 @@
         font-weight: 400;
         font-size: 16px;
         margin-top: 10px;
+        color: var(--color-light-body);
+        a {
+            color: var(--color-light-body);
+        }
     }
 
     .bid-react-area {
