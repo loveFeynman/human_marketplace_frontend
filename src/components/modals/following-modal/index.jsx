@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import Modal from "react-bootstrap/Modal";
 import clsx from "clsx";
@@ -10,6 +10,7 @@ import Image from "next/image";
 import { getImageFromHash } from "@utils/ipfs";
 import { getReducedAddress } from "@utils/index";
 import { useWalletManager } from "@noahsaso/cosmodal";
+import { useAppSelector } from "@app/hooks";
 
 const FollowingModal = ({
     show,
@@ -18,10 +19,15 @@ const FollowingModal = ({
     isFollowing,
     fetchFollow,
 }) => {
-    const [users, setUsers] = useState([]);
+    // const [users, setUsers] = useState([]);
     const [myFollow, setMyFollow] = useState({});
-    const { fetchAllUsers, handleFollow, fetchFollowInfo } = useAxios();
+    const {
+        // fetchAllUsers,
+        handleFollow,
+        fetchFollowInfo,
+    } = useAxios();
     const { connectedWallet } = useWalletManager();
+    const users = useAppSelector((state) => state.users.all);
 
     const fetchMyFollow = async () => {
         if (connectedWallet?.address) {
@@ -33,14 +39,14 @@ const FollowingModal = ({
         }
     };
 
-    useEffect(() => {
-        (async () => {
-            fetchMyFollow();
-            const fetchedUsers = await fetchAllUsers();
-            setUsers(fetchedUsers || []);
-        })();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    // useEffect(() => {
+    //     (async () => {
+    //         fetchMyFollow();
+    //         const fetchedUsers = await fetchAllUsers();
+    //         setUsers(fetchedUsers || []);
+    //     })();
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, []);
 
     const handleFollowClick = async (userAddress) => {
         await handleFollow(connectedWallet?.address, userAddress);

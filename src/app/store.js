@@ -8,6 +8,7 @@ import myNftsReducer from "./myNftsSlice";
 import balanceReducer from "./balanceSlice";
 import adminReducer from "./adminSlice";
 import userReducer from "./userSlice";
+import usersReducer from "./usersSlice";
 
 const persistConfig = {
     key: "root",
@@ -23,6 +24,7 @@ const reducer = persistReducer(
         myNfts: myNftsReducer,
         balance: balanceReducer,
         user: userReducer,
+        users: usersReducer,
     })
 );
 

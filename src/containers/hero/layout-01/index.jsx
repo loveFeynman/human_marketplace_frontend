@@ -9,11 +9,13 @@ import { useContract } from "@hooks";
 import NftItem from "@components/nft-item";
 // import Product from "@components/product/layout-01";
 import { MarketplaceContract } from "@constant";
+import { useAppSelector } from "@app/hooks";
 
 const HeroArea = ({ data }) => {
     const { connect, connectedWallet } = useWalletManager();
     const [displayNfts, setDisplayNfts] = useState([]);
     const { runQuery } = useContract();
+    const collections = useAppSelector((state) => state.collections);
     useEffect(() => {
         (async () => {
             const contractData = await runQuery(MarketplaceContract, {
@@ -27,6 +29,9 @@ const HeroArea = ({ data }) => {
                         max_bidder: _contractData.max_bidder,
                     },
                     token_address: _contractData.collection,
+                    collection:
+                        collections[_contractData.collection]?.collection_info
+                            .title,
                     expires_at: Number(_contractData.expires_at.slice(0, 13)),
                     funds_recipient: _contractData.funds_recipient,
                     image_url: _contractData.img_url,

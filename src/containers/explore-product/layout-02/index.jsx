@@ -31,7 +31,10 @@ const ExploreProductArea = ({
     useEffect(() => {
         let marketNfts = [];
         Object.keys(marketplaceNfts || {}).forEach((key) => {
-            const crrNfts = marketplaceNfts[key];
+            const crrNfts = marketplaceNfts[key].map((item) => ({
+                ...item,
+                collection: collections[item.collection]?.collection_info.title,
+            }));
             marketNfts = [...marketNfts, ...crrNfts];
         });
         setProducts(marketNfts);

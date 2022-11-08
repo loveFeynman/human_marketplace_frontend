@@ -13,10 +13,12 @@ import PurchaseModal from "@components/modals/purchase-modal";
 import Button from "@ui/button";
 // import { ImageType } from "@utils/types";
 import { NftType } from "@utils/types";
+import { getFullName } from "@utils/index";
 import { ChainConfig } from "@constant";
 import { useContract, useRefresh } from "@hooks";
 import Video from "@components/video";
 import { checkKeplr } from "src/context/WalletProvider";
+import { useAppSelector } from "@app/hooks";
 // import { CustomWalletContext } from "@context";
 
 const NftItem = ({ overlay, item }) => {
@@ -27,6 +29,9 @@ const NftItem = ({ overlay, item }) => {
     const { sellNft, withdrawNft, buyNft, setBid, acceptBid } = useContract();
     const { connect, connectedWallet } = useWalletManager();
     const { second: value } = useRefresh();
+    const users = useAppSelector((state) => state.users.byAddress);
+    const userInfo = users[item.seller || item.owner];
+
     const isOwner = item.owner && item.owner === connectedWallet?.address;
     // const { connectedWallet } = useContext(CustomWalletContext);
     const nftInfo = useMemo(() => {
@@ -186,12 +191,11 @@ const NftItem = ({ overlay, item }) => {
                     )}
                 </div>
                 <div className="product-share-wrapper">
-                    {nftInfo.bids && (
-                        <div
-                            style={{ width: "100%" }}
-                            className="profile-share"
-                        >
-                            {/* {authors?.map((client) => (
+                    <div
+                        style={{ width: "100%", height: "1.5em" }}
+                        className="profile-share"
+                    >
+                        {/* {authors?.map((client) => (
                                 <ClientAvatar
                                     key={client.name}
                                     slug={client.slug}
@@ -199,6 +203,7 @@ const NftItem = ({ overlay, item }) => {
                                     image={client.image}
                                 />
                             ))} */}
+                        {nftInfo.bids && (
                             <span
                                 style={{
                                     textOverflow: "ellipsis",
@@ -208,10 +213,14 @@ const NftItem = ({ overlay, item }) => {
                                 className="more-author-text"
                             >
                                 {Number(nftInfo.bids.max_bid) / 1e6} $Heart by{" "}
-                                {nftInfo.bids.max_bidder}
+                                {getFullName(
+                                    users[nftInfo.bids.max_bidder]?.first_name,
+                                    users[nftInfo.bids.max_bidder]?.last_name
+                                ) || nftInfo.bids.max_bidder}
                             </span>
-                        </div>
-                    )}
+                        )}
+                    </div>
+
                     {/* {!disableShareDropdown && <ShareDropdown />} */}
                 </div>
                 {/* <Anchor path={`/product/${item.tokenId}`}> */}
@@ -221,16 +230,26 @@ const NftItem = ({ overlay, item }) => {
                     <span className="product-name">{item.token_id}</span>
                 </Anchor>
                 <Anchor path={`/explore/collections/${item.token_address}`}>
-                    <div className="latest-bid">{item.collection}</div>
+                    <div
+                        style={{ textOverflow: "ellipsis", overflow: "hidden" }}
+                        className="latest-bid"
+                    >
+                        {item.collection}
+                    </div>
                 </Anchor>
-                {item.seller && (
+                {(item.seller || item.owner) && (
                     <div
                         style={{ textOverflow: "ellipsis", overflow: "hidden" }}
                         title={item.seller}
                         className="latest-bid"
                     >
-                        <Anchor path={`/profile/${item.seller}`}>
-                            {item.seller}
+                        <Anchor path={`/profile/${item.seller || item.owner}`}>
+                            {getFullName(
+                                userInfo?.first_name,
+                                userInfo?.last_name
+                            ) ||
+                                item.seller ||
+                                item.owner}
                         </Anchor>
                     </div>
                 )}

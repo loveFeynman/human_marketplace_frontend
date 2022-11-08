@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from "react";
 import { useWallet } from "@noahsaso/cosmodal";
 
-import { useRefresh, useContract } from "@hooks";
+import { useRefresh, useContract, useAxios } from "@hooks";
 import { useAppDispatch, useAppSelector } from "@app/hooks";
 import {
     setCollectionAddresses,
@@ -17,6 +17,7 @@ import { setMarketplaceNfts } from "@app/marketplaceNftsSlice";
 import { setBalance } from "@app/balanceSlice";
 import { clearMyNfs, setMyNfts } from "@app/myNftsSlice";
 import { setIsAdmin } from "@app/adminSlice";
+import { setUsers } from "@app/usersSlice";
 
 const MAX_ITEMS = 10;
 
@@ -27,6 +28,7 @@ const Updater = () => {
     const { signingCosmWasmClient, address } = useWallet(ChainConfig.chainId);
     const dispatch = useAppDispatch();
     const collections = useAppSelector((state) => state.collections);
+    const { fetchAllUsers } = useAxios();
 
     useEffect(() => {
         (async () => {
@@ -291,6 +293,14 @@ const Updater = () => {
         fetchMyNfts();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [address]);
+
+    useEffect(() => {
+        (async () => {
+            const fetchedUsers = await fetchAllUsers();
+            dispatch(setUsers(fetchedUsers || []));
+        })();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return null;
 };
