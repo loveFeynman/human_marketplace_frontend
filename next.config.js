@@ -3,7 +3,7 @@ const path = require("path");
 module.exports = {
     reactStrictMode: true,
     env: {
-        BASE_URL : process.env.BASE_URL,
+        BASE_URL: process.env.BASE_URL,
     },
     sassOptions: {
         includePaths: [path.join(__dirname, "./src/assets/scss")],
