@@ -59,7 +59,7 @@ export const GetTopCollections = () => {
                                     collectionState.collection_info.title || "",
                                 id: _data.id,
                                 // slug: `/marketplace?nftAddress=${_data.collection}`,
-                                slug: `/explore/collections/${_data.collection}`,
+                                slug: `/explore/collections/${_data.id}`,
                                 total_item: totalItem,
                                 tradingVolume: _data.amount,
                                 image: {
